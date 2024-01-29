@@ -8,6 +8,16 @@ const config: StorybookConfig = {
     // "@storybook/preset-create-react-app",
     "@storybook/addon-onboarding",
     "@storybook/addon-interactions",
+    "@storybook/addon-styling-webpack",
+    "@storybook/addon-themes",
+    {
+      name: "@storybook/addon-postcss",
+      options: {
+        postcssLoaderOptions: {
+          implementation: require("postcss"),
+        },
+      },
+    },
   ],
   framework: {
     name: "@storybook/react-webpack5",

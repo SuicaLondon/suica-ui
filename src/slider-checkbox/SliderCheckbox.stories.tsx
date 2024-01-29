@@ -31,7 +31,6 @@ export const IntList: Story = {
     );
 
     function onChange(value: number, index: number) {
-      console.log(value, index);
       setSelectedIndex(index);
     }
 
@@ -48,7 +47,7 @@ export const IntList: Story = {
 export const StringList: Story = {
   name: "Int list",
   args: {
-    selectedIndex: 0,
+    selectedIndex: 1,
     values: ["Penguin 1", "Penguin 2", "Penguin 3", "Penguin 4"],
   },
   render: function Render(args) {
@@ -58,7 +57,6 @@ export const StringList: Story = {
     );
 
     function onChange(value: string, index: number) {
-      console.log(value, index);
       setSelectedIndex(index);
     }
 
