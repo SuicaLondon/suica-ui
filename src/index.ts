@@ -1,2 +1,2 @@
-export * from "./tabs";
-export * from "./slider-checkbox";
+export * from './tabs'
+export * from './slider-checkbox'
