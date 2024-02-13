@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useRef, useState } from 'react'
 import { ALIGN_DIRECTION, TabProps } from './tab.type'
 import { twMerge } from 'tailwind-merge'
-import classNames from 'classnames'
+import cn from 'classnames'
 import { useFocus } from './hooks/useFocus'
 
 export interface TabsProps {
@@ -96,13 +96,13 @@ export const Tabs = ({
 
   const renderTabBorderClassNames = (isSelected: boolean) => {
     if (direction == ALIGN_DIRECTION.HORIZONTAL) {
-      return classNames('ml-4 px-4 py-3', {
-        ['border-none ml-0 text-bold bg-gray-800 text-white rounded-lg' || '']:
+      return cn('ml-4 px-4 py-3', {
+        'border-none ml-0 text-bold bg-gray-800 text-white rounded-lg':
           isSelected,
       })
     }
-    return classNames('ml-4 pl-4 py-3 border-l border-gray-800', {
-      ['border-none ml-0 text-bold bg-gray-800 text-white rounded-lg' || '']:
+    return cn('ml-4 pl-4 py-3 -translate-x-4', {
+      'border-none ml-0 text-bold bg-gray-800 text-white rounded-lg':
         isSelected,
     })
   }
@@ -110,10 +110,10 @@ export const Tabs = ({
   return (
     <div
       role="tablist"
-      className={twMerge(
-        classNames('relative flex'),
-        direction == ALIGN_DIRECTION.VERTICAL ? 'flex-col' : ''
-      )}
+      className={cn('relative flex', {
+        'flex-col border-l ml-4 border-gray-800':
+          direction == ALIGN_DIRECTION.VERTICAL,
+      })}
     >
       {tabs.map((tab, index) => (
         <div

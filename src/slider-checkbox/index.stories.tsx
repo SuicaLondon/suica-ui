@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
-import { SliderCheckbox } from './SliderCheckbox'
+import { SliderCheckbox } from './slider-checkbox'
 
 const meta = {
   title: 'Example/SliderCheckbox',

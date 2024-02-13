@@ -1,1 +1,1 @@
-export * from './SliderCheckbox'
+export * from './slider-checkbox'
