@@ -40,7 +40,7 @@ export const IntList: Story = {
 }
 
 export const StringList: Story = {
-	name: 'Int list',
+	name: 'String list',
 	args: {
 		selectedIndex: 1,
 		values: ['Penguin 1', 'Penguin 2', 'Penguin 3', 'Penguin 4'],

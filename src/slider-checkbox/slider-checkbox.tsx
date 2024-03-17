@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import { ChangeEvent, HTMLAttributes } from 'react'
 
-export interface SliderCheckboxProps<T>
+export interface ISliderCheckboxProps<T>
 	extends HTMLAttributes<HTMLButtonElement> {
 	selectedIndex: number
 	values: T[]
@@ -12,7 +12,7 @@ export function SliderCheckbox<T>({
 	selectedIndex,
 	values,
 	onChecked,
-}: SliderCheckboxProps<T>) {
+}: ISliderCheckboxProps<T>) {
 	return (
 		<input
 			type="range"

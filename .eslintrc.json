@@ -4,12 +4,12 @@
 		"es6": true
 	},
 	"extends": [
-		"prettier",
 		"eslint:recommended",
 		"plugin:storybook/recommended",
 		"plugin:storybook/recommended",
 		"plugin:react/recommended",
-		"plugin:@typescript-eslint/eslint-recommended"
+		"plugin:@typescript-eslint/eslint-recommended",
+		"prettier"
 	],
 	"globals": {
 		"Atomics": "readonly",
@@ -31,7 +31,7 @@
 	"plugins": ["react", "@typescript-eslint", "prettier"],
 	"rules": {
 		"prettier/prettier": ["error"],
-		"indent": ["error", "tab"],
+		"indent": ["error", "tab", { "SwitchCase": 1 }],
 		"linebreak-style": ["error", "unix"],
 		"semi": ["error", "never"],
 		"react/react-in-jsx-scope": "off",

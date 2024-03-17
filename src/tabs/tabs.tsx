@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge'
 import { useFocus } from './hooks/useFocus'
 import { ALIGN_DIRECTION, TabProps } from './tab.type'
 
-export interface TabsProps {
+export interface ITabsProps {
 	tabs: TabProps[]
 	activeTabId: string
 	direction?: ALIGN_DIRECTION
@@ -16,12 +16,16 @@ export const Tabs = ({
 	activeTabId,
 	direction = ALIGN_DIRECTION.HORIZONTAL,
 	onChange,
-}: TabsProps) => {
+}: ITabsProps) => {
 	const [activeIndex, setActiveIndex] = useState(
 		(activeTabId && tabs.findIndex((tab) => activeTabId === tab.id)) || 0,
 	)
 	const tabRefs = tabs.map(() => useRef<HTMLDivElement>(null))
 	const { focusNext, focusPrevious } = useFocus(tabRefs)
+
+	useEffect(() => {
+		tabRefs[activeIndex].current?.focus()
+	}, [activeIndex, tabRefs])
 
 	const handleChangeTab = (index: number) => {
 		setActiveIndex(index)
@@ -33,9 +37,8 @@ export const Tabs = ({
 		}
 	}
 
-	const handleKeyDown =
-		(index: number) =>
-		(event: React.KeyboardEvent<HTMLInputElement>): void => {
+	const handleKeyDown = (index: number) => {
+		return (event: React.KeyboardEvent<HTMLInputElement>): void => {
 			switch (event.key) {
 				// space bar
 				case ' ':
@@ -64,10 +67,7 @@ export const Tabs = ({
 					break
 			}
 		}
-
-	useEffect(() => {
-		tabRefs[activeIndex].current?.focus()
-	}, [activeIndex, tabRefs])
+	}
 
 	const renderTabBorderClassNames = (isSelected: boolean) => {
 		if (direction == ALIGN_DIRECTION.HORIZONTAL) {
