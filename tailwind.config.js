@@ -7,6 +7,7 @@ module.exports = {
 			colors: {
 				primary: {
 					dart: '#1e2123',
+					gray: '#1e2123',
 				},
 			},
 			boxShadow: {
