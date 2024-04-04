@@ -11,6 +11,7 @@ import { twMerge } from 'tailwind-merge'
 export interface INestedScrollViewProps {
 	scrollableDistance: number
 	minDistanceToTop: number
+	extraHeight?: number
 	header: ReactNode
 	children: ReactNode
 	classNames?: {
@@ -25,8 +26,10 @@ export function NestedScrollView({
 	header,
 	children,
 	classNames,
+	extraHeight = 0,
 }: INestedScrollViewProps) {
 	const containerRef = useRef<HTMLDivElement>(null)
+	const isTouchingRef = useRef(false)
 	const distanceToTopRef = useRef(scrollableDistance)
 	const [isScrolling, setIsScrolling] = useState(false)
 	const distanceToTop = distanceToTopRef.current
@@ -46,7 +49,9 @@ export function NestedScrollView({
 				clearTimeout(timer)
 			}
 			timer = setTimeout(function () {
-				console.log('finished')
+				if (isTouchingRef.current) {
+					return
+				}
 				if (!container) {
 					return
 				}
@@ -77,34 +82,47 @@ export function NestedScrollView({
 		}
 		distanceToTopRef.current = scrollableDistance - containerRef.current.scrollTop
 		setIsScrolling(true)
+		isTouchingRef.current = true
 	}, [scrollableDistance])
-	console.log(classNames)
+
+	const handleTouchEnd = useCallback(() => {
+		isTouchingRef.current = false
+	}, [])
+
 	return (
 		<div
-			ref={containerRef}
 			className={twMerge(
-				'w-screen h-screen overflow-y-hidden overflow-x-scroll fixed bottom-0',
+				'w-screen h-screen relative inset-0 no-scrollbar',
+				'overflow-y-hidden overflow-x-scroll overscroll-none',
 				classNames?.container,
 			)}
 		>
 			{header}
 			<div
-				className="bottom-0 relative z-20 w-full overflow-auto"
+				ref={containerRef}
+				className="bottom-0 absolute z-20 h-full w-full overflow-auto no-scrollbar"
 				style={{
 					marginTop: isScrolling ? 0 : distanceToTop,
 					height: `calc(100vh - ${minDistanceToTop}px)`,
-					top: -distanceToTop,
+					top: scrollableDistance,
 				}}
 				onTouchStart={handleTouchStart}
+				onTouchEnd={handleTouchEnd}
 			>
 				<div
+					className="pointer-events-none"
 					style={{
 						height: isScrolling
 							? scrollableDistance
 							: scrollableDistance - distanceToTop,
 					}}
-				></div>
-				<div className={twMerge('w-full', classNames?.content)}>{children}</div>
+				/>
+				<div
+					className={twMerge('w-full', classNames?.content)}
+					style={{ paddingBottom: extraHeight }}
+				>
+					{children}
+				</div>
 			</div>
 		</div>
 	)

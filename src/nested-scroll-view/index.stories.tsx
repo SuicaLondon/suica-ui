@@ -32,8 +32,9 @@ export const MobileScrollList: Story = {
 				</div>
 			</>
 		),
-		scrollableDistance: 100,
+		scrollableDistance: 200,
 		minDistanceToTop: 186,
+		extraHeight: 20,
 		classNames: {
 			container: 'bg-red-300',
 			content: 'bg-purple-400',
@@ -46,6 +47,7 @@ export const MobileScrollList: Story = {
 				scrollableDistance={args.scrollableDistance}
 				minDistanceToTop={args.minDistanceToTop}
 				classNames={args.classNames}
+				extraHeight={args.extraHeight}
 			>
 				{args.children}
 			</NestedScrollView>
