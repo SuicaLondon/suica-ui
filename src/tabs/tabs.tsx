@@ -1,4 +1,4 @@
-import cn from 'classnames'
+import clsx from 'clsx'
 import { useEffect, useRef, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { useFocus } from './hooks/useFocus'
@@ -71,11 +71,11 @@ export const Tabs = ({
 
 	const renderTabBorderClassNames = (isSelected: boolean) => {
 		if (direction == ALIGN_DIRECTION.HORIZONTAL) {
-			return cn('ml-4 px-4 py-3', {
+			return clsx('ml-4 px-4 py-3', {
 				'border-none ml-0 text-bold bg-gray-800 text-white rounded-lg': isSelected,
 			})
 		}
-		return cn('ml-4 pl-4 py-3 -translate-x-4', {
+		return clsx('ml-4 pl-4 py-3 -translate-x-4', {
 			'border-none ml-0 text-bold bg-gray-800 text-white rounded-lg': isSelected,
 		})
 	}
@@ -83,7 +83,7 @@ export const Tabs = ({
 	return (
 		<div
 			role="tablist"
-			className={cn('relative flex', {
+			className={clsx('relative flex', {
 				'flex-col border-l ml-4 border-gray-800':
 					direction == ALIGN_DIRECTION.VERTICAL,
 			})}

@@ -593,6 +593,12 @@ video {
   }
 }
 
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -607,10 +613,6 @@ video {
 
 .pointer-events-none {
   pointer-events: none;
-}
-
-.fixed {
-  position: fixed;
 }
 
 .absolute {
@@ -682,6 +684,10 @@ video {
   height: 100%;
 }
 
+.h-iconSize {
+  height: 1.375rem;
+}
+
 .h-screen {
   height: 100vh;
 }
@@ -690,17 +696,56 @@ video {
   width: 3.5rem;
 }
 
+.w-6 {
+  width: 1.5rem;
+}
+
 .w-full {
   width: 100%;
+}
+
+.w-iconSize {
+  width: 1.375rem;
 }
 
 .w-screen {
   width: 100vw;
 }
 
+.origin-center {
+  transform-origin: center;
+}
+
 .-translate-x-4 {
   --tw-translate-x: -1rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+@keyframes scaleFadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  10% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  99% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+    display: none;
+  }
+}
+
+.animate-scaleFadeOut {
+  animation: scaleFadeOut 1s forwards;
 }
 
 .cursor-pointer {
@@ -728,6 +773,10 @@ video {
   justify-content: flex-end;
 }
 
+.justify-center {
+  justify-content: center;
+}
+
 .overflow-auto {
   overflow: auto;
 }
@@ -750,6 +799,10 @@ video {
 
 .rounded-lg {
   border-radius: 0.5rem;
+}
+
+.border {
+  border-width: 1px;
 }
 
 .border-l {
@@ -797,6 +850,18 @@ video {
 
 .bg-transparent {
   background-color: transparent;
+}
+
+.fill-yellow-700 {
+  fill: #a16207;
+}
+
+.fill-red-700 {
+  fill: #b91c1c;
+}
+
+.object-contain {
+  object-fit: contain;
 }
 
 .px-2 {
@@ -963,6 +1028,20 @@ video {
 .peer:focus ~ .peer-focus\:ring-blue-300 {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(147 197 253 / var(--tw-ring-opacity));
+}
+
+@media (prefers-color-scheme: dark) {
+  .dark\:fill-primary-gray {
+    fill: #1e2123;
+  }
+
+  .dark\:fill-yellow-300 {
+    fill: #fde047;
+  }
+
+  .dark\:fill-red-300 {
+    fill: #fca5a5;
+  }
 }
 
 .\[\&\:\:-moz-range-thumb\]\:h-4::-moz-range-thumb {
