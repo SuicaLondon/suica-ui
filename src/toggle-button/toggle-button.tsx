@@ -1,8 +1,9 @@
-import cn from 'classnames'
+import clsx from 'clsx'
 import { HTMLAttributes } from 'react'
+import { CheckboxFakeLabel } from '..'
 
-export interface ISliderCheckboxProps extends HTMLAttributes<HTMLInputElement> {
-	label: string
+export interface IToggleButtonProps extends HTMLAttributes<HTMLInputElement> {
+	label?: string
 	checked: boolean
 	onChecked: (checked: boolean) => void
 }
@@ -11,18 +12,18 @@ export function ToggleButton({
 	label,
 	checked,
 	onChecked,
-}: ISliderCheckboxProps) {
+}: IToggleButtonProps) {
 	return (
 		<label className="flex items-center cursor-pointer peer">
-			<span className="text-sm text-primary-dark">{label}</span>
+			<CheckboxFakeLabel label={label} />
 			<input
 				type="checkbox"
 				checked={checked}
 				onChange={() => onChecked(!checked)}
-				className={cn('sr-only peer')}
+				className={clsx('sr-only peer')}
 			/>
 			<div
-				className={cn(
+				className={clsx(
 					'relative w-14 h-6 bg-gray-200 rounded-full flex items-center',
 					'after:border after:rounded-full after:h-5 after:w-5',
 					'after:content-[""] after:absolute after:top-[2px] after:start-[2px]',

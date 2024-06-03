@@ -14,3 +14,12 @@
 		scrollbar-width: none; /* Firefox */
 	}
 }
+
+@layer components {
+	.flex-center {
+		@apply flex justify-center items-center;
+	}
+	.position-center {
+		@apply left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2;
+	}
+}

@@ -1,4 +1,4 @@
-import cn from 'classnames'
+import clsx from 'clsx'
 import { ChangeEvent, HTMLAttributes } from 'react'
 
 export interface ISliderCheckboxProps<T>
@@ -16,7 +16,7 @@ export function SliderCheckbox<T>({
 	return (
 		<input
 			type="range"
-			className={cn(
+			className={clsx(
 				'h-4 m-1 appearance-none bg-transparent cursor-pointer disabled:opacity-50 disabled:pointer-events-none focus:outline-none',
 				'[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:-mt-1 [&::-webkit-slider-thumb]:rounded-full',
 				'[&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:shadow-slider-thumb',
