@@ -19,6 +19,9 @@ module.exports = {
 			height: {
 				iconSize: '1.375rem',
 			},
+			zIndex: {
+				999: '999',
+			},
 			animation: {
 				fadeOut: 'fadeOut 1s ease-in-out',
 				scaleFadeOut: 'scaleFadeOut 1s forwards',

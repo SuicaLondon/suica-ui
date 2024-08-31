@@ -1,8 +1,8 @@
 import clsx from 'clsx'
 import { ReactNode, useCallback } from 'react'
 import { SidebarItem } from './sidebar-item'
-import { SidebarItems } from './sidebar-items'
 import { SidebarButton } from './sidebar-button'
+import { SidebarItems } from './sidebar-items'
 
 type SidebarContainerProps = {
 	isOpened?: boolean
@@ -21,6 +21,7 @@ function SidebarContainer({
 		if (!isOpened) return
 		setIsOpened && setIsOpened(false)
 	}, [isOpened])
+
 	return (
 		<>
 			<div
@@ -32,7 +33,7 @@ function SidebarContainer({
 			<aside
 				id="default-sidebar"
 				className={clsx(
-					'fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full transition-transform sm:translate-x-0',
+					'fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full transition-transform',
 					className,
 					{ 'translate-x-0': isOpened },
 				)}

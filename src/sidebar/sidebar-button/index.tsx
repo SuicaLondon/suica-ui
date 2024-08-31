@@ -3,12 +3,14 @@ import { memo } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 export type SidebarButtonProps = {
+	isHovered?: boolean
 	isOpened: boolean
 	setIsOpened: (toOpened: boolean) => void
 	className?: string
 }
 
 export const SidebarButton = memo(function SidebarButton({
+	isHovered = true,
 	isOpened,
 	setIsOpened,
 	className,
@@ -17,10 +19,12 @@ export const SidebarButton = memo(function SidebarButton({
 		<button
 			aria-controls="default-sidebar"
 			type="button"
-			className={clsx(
-				'h-6 w-6 translate-x-0 cursor-pointer',
-				'phone:left-2 phone:top-2 z-999 fixed left-4 top-4',
-				'flex flex-col items-center justify-center',
+			className={twMerge(
+				clsx(
+					'h-6 w-6 translate-x-0 cursor-pointer',
+					'flex flex-col items-center justify-center',
+					{ 'phone:left-2 phone:top-2 fixed left-4 top-4 z-999': isHovered },
+				),
 				className,
 			)}
 			onClick={() => setIsOpened && setIsOpened(!isOpened)}

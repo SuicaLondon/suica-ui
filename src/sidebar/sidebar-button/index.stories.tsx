@@ -15,6 +15,11 @@ const meta: Meta<typeof SidebarButton> = {
 		},
 	},
 	argTypes: {
+		isHovered: {
+			control: 'boolean',
+			description: 'Determines if the sidebar button is using the fixed position',
+			argTypesRegex: '.*ed$',
+		},
 		isOpened: {
 			control: 'boolean',
 			description: 'Determines if the sidebar is opened or not',
@@ -35,8 +40,9 @@ const meta: Meta<typeof SidebarButton> = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const MobileSidebarButton: Story = {
+export const DefaultSidebarButton: Story = {
 	args: {
+		isHovered: true,
 		isOpened: false,
 		setIsOpened: () => {},
 	},
@@ -46,15 +52,19 @@ export const MobileSidebarButton: Story = {
 		},
 	},
 	render(args) {
-		const [{ isOpened }, updateArgs] = useArgs()
+		const [{ isOpened, isHovered }, updateArgs] = useArgs()
 
 		const handleOpened = (newIsOpened: boolean) => {
 			updateArgs({ isOpened: newIsOpened })
 			args.setIsOpened(newIsOpened)
 		}
 		return (
-			<div className="w-100 h-200">
-				<SidebarButton isOpened={isOpened} setIsOpened={handleOpened} />
+			<div className="h-80 w-80">
+				<SidebarButton
+					isHovered={isHovered}
+					isOpened={isOpened}
+					setIsOpened={handleOpened}
+				/>
 			</div>
 		)
 	},

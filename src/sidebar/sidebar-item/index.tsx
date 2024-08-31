@@ -14,7 +14,7 @@ export const SidebarItem = memo(function SidebarItem({
 	label,
 }: SidebarItemProps) {
 	return (
-		<li>
+		<li className="list-none">
 			<a
 				href={href}
 				className="group flex items-center rounded-lg p-2 text-primary-gray hover:bg-gray-100 dark:text-white dark:hover:bg-primary-gray"
