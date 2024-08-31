@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { Icon } from '../..'
 
@@ -9,7 +9,9 @@ type HeartIconProps = {
 	}
 }
 
-export default function HeartIcon({ classNames }: HeartIconProps) {
+export const HeartIcon = memo(function HeartIcon({
+	classNames,
+}: HeartIconProps) {
 	return (
 		<div
 			className={twMerge(
@@ -23,4 +25,4 @@ export default function HeartIcon({ classNames }: HeartIconProps) {
 			/>
 		</div>
 	)
-}
+})

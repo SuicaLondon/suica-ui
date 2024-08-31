@@ -1,41 +1,58 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, useMemo } from 'react'
 import { CheckboxFakeLabel } from '../..'
-import FillStarIcon from './fill-star-icon'
-import StarIcon from './star-icon'
+import { FillStarIcon } from './fill-star-icon'
+import { twMerge } from 'tailwind-merge'
 
 export interface IStarCheckboxProps extends HTMLAttributes<HTMLInputElement> {
 	leftLabel?: string
 	rightLabel?: string
+	disabled?: boolean
 	checked: boolean
-	className?: string
+	classNames?: {
+		container?: string
+		icon?: string
+	}
 	onChecked: (checked: boolean) => void
 }
 
 export default function StarCheckbox({
 	leftLabel,
 	rightLabel,
-	className,
+	classNames,
+	disabled,
 	checked,
 	onChecked,
 }: IStarCheckboxProps) {
-	return (
-		<label className="w-iconSize h-iconSize flex items-center cursor-pointer peer relative border flex-center">
-			<CheckboxFakeLabel label={leftLabel} />
-			{leftLabel && <span className="text-sm text-primary-dark">{leftLabel}</span>}
-
-			{checked ? (
-				<>
-					<FillStarIcon classNames={{ container: 'relative', icon: className }} />
+	const icon = useMemo(() => {
+		if (disabled) {
+			return (
+				<FillStarIcon classNames={{ icon: '!fill-gray-500 !dart:fill-gray-300' }} />
+			)
+		}
+		if (checked) {
+			return (
+				<div className="relative">
+					<FillStarIcon classNames={{ icon: classNames?.icon }} />
 					<FillStarIcon
 						classNames={{
-							container: 'absolute origin-center animate-scaleFadeOut',
-							icon: className,
+							container: 'absolute left-0 top-0 origin-center animate-scaleFadeOut',
+							icon: classNames?.icon,
 						}}
 					/>
-				</>
-			) : (
-				<StarIcon classNames={{ container: 'relative', icon: className }} />
+				</div>
+			)
+		}
+		return <FillStarIcon classNames={{ icon: classNames?.icon }} />
+	}, [disabled, checked])
+	return (
+		<label
+			className={twMerge(
+				'h-iconSize flex items-center cursor-pointer peer relative border flex-center',
+				classNames?.container,
 			)}
+		>
+			<CheckboxFakeLabel label={leftLabel} />
+			{icon}
 			<input
 				type="checkbox"
 				checked={checked}

@@ -22,7 +22,6 @@ type Story = StoryObj<typeof meta>
 
 function SidebarRender(defaultOpened: boolean) {
 	const [isOpened, setIsOpened] = useState<boolean>(defaultOpened)
-	console.log(isOpened)
 	return (
 		<>
 			<Sidebar.Button isOpened={isOpened} setIsOpened={setIsOpened} />

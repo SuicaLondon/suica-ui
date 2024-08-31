@@ -32,7 +32,7 @@ export const preview: Preview = {
 				...INITIAL_VIEWPORTS,
 				...CUSTOM_VIWQPORTS,
 			},
-			defaultViewport: 'customDesktop', // Optional: Set a global default viewport
+			defaultViewport: 'smallDesktop', // Optional: Set a global default viewport
 		},
 	},
 }

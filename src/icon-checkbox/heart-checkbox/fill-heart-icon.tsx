@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { Icon } from '../..'
 
@@ -9,7 +9,9 @@ type FillHeartIconProps = {
 	}
 }
 
-export default function FillHeartIcon({ classNames }: FillHeartIconProps) {
+export const FillHeartIcon = memo(function FillHeartIcon({
+	classNames,
+}: FillHeartIconProps) {
 	return (
 		<div
 			className={twMerge(
@@ -23,4 +25,4 @@ export default function FillHeartIcon({ classNames }: FillHeartIconProps) {
 			/>
 		</div>
 	)
-}
+})
