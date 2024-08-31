@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge'
 import { Icon } from '../..'
 
 type HeartIconProps = {
-	classNames: {
+	classNames?: {
 		container?: string
 		icon?: string
 	}
@@ -15,13 +15,13 @@ export const HeartIcon = memo(function HeartIcon({
 	return (
 		<div
 			className={twMerge(
-				'w-iconSize h-iconSize flex-center',
-				classNames.container,
+				'flex-center h-iconSize w-iconSize',
+				classNames?.container,
 			)}
 		>
 			<Icon
 				icon="heart"
-				className={twMerge('w-iconSize h-iconSize flex-center', classNames.icon)}
+				className={twMerge('flex-center h-iconSize w-iconSize', classNames?.icon)}
 			/>
 		</div>
 	)

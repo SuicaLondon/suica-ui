@@ -1,6 +1,6 @@
 import { memo, ReactNode } from 'react'
 
-type SidebarItemProps = {
+export type SidebarItemProps = {
 	href: string
 	icon: ReactNode
 	children: ReactNode
@@ -14,10 +14,10 @@ export const SidebarItem = memo(function SidebarItem({
 	label,
 }: SidebarItemProps) {
 	return (
-		<li>
+		<li className="list-none">
 			<a
 				href={href}
-				className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+				className="group flex items-center rounded-lg p-2 text-primary-gray hover:bg-gray-100 dark:text-white dark:hover:bg-primary-gray"
 			>
 				{icon}
 				<span className="ms-3">{children}</span>

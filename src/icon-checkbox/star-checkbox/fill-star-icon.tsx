@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge'
 import { Icon } from '../..'
 
 type FillStarIconProps = {
-	classNames: {
+	classNames?: {
 		container?: string
 		icon?: string
 	}
@@ -15,13 +15,13 @@ export const FillStarIcon = memo(function FillStarIcon({
 	return (
 		<div
 			className={twMerge(
-				'w-iconSize h-iconSize flex justify-center items-center',
-				classNames.container,
+				'flex h-iconSize w-iconSize items-center justify-center',
+				classNames?.container,
 			)}
 		>
 			<Icon
 				icon="star-fill"
-				className={twMerge('w-iconSize h-iconSize flex-center', classNames.icon)}
+				className={twMerge('flex-center h-iconSize w-iconSize', classNames?.icon)}
 			/>
 		</div>
 	)

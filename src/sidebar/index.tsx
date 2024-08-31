@@ -1,11 +1,13 @@
 import clsx from 'clsx'
 import { ReactNode, useCallback } from 'react'
-import { SidebarProps } from './index.type'
-import { SidebarButton } from './sidebar-button'
 import { SidebarItem } from './sidebar-item'
+import { SidebarButton } from './sidebar-button'
 import { SidebarItems } from './sidebar-items'
 
-type SidebarContainerProps = SidebarProps & {
+type SidebarContainerProps = {
+	isOpened?: boolean
+	setIsOpened?: (toOpened: boolean) => void
+	className?: string
 	children: ReactNode
 }
 
@@ -19,18 +21,19 @@ function SidebarContainer({
 		if (!isOpened) return
 		setIsOpened && setIsOpened(false)
 	}, [isOpened])
+
 	return (
 		<>
 			<div
 				className={clsx({
-					'fixed top-0 left-0 z-30 w-screen h-screen bg-primary-gary-50': isOpened,
+					'fixed left-0 top-0 z-30 h-screen w-screen bg-primary-gary-50': isOpened,
 				})}
 				onClick={onClickBackdrop}
 			/>
 			<aside
 				id="default-sidebar"
 				className={clsx(
-					'fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0',
+					'fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full transition-transform',
 					className,
 					{ 'translate-x-0': isOpened },
 				)}

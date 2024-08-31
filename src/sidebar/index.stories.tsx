@@ -1,9 +1,9 @@
+import { useArgs } from '@storybook/preview-api'
 import type { Meta, StoryObj } from '@storybook/react'
-import { useState } from 'react'
-import { Sidebar } from './index'
 import { Icon } from '../icons'
+import { Sidebar } from './index'
 
-const meta = {
+const meta: Meta<typeof Sidebar> = {
 	title: 'Example/Sidebar',
 	component: Sidebar,
 	tags: ['autodocs'],
@@ -15,24 +15,51 @@ const meta = {
 			},
 		},
 	},
+	argTypes: {
+		children: {
+			control: 'text',
+			description:
+				'The content of the sidebar, it normally is <Sidebar.Items /> which can provide the background style for the sidebar.',
+		},
+		isOpened: {
+			control: 'boolean',
+			description: 'Determines if the sidebar is opened or not',
+			argTypesRegex: '.*ed$',
+		},
+		setIsOpened: {
+			action: 'clicked',
+			description:
+				'The callback function when the user click the sidebar backdrop',
+			argTypesRegex: '^on.*',
+		},
+		className: {
+			control: 'text',
+			description: 'The Tailwind className for the sidebar container',
+		},
+	},
 } satisfies Meta<typeof Sidebar>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-function SidebarRender(defaultOpened: boolean) {
-	const [isOpened, setIsOpened] = useState<boolean>(defaultOpened)
+function SidebarRender() {
+	const [{ isOpened }, updateArgs] = useArgs()
+
+	const handleOpened = (newIsOpened: boolean) => {
+		updateArgs({ isOpened: newIsOpened })
+	}
+
 	return (
 		<>
-			<Sidebar.Button isOpened={isOpened} setIsOpened={setIsOpened} />
-			<Sidebar isOpened={isOpened} setIsOpened={setIsOpened}>
-				<Sidebar.Items>
+			<Sidebar.Button isOpened={isOpened} setIsOpened={handleOpened} isHovered />
+			<Sidebar isOpened={isOpened} setIsOpened={handleOpened}>
+				<Sidebar.Items className="pt-16">
 					<Sidebar.Item
 						href="/item1"
 						icon={
 							<Icon
 								icon="heart-fill"
-								className={'w-iconSize h-iconSize flex-center'}
+								className={'flex-center h-iconSize w-iconSize'}
 							/>
 						}
 						label="Nothing"
@@ -42,7 +69,7 @@ function SidebarRender(defaultOpened: boolean) {
 					<Sidebar.Item
 						href="/item2"
 						icon={
-							<Icon icon="heart" className={'w-iconSize h-iconSize flex-center'} />
+							<Icon icon="heart" className={'flex-center h-iconSize w-iconSize'} />
 						}
 						label="Nothing"
 					>
@@ -64,10 +91,11 @@ export const MobileSidebar: Story = {
 		},
 	},
 	render() {
-		return SidebarRender(false)
+		return SidebarRender()
 	},
 }
-export const DesktopSidebar: Story = {
+
+export const DesktopSidebarWithButton: Story = {
 	args: {
 		children: null,
 	},
@@ -77,6 +105,6 @@ export const DesktopSidebar: Story = {
 		},
 	},
 	render() {
-		return SidebarRender(false)
+		return SidebarRender()
 	},
 }
