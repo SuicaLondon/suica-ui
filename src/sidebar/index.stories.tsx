@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
-import { Sidebar } from './index'
 import { Icon } from '../icons'
+import { Sidebar } from './index'
 
-const meta = {
+const meta: Meta<typeof Sidebar> = {
 	title: 'Example/Sidebar',
 	component: Sidebar,
 	tags: ['autodocs'],
@@ -14,6 +14,9 @@ const meta = {
 				defaultViewport: 'customMobile',
 			},
 		},
+	},
+	argTypes: {
+		children: {},
 	},
 } satisfies Meta<typeof Sidebar>
 
@@ -32,7 +35,7 @@ function SidebarRender(defaultOpened: boolean) {
 						icon={
 							<Icon
 								icon="heart-fill"
-								className={'w-iconSize h-iconSize flex-center'}
+								className={'flex-center h-iconSize w-iconSize'}
 							/>
 						}
 						label="Nothing"
@@ -42,7 +45,7 @@ function SidebarRender(defaultOpened: boolean) {
 					<Sidebar.Item
 						href="/item2"
 						icon={
-							<Icon icon="heart" className={'w-iconSize h-iconSize flex-center'} />
+							<Icon icon="heart" className={'flex-center h-iconSize w-iconSize'} />
 						}
 						label="Nothing"
 					>
