@@ -27,13 +27,13 @@ export function ToggleButton({
 					'relative w-14 h-6 bg-gray-200 rounded-full flex items-center',
 					'after:border after:rounded-full after:h-5 after:w-5',
 					'after:content-[""] after:absolute after:top-[2px] after:start-[2px]',
-					'after:bg-primary-dart after:border-gray-300 after:transition-all',
+					'after:bg-primary-gray after:border-gray-300 after:transition-all',
 					'peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300',
 					'peer-checked:after:translate-x-8', // Should be width - height
-					'peer-checked:bg-primary-dart peer-checked:after:bg-white peer-checked:after:border-white',
+					'peer-checked:bg-primary-gray peer-checked:after:bg-white peer-checked:after:border-white',
 					{
 						'justify-start text-white': checked,
-						'justify-end text-primary-dart': !checked,
+						'justify-end text-primary-gray': !checked,
 					},
 				)}
 			>
