@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import { memo, ReactNode } from 'react'
 
 type SidebarItemProps = {
 	href: string
@@ -7,7 +7,7 @@ type SidebarItemProps = {
 	label?: ReactNode
 }
 
-export default function SidebarItem({
+export const SidebarItem = memo(function SidebarItem({
 	href,
 	icon,
 	children,
@@ -25,4 +25,4 @@ export default function SidebarItem({
 			</a>
 		</li>
 	)
-}
+})

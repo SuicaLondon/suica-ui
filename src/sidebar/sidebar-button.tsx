@@ -1,13 +1,15 @@
-import React from 'react'
-import { twMerge } from 'tailwind-merge'
 import clsx from 'clsx'
+import { memo } from 'react'
+import { twMerge } from 'tailwind-merge'
+import { SidebarProps } from './index.type'
 
-type SidebarButtonProps = {
-	isOpened: boolean
-	setIsOpened: (toOpened: boolean) => void
-}
+type SidebarButtonProps = SidebarProps & {}
 
-export function SidebarButton({ isOpened, setIsOpened }: SidebarButtonProps) {
+export const SidebarButton = memo(function SidebarButton({
+	isOpened,
+	setIsOpened,
+	className,
+}: SidebarButtonProps) {
 	return (
 		<button
 			aria-controls="default-sidebar"
@@ -16,8 +18,9 @@ export function SidebarButton({ isOpened, setIsOpened }: SidebarButtonProps) {
 				'cursor-pointer w-6 h-6 translate-x-0',
 				'fixed phone:left-2 phone:top-2 left-4 top-4 z-999',
 				'flex flex-col justify-center items-center',
+				className,
 			)}
-			onClick={() => setIsOpened(!isOpened)}
+			onClick={() => setIsOpened && setIsOpened(!isOpened)}
 		>
 			<span className="sr-only">Open sidebar</span>
 			<span
@@ -48,4 +51,4 @@ export function SidebarButton({ isOpened, setIsOpened }: SidebarButtonProps) {
 			></span>
 		</button>
 	)
-}
+})

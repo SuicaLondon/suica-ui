@@ -6,8 +6,8 @@ module.exports = {
 		extend: {
 			colors: {
 				primary: {
-					dart: '#1e2123',
 					gray: '#1e2123',
+					'gary-50': '#1e212350',
 				},
 			},
 			boxShadow: {

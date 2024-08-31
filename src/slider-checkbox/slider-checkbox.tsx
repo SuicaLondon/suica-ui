@@ -23,7 +23,7 @@ export function SliderCheckbox<T>({
 				'[&::-webkit-slider-runnable-track]:w-full [&::-webkit-slider-runnable-track]:rounded-full',
 				'[&::-webkit-slider-runnable-track]:h-2 [&::-webkit-slider-runnable-track]:bg-gray-800',
 				'[&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full',
-				'[&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-4 [&::-moz-range-thumb]:border-primary-dart',
+				'[&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-4 [&::-moz-range-thumb]:border-primary-gray',
 				'[&::-moz-range-track]:w-full [&::-moz-range-track]:h-2 [&::-moz-range-track]:rounded-full',
 				'[&::-moz-range-track]:bg-gray-800',
 			)}
