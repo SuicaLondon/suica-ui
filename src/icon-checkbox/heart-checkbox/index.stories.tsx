@@ -51,7 +51,7 @@ export const HeartCheck: Story = {
 	render: function Render(args) {
 		const [{ checked }, updateArgs] = useArgs()
 
-		const handleChecked = (newChecked: boolean) => {
+		const onChecked = (newChecked: boolean) => {
 			updateArgs({ checked: newChecked })
 			args.onChecked(newChecked)
 		}
@@ -60,7 +60,7 @@ export const HeartCheck: Story = {
 			<HeartCheckbox
 				{...args}
 				checked={checked}
-				onChecked={handleChecked}
+				onChecked={onChecked}
 				classNames={{
 					icon: 'fill-red-700 dark:fill-red-300',
 				}}

@@ -1,7 +1,7 @@
+import { useArgs } from '@storybook/preview-api'
 import type { Meta, StoryObj } from '@storybook/react'
-import { useState } from 'react'
 import { Tabs } from './tabs'
-import { ALIGN_DIRECTION } from './tab.type'
+import { AlignDirection } from './tab.type'
 
 const meta = {
 	title: 'Example/Tabs',
@@ -12,40 +12,31 @@ const meta = {
 		// More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
 		layout: 'fullscreen',
 	},
-	argTypes: {},
+	argTypes: {
+		tabs: {
+			control: 'array',
+			description: "The tabs' configuration",
+		},
+		activeTabId: {
+			control: 'string',
+			description: "The selected tab's id",
+		},
+		direction: {
+			control: 'string',
+			description: 'The render direction of the tabs',
+		},
+		onChange: {
+			action: 'clicked',
+			description: 'The callback function when the user selected the tab',
+			argTypesRegex: '^on.*',
+		},
+	},
 } satisfies Meta<typeof Tabs>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const defaultTabs: Story = {
-	name: 'Default Tabs',
-	args: {
-		tabs: [
-			{ id: 'suica', label: 'Suica' },
-			{ id: 'kitaca', label: 'Kitaca' },
-			{ id: 'pasmo', label: 'Pasmo' },
-			{ id: 'icoca', label: 'Icoca' },
-		],
-		activeTabId: 'suica',
-	},
-}
-export const defaultTabsVertical: Story = {
-	name: 'Default Tabs Vertical',
-	args: {
-		tabs: [
-			{ id: 'suica', label: 'Suica' },
-			{ id: 'kitaca', label: 'Kitaca' },
-			{ id: 'pasmo', label: 'Pasmo' },
-			{ id: 'icoca', label: 'Icoca' },
-		],
-		activeTabId: 'suica',
-		direction: ALIGN_DIRECTION.VERTICAL,
-	},
-}
-
-export const ActionTabs: Story = {
-	name: 'Action Tabs',
+export const HorizontalTabs: Story = {
 	args: {
 		tabs: [
 			{ id: 'suica', label: 'Suica' },
@@ -56,17 +47,17 @@ export const ActionTabs: Story = {
 		activeTabId: 'suica',
 	},
 	render: function Render(args) {
-		const [selectedTab, setSelectedTab] = useState<string>(args.activeTabId)
+		const [{ activeTabId }, updateArgs] = useArgs()
 
-		function onChange({ id }: { id: string }) {
-			setSelectedTab(id)
+		const onChanged = ({ id }: { id: string }) => {
+			updateArgs({ activeTabId: id })
+			args.onChange?.({ id: id })
 		}
 
-		return <Tabs {...args} activeTabId={selectedTab} onChange={onChange} />
+		return <Tabs {...args} activeTabId={activeTabId} onChange={onChanged} />
 	},
 }
-export const ActionTabsVertical: Story = {
-	name: 'Action Tabs Vertical',
+export const VerticalTabs: Story = {
 	args: {
 		tabs: [
 			{ id: 'suica', label: 'Suica' },
@@ -75,15 +66,16 @@ export const ActionTabsVertical: Story = {
 			{ id: 'icoca', label: 'Icoca' },
 		],
 		activeTabId: 'suica',
-		direction: ALIGN_DIRECTION.VERTICAL,
+		direction: AlignDirection.vertical,
 	},
 	render: function Render(args) {
-		const [selectedTab, setSelectedTab] = useState<string>(args.activeTabId)
+		const [{ activeTabId }, updateArgs] = useArgs()
 
-		function onChange({ id }: { id: string }) {
-			setSelectedTab(id)
+		const onChanged = ({ id }: { id: string }) => {
+			updateArgs({ activeTabId: id })
+			args.onChange?.({ id: id })
 		}
 
-		return <Tabs {...args} activeTabId={selectedTab} onChange={onChange} />
+		return <Tabs {...args} activeTabId={activeTabId} onChange={onChanged} />
 	},
 }
