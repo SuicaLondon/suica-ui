@@ -1,5 +1,5 @@
+import { useArgs } from '@storybook/preview-api'
 import type { Meta, StoryObj } from '@storybook/react'
-import { useState } from 'react'
 import { ToggleButton } from './toggle-button'
 
 const meta = {
@@ -9,7 +9,22 @@ const meta = {
 	parameters: {
 		layout: 'fullscreen',
 	},
-	argTypes: { onChecked: { action: 'clicked' } },
+	argTypes: {
+		label: {
+			control: 'text',
+			description: 'The label of the toggle button.',
+		},
+		checked: {
+			control: 'boolean',
+			description: 'Determines if the toggle button is checked or not',
+			argTypesRegex: '.*ed$',
+		},
+		onChecked: {
+			action: 'clicked',
+			description: 'The callback function when the user click the toggle button',
+			argTypesRegex: '^on.*',
+		},
+	},
 } satisfies Meta<typeof ToggleButton>
 
 export default meta
@@ -20,8 +35,13 @@ export const Check: Story = {
 		checked: false,
 	},
 	render: function Render(args) {
-		const [checked, setChecked] = useState<boolean>(args.checked)
+		const [{ checked }, updateArgs] = useArgs()
 
-		return <ToggleButton checked={checked} onChecked={setChecked} />
+		const onChecked = (newChecked: boolean) => {
+			updateArgs({ checked: newChecked })
+			args.onChecked(newChecked)
+		}
+
+		return <ToggleButton {...args} checked={checked} onChecked={onChecked} />
 	},
 }

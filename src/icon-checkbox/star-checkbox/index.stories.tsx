@@ -51,7 +51,7 @@ export const StarCheck: Story = {
 	render: function Render(args) {
 		const [{ checked }, updateArgs] = useArgs()
 
-		const handleChecked = (newChecked: boolean) => {
+		const onChecked = (newChecked: boolean) => {
 			updateArgs({ checked: newChecked })
 			args.onChecked(newChecked)
 		}
@@ -60,7 +60,7 @@ export const StarCheck: Story = {
 			<StarCheckbox
 				{...args}
 				checked={checked}
-				onChecked={handleChecked}
+				onChecked={onChecked}
 				classNames={{
 					icon: 'fill-yellow-700 dark:fill-yellow-300',
 				}}

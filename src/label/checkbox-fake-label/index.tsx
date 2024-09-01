@@ -8,5 +8,5 @@ export function CheckboxFakeLabel({ label }: CheckboxFakeLabelProps) {
 	if (!label) {
 		return null
 	}
-	return <span className="text-sm text-primary-dark">{label}</span>
+	return <span className="text-primary-dark text-sm">{label}</span>
 }

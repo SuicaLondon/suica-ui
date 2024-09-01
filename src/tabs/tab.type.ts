@@ -6,7 +6,9 @@ export interface TabProps {
 	className?: string
 }
 
-export enum ALIGN_DIRECTION {
-	VERTICAL = 'vertical',
-	HORIZONTAL = 'horizontal',
-}
+export const AlignDirection = {
+	vertical: 'vertical',
+	horizontal: 'horizontal',
+} as const
+export type AlignDirectionKey =
+	(typeof AlignDirection)[keyof typeof AlignDirection]
