@@ -9,7 +9,7 @@ const meta: Meta<typeof SidebarItems> = {
 		layout: 'fullscreen',
 		viewport: {
 			viewport: {
-				defaultViewport: 'customMobile',
+				defaultViewport: 'normalDesktop',
 			},
 		},
 	},
