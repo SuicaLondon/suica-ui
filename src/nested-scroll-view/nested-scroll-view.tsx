@@ -8,6 +8,11 @@ import {
 } from 'react'
 import { twMerge } from 'tailwind-merge'
 
+const ScrollBy = {
+	Touch: 'Touch',
+	Scroll: 'Scroll',
+} as const
+type ScrollByKey = (typeof ScrollBy)[keyof typeof ScrollBy]
 export interface INestedScrollViewProps {
 	scrollableDistance: number
 	minDistanceToTop: number
@@ -29,7 +34,7 @@ export function NestedScrollView({
 	extraHeight = 0,
 }: INestedScrollViewProps) {
 	const containerRef = useRef<HTMLDivElement>(null)
-	const isTouchingRef = useRef(false)
+	const scrollByRef = useRef<ScrollByKey | null>(null)
 	const distanceToTopRef = useRef(scrollableDistance)
 	const [isScrolling, setIsScrolling] = useState(false)
 	const distanceToTop = distanceToTopRef.current
@@ -41,17 +46,30 @@ export function NestedScrollView({
 		}
 		let timer: NodeJS.Timeout | null = null
 
-		function onScrollEnd() {
+		function onScroll() {
 			if (!container) {
 				return
+			}
+			// Desktop does not have touch event to trigger setIsScrolling(true)
+			if (!isScrolling && scrollByRef.current !== ScrollBy.Touch) {
+				if (!containerRef.current) {
+					return
+				}
+				distanceToTopRef.current =
+					scrollableDistance - containerRef.current.scrollTop
+				setIsScrolling(true)
+				scrollByRef.current = ScrollBy.Scroll
 			}
 			if (timer !== null) {
 				clearTimeout(timer)
 			}
 			timer = setTimeout(function () {
-				if (isTouchingRef.current) {
+				if (scrollByRef.current === ScrollBy.Touch) {
 					return
+				} else if (scrollByRef.current === ScrollBy.Scroll) {
+					scrollByRef.current = null
 				}
+
 				if (!container) {
 					return
 				}
@@ -64,17 +82,17 @@ export function NestedScrollView({
 				setIsScrolling(false)
 			}, 50)
 		}
-		container.addEventListener('scroll', onScrollEnd)
+		container.addEventListener('scroll', onScroll)
 		return () => {
 			if (container) {
-				container.removeEventListener('scroll', onScrollEnd)
+				container.removeEventListener('scroll', onScroll)
 			}
 			if (timer) {
 				clearTimeout(timer)
 				timer = null
 			}
 		}
-	}, [scrollableDistance])
+	}, [scrollableDistance, isScrolling])
 
 	const handleTouchStart = useCallback(() => {
 		if (!containerRef.current) {
@@ -82,17 +100,17 @@ export function NestedScrollView({
 		}
 		distanceToTopRef.current = scrollableDistance - containerRef.current.scrollTop
 		setIsScrolling(true)
-		isTouchingRef.current = true
+		scrollByRef.current = ScrollBy.Touch
 	}, [scrollableDistance])
 
 	const handleTouchEnd = useCallback(() => {
-		isTouchingRef.current = false
+		scrollByRef.current = null
 	}, [])
 
 	return (
 		<div
 			className={twMerge(
-				'w-screen h-screen relative inset-0 no-scrollbar',
+				'no-scrollbar relative inset-0 h-screen w-screen',
 				'overflow-y-hidden overflow-x-scroll overscroll-none',
 				classNames?.container,
 			)}
@@ -100,7 +118,7 @@ export function NestedScrollView({
 			{header}
 			<div
 				ref={containerRef}
-				className="bottom-0 absolute z-20 h-full w-full overflow-auto no-scrollbar"
+				className="no-scrollbar absolute bottom-0 z-20 h-full w-full overflow-auto"
 				style={{
 					marginTop: isScrolling ? 0 : distanceToTop,
 					height: `calc(100vh - ${minDistanceToTop}px)`,

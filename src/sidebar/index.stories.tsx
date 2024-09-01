@@ -11,7 +11,7 @@ const meta: Meta<typeof Sidebar> = {
 		layout: 'fullscreen',
 		viewport: {
 			viewport: {
-				defaultViewport: 'customMobile',
+				defaultViewport: 'normalDesktop',
 			},
 		},
 	},
@@ -101,7 +101,7 @@ export const DesktopSidebarWithButton: Story = {
 	},
 	parameters: {
 		viewport: {
-			defaultViewport: 'customMobile',
+			defaultViewport: 'normalDesktop',
 		},
 	},
 	render() {
