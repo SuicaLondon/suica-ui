@@ -9,7 +9,22 @@ const meta = {
 	parameters: {
 		layout: 'fullscreen',
 	},
-	argTypes: { onChecked: { action: 'clicked' } },
+	argTypes: {
+		selectedIndex: {
+			control: 'number',
+			description: 'The selected index in the array',
+		},
+		values: {
+			control: 'array',
+			description: 'The values array of the slider',
+		},
+		onChecked: {
+			action: 'clicked',
+			description:
+				'The callback function when the user selected value in the slider',
+			argTypesRegex: '^on.*',
+		},
+	},
 } satisfies Meta<typeof SliderCheckbox>
 
 export default meta
