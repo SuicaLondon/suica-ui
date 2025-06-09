@@ -47,7 +47,7 @@ export default function StarCheckbox({
 	return (
 		<label
 			className={twMerge(
-				'h-iconSize flex items-center cursor-pointer peer relative border flex-center',
+				'flex-center·peer·relative·flex·h-iconSize·cursor-pointer·items-center·bord',
 				classNames?.container,
 			)}
 		>
@@ -57,7 +57,7 @@ export default function StarCheckbox({
 				type="checkbox"
 				checked={checked}
 				onChange={() => onChecked(!checked)}
-				className={'sr-only peer'}
+				className={'peer sr-only'}
 			/>
 			<CheckboxFakeLabel label={rightLabel} />
 		</label>

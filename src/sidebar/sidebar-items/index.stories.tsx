@@ -35,6 +35,7 @@ type Story = StoryObj<typeof meta>
 
 export const DefaultSidebarItems: Story = {
 	args: {
+		className: '',
 		children: (
 			<ul className="text-white">
 				<li>1</li>
@@ -51,7 +52,7 @@ export const DefaultSidebarItems: Story = {
 	render(args) {
 		return (
 			<div className="h-screen w-80">
-				<SidebarItems>{args.children}</SidebarItems>
+				<SidebarItems className={args.className}>{args.children}</SidebarItems>
 			</div>
 		)
 	},
