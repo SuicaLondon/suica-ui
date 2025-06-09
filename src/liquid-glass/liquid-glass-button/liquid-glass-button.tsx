@@ -5,7 +5,7 @@ export interface ILiquidGlassButtonProps {
 	onClick: () => void
 	children: React.ReactNode
 }
-
+/// This is a failed version of the liquid glass button.
 export const LiquidGlassButton = memo(function LiquidGlassButton({
 	onClick,
 	children,
