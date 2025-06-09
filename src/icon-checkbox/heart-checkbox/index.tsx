@@ -52,7 +52,7 @@ export const HeartCheckbox = memo(function HeartCheckbox({
 	return (
 		<label
 			className={twMerge(
-				'h-iconSize flex items-center cursor-pointer peer relative border flex-center',
+				'flex-center peer relative flex h-iconSize cursor-pointer items-center border',
 				classNames?.container,
 			)}
 		>
@@ -64,7 +64,7 @@ export const HeartCheckbox = memo(function HeartCheckbox({
 				disabled={disabled}
 				checked={checked}
 				onChange={() => onChecked(!checked)}
-				className={'sr-only peer'}
+				className={'peer sr-only'}
 			/>
 			<CheckboxFakeLabel label={rightLabel} />
 		</label>

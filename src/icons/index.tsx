@@ -13,10 +13,10 @@ function lazy(importFn: Function) {
 }
 
 const icons = {
-	star: lazy(async () => import('/public/icons/star.svg')),
-	'star-fill': lazy(async () => import('/public/icons/star.fill.svg')),
-	heart: lazy(async () => import('/public/icons/heart.svg')),
-	'heart-fill': lazy(async () => import('/public/icons/heart.fill.svg')),
+	star: lazy(async () => import('./assets/icons/star.svg')),
+	'star-fill': lazy(async () => import('./assets/icons/star.fill.svg')),
+	heart: lazy(async () => import('./assets/icons/heart.svg')),
+	'heart-fill': lazy(async () => import('./assets/icons/heart.fill.svg')),
 } as const
 
 export type IconProps = HTMLAttributes<HTMLDivElement> & {
@@ -33,7 +33,7 @@ export function Icon({ icon, className }: IconProps) {
 		<Suspense fallback={null}>
 			<Svg
 				className={twMerge(
-					'h-6 w-6 fill-primary-dark object-contain dark:fill-primary-gray flex-center',
+					'fill-primary-dark flex-center h-6 w-6 object-contain dark:fill-primary-gray',
 					className,
 				)}
 			/>
