@@ -42,12 +42,15 @@ export const SidebarItem = forwardRef<HTMLAnchorElement, SidebarItemProps>(
 						{children}
 					</span>
 					{badge ? (
-						<span
-							data-slot="sidebar-item-badge"
-							className="sui:text-xs sui:text-muted sui:font-[family-name:var(--sui-theme-font-mono)]"
-						>
-							{badge}
-						</span>
+						<>
+							{' '}
+							<span
+								data-slot="sidebar-item-badge"
+								className="sui:text-xs sui:text-muted sui:font-[family-name:var(--sui-theme-font-mono)]"
+							>
+								{badge}
+							</span>
+						</>
 					) : null}
 				</a>
 			</li>

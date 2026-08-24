@@ -8,11 +8,10 @@ import {
 import { cn } from '../cn.js'
 import { getSidebarState, type SidebarState } from './sidebar-state.js'
 
-export interface SidebarProps
-	extends Omit<
-		ComponentPropsWithoutRef<'aside'>,
-		'aria-hidden' | 'aria-label' | 'aria-modal' | 'inert' | 'role' | 'tabIndex'
-	> {
+export interface SidebarProps extends Omit<
+	ComponentPropsWithoutRef<'aside'>,
+	'aria-hidden' | 'aria-label' | 'aria-modal' | 'inert' | 'role' | 'tabIndex'
+> {
 	open: boolean
 	onOpenChange: (open: boolean) => void
 	label: string
@@ -84,10 +83,10 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
 		{
 			'aria-hidden': boolean
 			'aria-modal'?: true
-			inert?: ''
+			inert?: true
 		}
 	> = {
-		closed: { 'aria-hidden': true, inert: '' },
+		closed: { 'aria-hidden': true, inert: true },
 		open: {
 			'aria-hidden': false,
 			...(isModal ? { 'aria-modal': true as const } : {}),

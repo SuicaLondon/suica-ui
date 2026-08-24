@@ -5,8 +5,10 @@ import {
 } from 'react'
 import { cn } from '../cn.js'
 
-export interface SwitchProps
-	extends Omit<ComponentPropsWithoutRef<'input'>, 'className' | 'type'> {
+export interface SwitchProps extends Omit<
+	ComponentPropsWithoutRef<'input'>,
+	'className' | 'type'
+> {
 	label?: ReactNode
 	className?: string
 }

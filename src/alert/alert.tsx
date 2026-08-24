@@ -8,8 +8,10 @@ import { cn } from '../cn.js'
 
 export type AlertVariant = 'info' | 'success' | 'warning' | 'danger'
 
-export interface AlertProps
-	extends Omit<ComponentPropsWithoutRef<'div'>, 'title'> {
+export interface AlertProps extends Omit<
+	ComponentPropsWithoutRef<'div'>,
+	'title'
+> {
 	variant?: AlertVariant
 	icon?: ReactNode
 	title?: ReactNode

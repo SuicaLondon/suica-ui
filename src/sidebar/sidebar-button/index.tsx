@@ -3,11 +3,10 @@ import { cn } from '../../cn.js'
 import { getSidebarState } from '../sidebar-state.js'
 import { SidebarTriggerIcon } from './sidebar-trigger-icon.js'
 
-export interface SidebarTriggerProps
-	extends Omit<
-		ComponentPropsWithoutRef<'button'>,
-		'aria-controls' | 'aria-expanded' | 'aria-label' | 'onClick' | 'type'
-	> {
+export interface SidebarTriggerProps extends Omit<
+	ComponentPropsWithoutRef<'button'>,
+	'aria-controls' | 'aria-expanded' | 'aria-label' | 'onClick' | 'type'
+> {
 	open: boolean
 	onOpenChange: (open: boolean) => void
 	label: string

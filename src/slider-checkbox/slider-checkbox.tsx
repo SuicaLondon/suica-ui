@@ -10,11 +10,10 @@ import {
 } from 'react'
 import { cn } from '../cn.js'
 
-export interface DiscreteSliderProps<T>
-	extends Omit<
-		ComponentPropsWithoutRef<'input'>,
-		'defaultValue' | 'max' | 'min' | 'onChange' | 'step' | 'type' | 'value'
-	> {
+export interface DiscreteSliderProps<T> extends Omit<
+	ComponentPropsWithoutRef<'input'>,
+	'defaultValue' | 'max' | 'min' | 'onChange' | 'step' | 'type' | 'value'
+> {
 	values: readonly T[]
 	valueIndex?: number
 	defaultValueIndex?: number

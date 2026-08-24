@@ -1,8 +1,10 @@
 import { forwardRef, type ComponentPropsWithoutRef } from 'react'
 import { cn } from '../../cn.js'
 
-export interface SidebarItemsProps
-	extends Omit<ComponentPropsWithoutRef<'nav'>, 'aria-label'> {
+export interface SidebarItemsProps extends Omit<
+	ComponentPropsWithoutRef<'nav'>,
+	'aria-label'
+> {
 	label: string
 	listClassName?: string
 	triggerInset?: boolean

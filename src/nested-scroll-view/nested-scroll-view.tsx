@@ -10,8 +10,10 @@ import {
 } from 'react'
 import { cn } from '../cn.js'
 
-export interface NestedScrollViewProps
-	extends Omit<ComponentPropsWithoutRef<'div'>, 'children'> {
+export interface NestedScrollViewProps extends Omit<
+	ComponentPropsWithoutRef<'div'>,
+	'children'
+> {
 	scrollableDistance: number
 	minDistanceToTop: number
 	extraHeight?: number

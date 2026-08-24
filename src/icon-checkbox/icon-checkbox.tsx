@@ -5,8 +5,10 @@ import {
 } from 'react'
 import { cn } from '../cn.js'
 
-export interface IconCheckboxProps
-	extends Omit<ComponentPropsWithoutRef<'input'>, 'className' | 'type'> {
+export interface IconCheckboxProps extends Omit<
+	ComponentPropsWithoutRef<'input'>,
+	'className' | 'type'
+> {
 	checkedIcon: ReactNode
 	uncheckedIcon: ReactNode
 	startLabel?: ReactNode

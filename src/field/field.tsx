@@ -17,8 +17,10 @@ type FieldControlProps = {
 	'aria-invalid'?: AriaAttributes['aria-invalid']
 }
 
-export interface FieldProps
-	extends Omit<ComponentPropsWithoutRef<'div'>, 'children'> {
+export interface FieldProps extends Omit<
+	ComponentPropsWithoutRef<'div'>,
+	'children'
+> {
 	children: ReactElement<FieldControlProps>
 	label: ReactNode
 	description?: ReactNode

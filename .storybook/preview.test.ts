@@ -3,8 +3,7 @@ import preview, { surfaceStyleByLayout } from './preview'
 describe('Storybook preview', () => {
 	it('uses the available canvas width unless a viewport is selected explicitly', () => {
 		const viewport = preview.parameters?.viewport as
-			| { defaultViewport?: string }
-			| undefined
+			{ defaultViewport?: string } | undefined
 
 		expect(viewport?.defaultViewport).toBeUndefined()
 	})

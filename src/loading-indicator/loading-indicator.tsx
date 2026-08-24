@@ -2,8 +2,10 @@ import { forwardRef, type ComponentPropsWithoutRef } from 'react'
 import { cn } from '../cn.js'
 import { LoadingIndicatorIcon } from './loading-indicator-icon.js'
 
-export interface LoadingIndicatorProps
-	extends Omit<ComponentPropsWithoutRef<'span'>, 'children'> {
+export interface LoadingIndicatorProps extends Omit<
+	ComponentPropsWithoutRef<'span'>,
+	'children'
+> {
 	label: string
 }
 
