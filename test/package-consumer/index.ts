@@ -9,6 +9,9 @@ import {
 	LoadingIndicator,
 	Overlay,
 	Select,
+	Sidebar,
+	SidebarItem,
+	SidebarItems,
 	Skeleton,
 	Spinner,
 	Table,
@@ -24,6 +27,7 @@ import {
 	type SpinnerProps,
 	type SkeletonProps,
 	type SkeletonTone,
+	type SidebarMode,
 	type SwitchProps,
 	type TableControlProps,
 	type TablePagination,
@@ -36,6 +40,26 @@ const switchProps = {
 } satisfies SwitchProps
 
 void switchProps
+
+const sidebarMode = 'persistent' satisfies SidebarMode
+
+const persistentSidebar = createElement(
+	Sidebar,
+	{
+		open: true,
+		mode: sidebarMode,
+		onOpenChange: () => undefined,
+		label: 'Dashboard navigation',
+		closeLabel: 'Close navigation',
+	},
+	createElement(
+		SidebarItems,
+		{ label: 'Dashboard links', triggerInset: false },
+		createElement(SidebarItem, { href: '/dashboard' }, 'Dashboard'),
+	),
+)
+
+void persistentSidebar
 
 const buttonProps = {
 	variant: 'outline',
@@ -88,6 +112,9 @@ void [
 	LoadingIndicator,
 	Overlay,
 	Select,
+	Sidebar,
+	SidebarItem,
+	SidebarItems,
 	Skeleton,
 	Spinner,
 	Table,

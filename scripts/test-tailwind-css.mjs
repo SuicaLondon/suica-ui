@@ -13,6 +13,7 @@ const expectedSelectors = [
 	'.sui\\:size-13',
 	'.sui\\:px-7',
 	'.sui\\:animate-skeleton-shimmer',
+	'.sui\\:dark\\:bg-red-500:where(.dark',
 ]
 
 for (const selector of expectedSelectors) {
@@ -25,6 +26,7 @@ const expectedFragments = [
 	'@keyframes sui-skeleton-shimmer',
 	'background-position: -200% 0',
 	'@media (prefers-reduced-motion: reduce)',
+	'[data-theme=dark]',
 ]
 
 for (const fragment of expectedFragments) {

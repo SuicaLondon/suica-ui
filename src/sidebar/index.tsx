@@ -18,6 +18,16 @@ export interface SidebarProps
 	label: string
 	closeLabel: string
 	backdropClassName?: string
+	mode?: SidebarMode
+}
+
+export type SidebarMode = 'modal' | 'persistent'
+
+const sidebarClassNameByMode: Record<SidebarMode, string> = {
+	modal:
+		'sui:fixed sui:inset-y-0 sui:start-0 sui:z-40 sui:w-[min(18rem,calc(100vw-3rem))] sui:-translate-x-full sui:shadow-[12px_0_32px_rgb(20_24_20_/_10%)] sui:transition-transform sui:data-[state=open]:translate-x-0 sui:rtl:translate-x-full sui:rtl:data-[state=open]:translate-x-0',
+	persistent:
+		'sui:relative sui:h-full sui:w-0 sui:shrink-0 sui:overflow-hidden sui:border-e-0 sui:transition-[width] sui:data-[state=open]:w-72 sui:data-[state=open]:border-e',
 }
 
 const focusableSelector = [
@@ -56,6 +66,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
 		label,
 		closeLabel,
 		backdropClassName,
+		mode = 'modal',
 		className,
 		id = 'suica-sidebar',
 		children,
@@ -64,6 +75,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
 	ref,
 ) {
 	const state = getSidebarState(open)
+	const isModal = mode === 'modal'
 	const sidebarRef = useRef<HTMLElement | null>(null)
 	const onOpenChangeRef = useRef(onOpenChange)
 	onOpenChangeRef.current = onOpenChange
@@ -76,12 +88,15 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
 		}
 	> = {
 		closed: { 'aria-hidden': true, inert: '' },
-		open: { 'aria-hidden': false, 'aria-modal': true },
+		open: {
+			'aria-hidden': false,
+			...(isModal ? { 'aria-modal': true as const } : {}),
+		},
 	}
 	const accessibilityProps = accessibilityPropsByState[state]
 
 	useEffect(() => {
-		if (!open) return
+		if (!open || !isModal) return
 		const currentSidebar = sidebarRef.current
 		if (!currentSidebar) return
 		const sidebar: HTMLElement = currentSidebar
@@ -144,11 +159,11 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
 				previouslyFocusedElement.focus()
 			}
 		}
-	}, [open])
+	}, [isModal, open])
 
 	return (
 		<>
-			{open && (
+			{isModal && open && (
 				<button
 					type="button"
 					tabIndex={-1}
@@ -168,14 +183,16 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
 					setForwardedRef(ref, element)
 				}}
 				id={id}
-				role="dialog"
-				tabIndex={-1}
+				role={isModal ? 'dialog' : undefined}
+				tabIndex={isModal ? -1 : undefined}
 				data-slot="sidebar"
+				data-mode={mode}
 				aria-label={label}
 				data-state={state}
 				{...accessibilityProps}
 				className={cn(
-					'sui:fixed sui:inset-y-0 sui:start-0 sui:z-40 sui:w-[min(18rem,calc(100vw-3rem))] sui:-translate-x-full sui:box-border sui:border-e sui:border-line sui:bg-surface sui:text-foreground sui:shadow-[12px_0_32px_rgb(20_24_20_/_10%)] sui:transition-transform sui:duration-[180ms] sui:ease-[ease-out] sui:data-[state=open]:translate-x-0 sui:motion-reduce:transition-none sui:rtl:translate-x-full sui:rtl:data-[state=open]:translate-x-0 sui:[&_*]:box-border sui:font-[family-name:var(--sui-theme-font-sans)]',
+					'sui:box-border sui:border-line sui:bg-surface sui:text-foreground sui:duration-[180ms] sui:ease-[ease-out] sui:motion-reduce:transition-none sui:[&_*]:box-border sui:font-[family-name:var(--sui-theme-font-sans)]',
+					sidebarClassNameByMode[mode],
 					className,
 				)}
 			>

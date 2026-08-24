@@ -168,4 +168,32 @@ describe('Sidebar', () => {
 		await user.keyboard('{Shift>}{Tab}{/Shift}')
 		expect(last).toHaveFocus()
 	})
+
+	it('supports a persistent dashboard layout without modal side effects', () => {
+		render(
+			<Sidebar
+				open
+				mode="persistent"
+				onOpenChange={() => undefined}
+				label="Dashboard navigation"
+				closeLabel="Close navigation"
+			>
+				<SidebarItems label="Dashboard links" triggerInset={false}>
+					<SidebarItem href="/dashboard">Dashboard</SidebarItem>
+				</SidebarItems>
+			</Sidebar>,
+		)
+
+		const sidebar = screen.getByRole('complementary', {
+			name: 'Dashboard navigation',
+		})
+		expect(sidebar).toHaveAttribute('data-mode', 'persistent')
+		expect(sidebar).not.toHaveAttribute('aria-modal')
+		expect(screen.queryByRole('button', { name: 'Close navigation' })).toBeNull()
+		expect(document.body.style.overflow).toBe('')
+		expect(screen.getByRole('link', { name: 'Dashboard' })).not.toHaveFocus()
+		expect(
+			screen.getByRole('navigation', { name: 'Dashboard links' }),
+		).toHaveClass('sui:pt-4')
+	})
 })

@@ -94,3 +94,23 @@ export const Open: Story = {
 	},
 	render: () => <SidebarExample initiallyOpen />,
 }
+
+export const Persistent: Story = {
+	args: {
+		open: true,
+		mode: 'persistent',
+		onOpenChange: () => {},
+		label: 'Dashboard navigation',
+		closeLabel: 'Close navigation',
+		children: (
+			<SidebarItems label="Dashboard links" triggerInset={false}>
+				<SidebarItem href="#posts" icon={<Icon icon="star-fill" />}>
+					Posts
+				</SidebarItem>
+				<SidebarItem href="#favourites" icon={<Icon icon="heart-fill" />}>
+					Favourites
+				</SidebarItem>
+			</SidebarItems>
+		),
+	},
+}

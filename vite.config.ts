@@ -19,6 +19,9 @@ export default defineConfig({
 				/^clsx$/,
 				/^tailwind-merge$/,
 			],
+			output: {
+				banner: '"use client";',
+			},
 		},
 		sourcemap: true,
 	},

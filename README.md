@@ -6,10 +6,10 @@ Suica's framework-neutral React component library. The package ships React compo
 
 - React 18 or 19
 - React DOM 18 or 19
-- Tailwind CSS 4
+- Tailwind CSS 4 only when using the Tailwind-aware CSS entry
 
-Suica UI is ESM-only. React, React DOM, and Tailwind CSS 4 are peer
-dependencies; its only runtime utilities are `clsx` and `tailwind-merge`. It does
+Suica UI is ESM-only. React and React DOM are peer dependencies; its only runtime
+utilities are `clsx` and `tailwind-merge`. It does
 not depend on Next.js, Radix, CVA, or an icon package.
 
 ## Install
@@ -102,9 +102,12 @@ page boundaries, busy states, the optional page-size selector, and its live
 summary while the consuming application keeps routing, data fetching, and
 trailing business actions.
 
-`Sidebar` is a modal off-canvas navigation dialog. It moves focus inside, traps
-keyboard focus while open, closes on Escape, locks document scrolling, and restores
-the previously focused control when it closes.
+`Sidebar` defaults to a modal off-canvas navigation dialog. It moves focus inside,
+traps keyboard focus while open, closes on Escape, locks document scrolling, and
+restores the previously focused control when it closes. Use `mode="persistent"`
+for a dashboard sidebar that occupies layout width without modal focus or scroll
+side effects; pass `triggerInset={false}` to `SidebarItems` when no fixed trigger
+occupies its top edge.
 
 Suica UI's generated utility classes and theme variables use the `sui:` / `--sui-*` namespace so its stylesheet can coexist with a consumer Tailwind build. Component styling is colocated in React as standard Tailwind utilities composed with `cn`; `src/styles.css` contains only the Tailwind compiler entry and shared theme tokens, not component selectors.
 

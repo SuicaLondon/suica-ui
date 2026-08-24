@@ -10,7 +10,7 @@ export interface SkeletonProps
 
 const skeletonGradientClassNameByTone: Record<SkeletonTone, string> = {
 	white:
-		'sui:bg-[linear-gradient(90deg,color-mix(in_srgb,var(--sui-theme-foreground)_5%,transparent)_20%,color-mix(in_srgb,white_72%,transparent)_50%,color-mix(in_srgb,var(--sui-theme-foreground)_5%,transparent)_80%)] sui:dark:bg-[linear-gradient(90deg,color-mix(in_srgb,var(--sui-theme-foreground)_5%,transparent)_20%,color-mix(in_srgb,white_24%,transparent)_50%,color-mix(in_srgb,var(--sui-theme-foreground)_5%,transparent)_80%)]',
+		'sui:bg-[linear-gradient(90deg,color-mix(in_srgb,var(--sui-theme-foreground)_5%,transparent)_20%,var(--sui-theme-skeleton-highlight)_50%,color-mix(in_srgb,var(--sui-theme-foreground)_5%,transparent)_80%)]',
 	accent:
 		'sui:bg-[linear-gradient(90deg,color-mix(in_srgb,var(--sui-theme-foreground)_5%,transparent)_20%,color-mix(in_srgb,var(--sui-theme-accent)_18%,transparent)_50%,color-mix(in_srgb,var(--sui-theme-foreground)_5%,transparent)_80%)]',
 	success:

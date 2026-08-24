@@ -32,7 +32,7 @@ export const IconCheckbox = forwardRef<HTMLInputElement, IconCheckboxProps>(
 		return (
 			<label
 				className={cn(
-					'sui:text-primary-gray sui:dark:text-white sui:inline-flex sui:items-center sui:gap-2 sui:text-sm',
+					'sui:inline-flex sui:items-center sui:gap-2 sui:text-sm sui:text-foreground',
 					{
 						'sui:cursor-not-allowed sui:opacity-50': disabled,
 						'sui:cursor-pointer': !disabled,
@@ -51,7 +51,7 @@ export const IconCheckbox = forwardRef<HTMLInputElement, IconCheckboxProps>(
 					/>
 					<span
 						className={cn(
-							'sui:peer-focus-visible:outline-primary-gray sui:dark:peer-focus-visible:outline-white sui:inline-flex sui:size-full sui:items-center sui:justify-center sui:rounded-sm sui:transition-transform sui:peer-checked:hidden sui:peer-focus-visible:outline-2 sui:peer-focus-visible:outline-offset-2',
+							'sui:inline-flex sui:size-full sui:items-center sui:justify-center sui:rounded-sm sui:transition-transform sui:peer-checked:hidden sui:peer-focus-visible:outline-2 sui:peer-focus-visible:outline-focus sui:peer-focus-visible:outline-offset-2',
 							iconClassName,
 						)}
 						aria-hidden="true"
@@ -60,7 +60,7 @@ export const IconCheckbox = forwardRef<HTMLInputElement, IconCheckboxProps>(
 					</span>
 					<span
 						className={cn(
-							'sui:peer-focus-visible:outline-primary-gray sui:dark:peer-focus-visible:outline-white sui:hidden sui:size-full sui:items-center sui:justify-center sui:rounded-sm sui:transition-transform sui:peer-checked:inline-flex sui:peer-focus-visible:outline-2 sui:peer-focus-visible:outline-offset-2',
+							'sui:hidden sui:size-full sui:items-center sui:justify-center sui:rounded-sm sui:transition-transform sui:peer-checked:inline-flex sui:peer-focus-visible:outline-2 sui:peer-focus-visible:outline-focus sui:peer-focus-visible:outline-offset-2',
 							iconClassName,
 						)}
 						aria-hidden="true"

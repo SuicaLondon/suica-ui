@@ -5,11 +5,12 @@ export interface SidebarItemsProps
 	extends Omit<ComponentPropsWithoutRef<'nav'>, 'aria-label'> {
 	label: string
 	listClassName?: string
+	triggerInset?: boolean
 }
 
 export const SidebarItems = forwardRef<HTMLElement, SidebarItemsProps>(
 	function SidebarItems(
-		{ label, listClassName, children, className, ...props },
+		{ label, listClassName, triggerInset = true, children, className, ...props },
 		ref,
 	) {
 		return (
@@ -18,7 +19,8 @@ export const SidebarItems = forwardRef<HTMLElement, SidebarItemsProps>(
 				data-slot="sidebar-nav"
 				aria-label={label}
 				className={cn(
-					'sui:h-full sui:box-border sui:overflow-y-auto sui:overscroll-contain sui:bg-transparent sui:px-3 sui:pt-[4.5rem] sui:pb-4',
+					'sui:h-full sui:box-border sui:overflow-y-auto sui:overscroll-contain sui:bg-transparent sui:px-3 sui:pb-4',
+					triggerInset ? 'sui:pt-[4.5rem]' : 'sui:pt-4',
 					className,
 				)}
 				{...props}

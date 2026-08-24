@@ -64,4 +64,21 @@ describe('Suica theme styles', () => {
 			)
 		}
 	})
+
+	it('uses semantic theme tokens instead of ancestor-sensitive dark utilities', async () => {
+		const sourceFiles = await listSourceFiles('src')
+		const productionFiles = sourceFiles.filter(
+			(file) =>
+				/\.tsx?$/.test(file) &&
+				!file.endsWith('.stories.tsx') &&
+				!file.endsWith('.test.ts') &&
+				!file.endsWith('.test.tsx') &&
+				!file.includes(`${path.sep}test${path.sep}`),
+		)
+
+		for (const file of productionFiles) {
+			const source = await readFile(file, 'utf8')
+			expect(source, file).not.toContain('sui:dark:')
+		}
+	})
 })

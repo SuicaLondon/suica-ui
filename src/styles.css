@@ -53,11 +53,7 @@
 @source './textarea/textarea.tsx';
 @source './toggle-button/toggle-button.tsx';
 
-@custom-variant dark (&:where(.dark, .dark *, [data-theme='dark'], [data-theme='dark'] *));
-
 @theme inline {
-	--color-primary-gray: var(--sui-theme-foreground);
-	--color-primary-gray-muted: var(--sui-theme-backdrop);
 	--color-surface: var(--sui-theme-surface);
 	--color-surface-elevated: var(--sui-theme-surface-elevated);
 	--color-foreground: var(--sui-theme-foreground);
@@ -104,6 +100,7 @@
 		--sui-theme-focus: #007a3b;
 		--sui-theme-backdrop: rgb(20 24 20 / 38%);
 		--sui-theme-accent-halo: rgb(0 122 59 / 18%);
+		--sui-theme-skeleton-highlight: rgb(255 255 255 / 72%);
 		--sui-theme-danger: #b42318;
 		--sui-theme-danger-soft: rgb(180 35 24 / 8%);
 		--sui-theme-danger-line: rgb(180 35 24 / 28%);
@@ -133,6 +130,7 @@
 		--sui-theme-focus: #007a3b;
 		--sui-theme-backdrop: rgb(20 24 20 / 38%);
 		--sui-theme-accent-halo: rgb(0 122 59 / 18%);
+		--sui-theme-skeleton-highlight: rgb(255 255 255 / 72%);
 		--sui-theme-danger: #b42318;
 		--sui-theme-danger-soft: rgb(180 35 24 / 8%);
 		--sui-theme-danger-line: rgb(180 35 24 / 28%);
@@ -160,6 +158,7 @@
 		--sui-theme-focus: #18a957;
 		--sui-theme-backdrop: rgb(0 0 0 / 52%);
 		--sui-theme-accent-halo: rgb(24 169 87 / 24%);
+		--sui-theme-skeleton-highlight: rgb(255 255 255 / 24%);
 		--sui-theme-danger: #ff7b72;
 		--sui-theme-danger-soft: rgb(255 123 114 / 12%);
 		--sui-theme-danger-line: rgb(255 123 114 / 34%);
@@ -188,6 +187,7 @@
 			--sui-theme-focus: #18a957;
 			--sui-theme-backdrop: rgb(0 0 0 / 52%);
 			--sui-theme-accent-halo: rgb(24 169 87 / 24%);
+			--sui-theme-skeleton-highlight: rgb(255 255 255 / 24%);
 			--sui-theme-danger: #ff7b72;
 			--sui-theme-danger-soft: rgb(255 123 114 / 12%);
 			--sui-theme-danger-line: rgb(255 123 114 / 34%);
