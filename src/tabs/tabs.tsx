@@ -16,8 +16,10 @@ import type {
 
 type TabState = 'active' | 'inactive'
 
-export interface TabsProps
-	extends Omit<ComponentPropsWithoutRef<'div'>, 'defaultValue' | 'onChange'> {
+export interface TabsProps extends Omit<
+	ComponentPropsWithoutRef<'div'>,
+	'defaultValue' | 'onChange'
+> {
 	tabs: readonly TabItem[]
 	value?: string
 	defaultValue?: string

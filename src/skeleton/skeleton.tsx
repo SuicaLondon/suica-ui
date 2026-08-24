@@ -3,8 +3,10 @@ import { cn } from '../cn.js'
 
 export type SkeletonTone = 'white' | 'accent' | 'success' | 'warning' | 'danger'
 
-export interface SkeletonProps
-	extends Omit<ComponentPropsWithoutRef<'div'>, 'aria-hidden' | 'children'> {
+export interface SkeletonProps extends Omit<
+	ComponentPropsWithoutRef<'div'>,
+	'aria-hidden' | 'children'
+> {
 	tone?: SkeletonTone
 }
 

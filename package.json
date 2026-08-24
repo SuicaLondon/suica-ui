@@ -75,6 +75,7 @@
 		"react-dom": "^18.2.0 || ^19.0.0"
 	},
 	"devDependencies": {
+		"@eslint/js": "9.39.5",
 		"@storybook/addon-docs": "10.5.10",
 		"@storybook/addon-themes": "10.5.10",
 		"@storybook/react-vite": "10.5.10",
@@ -84,16 +85,18 @@
 		"@testing-library/jest-dom": "7.0.1",
 		"@testing-library/react": "16.3.2",
 		"@testing-library/user-event": "14.6.5",
-		"@types/node": "26.2.0",
+		"@typescript/native": "npm:typescript@7.0.2",
+		"@types/node": "22.14.1",
 		"@types/react": "19.2.18",
 		"@types/react-dom": "19.2.4",
 		"@typescript-eslint/eslint-plugin": "8.67.0",
 		"@typescript-eslint/parser": "8.67.0",
-		"eslint": "10.9.0",
+		"eslint": "9.39.5",
 		"eslint-config-prettier": "10.1.8",
 		"eslint-plugin-prettier": "5.5.6",
 		"eslint-plugin-react": "7.37.5",
 		"eslint-plugin-storybook": "10.5.10",
+		"globals": "17.11.0",
 		"husky": "9.1.7",
 		"jsdom": "30.0.1",
 		"lint-staged": "17.3.0",
@@ -104,13 +107,13 @@
 		"react-dom": "19.2.8",
 		"storybook": "10.5.10",
 		"tailwindcss": "4.3.3",
-		"typescript": "7.0.2",
+		"typescript": "npm:@typescript/typescript6@6.0.2",
 		"vite": "8.2.2",
 		"vitest": "4.1.11"
 	},
 	"lint-staged": {
 		"*.{ts,tsx}": [
-			"eslint --fix --max-warnings=0 --ignore-pattern '!.storybook'",
+			"eslint --fix --max-warnings=0",
 			"prettier --write"
 		],
 		"*.{css,json,md}": "prettier --write"

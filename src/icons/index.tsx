@@ -31,8 +31,10 @@ const iconDefinitions = {
 
 export type IconName = keyof typeof iconDefinitions
 
-export interface IconProps
-	extends Omit<ComponentPropsWithoutRef<'svg'>, 'children'> {
+export interface IconProps extends Omit<
+	ComponentPropsWithoutRef<'svg'>,
+	'children'
+> {
 	icon: IconName
 	title?: string
 }

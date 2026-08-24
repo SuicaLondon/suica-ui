@@ -4,11 +4,10 @@ import { SpinnerIcon } from './spinner-icon.js'
 
 export type SpinnerState = 'determinate' | 'indeterminate'
 
-export interface SpinnerProps
-	extends Omit<
-		ComponentPropsWithoutRef<'span'>,
-		'aria-valuemax' | 'aria-valuemin' | 'aria-valuenow' | 'children' | 'role'
-	> {
+export interface SpinnerProps extends Omit<
+	ComponentPropsWithoutRef<'span'>,
+	'aria-valuemax' | 'aria-valuemin' | 'aria-valuenow' | 'children' | 'role'
+> {
 	label: string
 	percentage?: number
 }

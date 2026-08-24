@@ -2,12 +2,7 @@ import { forwardRef, type ComponentPropsWithoutRef } from 'react'
 import { cn } from '../cn.js'
 
 export type BadgeVariant =
-	| 'default'
-	| 'secondary'
-	| 'outline'
-	| 'destructive'
-	| 'success'
-	| 'warning'
+	'default' | 'secondary' | 'outline' | 'destructive' | 'success' | 'warning'
 export type BadgeSize = 'sm' | 'md'
 
 const badgeVariantClassName: Record<BadgeVariant, string> = {

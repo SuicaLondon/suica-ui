@@ -5,8 +5,10 @@ import {
 } from 'react'
 import { cn } from '../cn.js'
 
-export interface SectionHeadingProps
-	extends Omit<ComponentPropsWithoutRef<'div'>, 'children' | 'title'> {
+export interface SectionHeadingProps extends Omit<
+	ComponentPropsWithoutRef<'div'>,
+	'children' | 'title'
+> {
 	title: ReactNode
 	titleId: string
 	eyebrow: ReactNode

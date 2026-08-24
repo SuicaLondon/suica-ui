@@ -9,6 +9,18 @@ updates:
    groups:
     development-dependencies:
      dependency-type: development
+   ignore:
+    # eslint-plugin-react does not support ESLint 10 yet.
+    - dependency-name: eslint
+      versions:
+       - '>=10'
+    - dependency-name: '@eslint/js'
+      versions:
+       - '>=10'
+    # Keep Node types aligned with the Node 22 CI and release runtime.
+    - dependency-name: '@types/node'
+      versions:
+       - '>=23'
 
  - package-ecosystem: github-actions
    directory: /
