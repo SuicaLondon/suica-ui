@@ -1,27 +1,40 @@
-import clsx from 'clsx'
-import React, { memo, ReactNode } from 'react'
-import { twMerge } from 'tailwind-merge'
+import { forwardRef, type ComponentPropsWithoutRef } from 'react'
+import { cn } from '../../cn.js'
 
-export type SidebarItemsProps = {
-	withSidebarButton?: boolean
-	className: string
-	children: ReactNode
+export interface SidebarItemsProps
+	extends Omit<ComponentPropsWithoutRef<'nav'>, 'aria-label'> {
+	label: string
+	listClassName?: string
+	triggerInset?: boolean
 }
 
-export const SidebarItems = memo(function SidebarItems({
-	withSidebarButton,
-	children,
-	className,
-}: SidebarItemsProps) {
-	return (
-		<div
-			className={twMerge(
-				'h-full overflow-y-auto bg-gray-50 px-3 py-4 dark:bg-primary-gray',
-				clsx({ 'pt-16': withSidebarButton }),
-				className,
-			)}
-		>
-			<ul className="space-y-2 font-medium">{children}</ul>
-		</div>
-	)
-})
+export const SidebarItems = forwardRef<HTMLElement, SidebarItemsProps>(
+	function SidebarItems(
+		{ label, listClassName, triggerInset = true, children, className, ...props },
+		ref,
+	) {
+		return (
+			<nav
+				ref={ref}
+				data-slot="sidebar-nav"
+				aria-label={label}
+				className={cn(
+					'sui:h-full sui:box-border sui:overflow-y-auto sui:overscroll-contain sui:bg-transparent sui:px-3 sui:pb-4',
+					triggerInset ? 'sui:pt-[4.5rem]' : 'sui:pt-4',
+					className,
+				)}
+				{...props}
+			>
+				<ul
+					data-slot="sidebar-list"
+					className={cn(
+						'sui:m-0 sui:grid sui:box-border sui:list-none sui:gap-1 sui:p-0',
+						listClassName,
+					)}
+				>
+					{children}
+				</ul>
+			</nav>
+		)
+	},
+)

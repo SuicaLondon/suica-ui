@@ -1,42 +1,74 @@
-import { lazy as _lazy, HTMLAttributes, Suspense, useMemo } from 'react'
-import { twMerge } from 'tailwind-merge'
+import { forwardRef, useId, type ComponentPropsWithoutRef } from 'react'
+import { cn } from '../cn.js'
 
-function lazy(importFn: Function) {
-	return _lazy(async () => {
-		const icon = await importFn()
-		if (icon?.ReactComponent) {
-			return { default: icon.ReactComponent }
-		}
-
-		return icon
-	})
-}
-
-const icons = {
-	star: lazy(async () => import('./assets/icons/star.svg')),
-	'star-fill': lazy(async () => import('./assets/icons/star.fill.svg')),
-	heart: lazy(async () => import('./assets/icons/heart.svg')),
-	'heart-fill': lazy(async () => import('./assets/icons/heart.fill.svg')),
+const iconDefinitions = {
+	warning: {
+		viewBox: '0 0 20 20',
+		path:
+			'M10 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm0 1.5a7 7 0 1 1 0 14 7 7 0 0 1 0-14Zm-.75 3.25a.75.75 0 0 1 1.5 0v4.25a.75.75 0 0 1-1.5 0V6.25ZM10 14.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z',
+	},
+	heart: {
+		viewBox: '-2 -2 22 22',
+		path:
+			'M0 6.25781C0 10.2305 3.23438 14.1211 8.49609 17.4492C8.70703 17.5898 9.02344 17.7305 9.22266 17.7305C9.43359 17.7305 9.73828 17.5898 9.94922 17.4492C15.2109 14.1211 18.4453 10.2305 18.4453 6.25781C18.4453 2.95312 16.1719 0.609375 13.1484 0.609375C11.4141 0.609375 10.0781 1.39453 9.22266 2.58984C8.37891 1.40625 7.03125 0.609375 5.29688 0.609375C2.27344 0.609375 0 2.95312 0 6.25781ZM1.6875 6.25781C1.6875 3.87891 3.22266 2.29688 5.28516 2.29688C7.01953 2.29688 7.95703 3.38672 8.53125 4.21875C8.8125 4.62891 8.98828 4.74609 9.22266 4.74609C9.46875 4.74609 9.60938 4.61719 9.91406 4.21875C10.5352 3.41016 11.4375 2.29688 13.1719 2.29688C15.2344 2.29688 16.7578 3.87891 16.7578 6.25781C16.7578 9.65625 13.1367 13.3711 9.43359 15.832C9.32812 15.9023 9.25781 15.9492 9.22266 15.9492C9.1875 15.9492 9.11719 15.9023 9.02344 15.832C5.30859 13.3711 1.6875 9.65625 1.6875 6.25781Z',
+	},
+	'heart-fill': {
+		viewBox: '-2 -2 22 22',
+		path:
+			'M9.22266 17.7305C9.43359 17.7305 9.73828 17.5898 9.94922 17.4492C15.2109 14.1211 18.4453 10.2305 18.4453 6.25781C18.4453 2.95312 16.1719 0.609375 13.2539 0.609375C11.4141 0.609375 10.0781 1.61719 9.22266 3.14062C8.37891 1.62891 7.03125 0.609375 5.19141 0.609375C2.27344 0.609375 0 2.95312 0 6.25781C0 10.2305 3.23438 14.1211 8.49609 17.4492C8.70703 17.5898 9.02344 17.7305 9.22266 17.7305Z',
+	},
+	star: {
+		viewBox: '-1 -1 22 22',
+		path:
+			'M3.94947 19.5352C4.38307 19.8633 4.91041 19.7344 5.54322 19.2773L10.3128 15.7734L15.094 19.2773C15.7151 19.7344 16.2424 19.8633 16.676 19.5352C17.0979 19.2188 17.1799 18.6797 16.9221 17.9531L15.0354 12.3398L19.8518 8.88281C20.4846 8.44922 20.7542 7.96875 20.5784 7.45312C20.4143 6.96094 19.9221 6.71484 19.1487 6.72656L13.2424 6.77344L11.4495 1.125C11.2151 0.386719 10.8518 0 10.3128 0C9.78541 0 9.42213 0.386719 9.17604 1.125L7.38307 6.77344L1.47682 6.72656C0.703379 6.71484 0.22291 6.96094 0.0471292 7.45312C-0.116933 7.96875 0.152598 8.44922 0.773692 8.88281L5.5901 12.3398L3.70338 17.9531C3.44557 18.6797 3.5276 19.2188 3.94947 19.5352ZM5.48463 17.4375C5.47291 17.4141 5.47291 17.4023 5.48463 17.3555L7.2776 12.293C7.4065 11.9062 7.33619 11.6016 6.98463 11.3555L2.55494 8.33203C2.51979 8.29688 2.50807 8.28516 2.51979 8.26172C2.5315 8.23828 2.54322 8.23828 2.5901 8.23828L7.95729 8.35547C8.36744 8.36719 8.62525 8.20312 8.75416 7.79297L10.2659 2.64844C10.2776 2.60156 10.2893 2.58984 10.3128 2.58984C10.3362 2.58984 10.3479 2.60156 10.3596 2.64844L11.8713 7.79297C12.0003 8.20312 12.2698 8.36719 12.6799 8.35547L18.0354 8.23828C18.0823 8.23828 18.094 8.23828 18.1057 8.26172C18.1174 8.28516 18.1057 8.29688 18.0706 8.33203L13.6409 11.3555C13.2893 11.6016 13.219 11.9062 13.3596 12.293L15.1409 17.3555C15.1526 17.4023 15.1526 17.4141 15.1409 17.4375C15.1292 17.4609 15.1057 17.4375 15.0706 17.4141L10.8167 14.1445C10.5003 13.8867 10.137 13.8867 9.80885 14.1445L5.56666 17.4141C5.5315 17.4375 5.50807 17.4609 5.48463 17.4375Z',
+	},
+	'star-fill': {
+		viewBox: '-1 -1 22 22',
+		path:
+			'M3.94947 19.5352C4.38307 19.8633 4.91041 19.7344 5.54322 19.2773L10.3128 15.7734L15.094 19.2773C15.7151 19.7344 16.2424 19.8633 16.676 19.5352C17.0979 19.2188 17.1799 18.6797 16.9221 17.9531L15.0354 12.3398L19.8518 8.88281C20.4846 8.44922 20.7542 7.96875 20.5784 7.45312C20.4143 6.96094 19.9221 6.71484 19.1487 6.72656L13.2424 6.77344L11.4495 1.125C11.2151 0.386719 10.8518 0 10.3128 0C9.78541 0 9.42213 0.386719 9.17604 1.125L7.38307 6.77344L1.47682 6.72656C0.703379 6.71484 0.22291 6.96094 0.0471292 7.45312C-0.116933 7.96875 0.152598 8.44922 0.773692 8.88281L5.5901 12.3398L3.70338 17.9531C3.44557 18.6797 3.5276 19.2188 3.94947 19.5352Z',
+	},
 } as const
 
-export type IconProps = HTMLAttributes<HTMLDivElement> & {
-	icon: keyof typeof icons
-	className?: string
+export type IconName = keyof typeof iconDefinitions
+
+export interface IconProps
+	extends Omit<ComponentPropsWithoutRef<'svg'>, 'children'> {
+	icon: IconName
+	title?: string
 }
 
-export function Icon({ icon, className }: IconProps) {
-	const Svg = useMemo(() => icons[icon], [icon])
-
-	if (!Svg) return null
+export const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon(
+	{
+		icon,
+		title,
+		className,
+		role,
+		'aria-label': ariaLabel,
+		'aria-labelledby': ariaLabelledBy,
+		...props
+	},
+	ref,
+) {
+	const titleId = useId()
+	const definition = iconDefinitions[icon]
+	const isLabelled = Boolean(title || ariaLabel || ariaLabelledBy)
 
 	return (
-		<Suspense fallback={null}>
-			<Svg
-				className={twMerge(
-					'fill-primary-dark flex-center h-6 w-6 object-contain dark:fill-primary-gray',
-					className,
-				)}
-			/>
-		</Suspense>
+		<svg
+			ref={ref}
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox={definition.viewBox}
+			fill="currentColor"
+			className={cn('sui:size-5 sui:shrink-0', className)}
+			role={role ?? (isLabelled ? 'img' : undefined)}
+			aria-label={ariaLabel}
+			aria-labelledby={title ? titleId : ariaLabelledBy}
+			aria-hidden={isLabelled ? undefined : true}
+			focusable="false"
+			{...props}
+		>
+			{title ? <title id={titleId}>{title}</title> : null}
+			<path d={definition.path} />
+		</svg>
 	)
-}
+})

@@ -1,0 +1,203 @@
+@layer theme, utilities;
+
+@import 'tailwindcss/theme.css' layer(theme) prefix(sui);
+@import 'tailwindcss/utilities.css' layer(utilities) prefix(sui) source(none);
+
+@source './alert/alert.tsx';
+@source './badge/badge.tsx';
+@source './button/button.tsx';
+@source './card/card.tsx';
+@source './card/card-content.tsx';
+@source './card/card-description.tsx';
+@source './card/card-footer.tsx';
+@source './card/card-header.tsx';
+@source './card/card-title.tsx';
+@source './checkbox/checkbox.tsx';
+@source './checkbox/checkbox-indicator-icon.tsx';
+@source './field/field.tsx';
+@source './icon-checkbox/heart-checkbox/index.tsx';
+@source './icon-checkbox/icon-checkbox.tsx';
+@source './icon-checkbox/star-checkbox/index.tsx';
+@source './icons/index.tsx';
+@source './input/input.tsx';
+@source './input-group/input-group.tsx';
+@source './input-group/input-group-addon.tsx';
+@source './input-group/search-icon.tsx';
+@source './label/label.tsx';
+@source './loading-indicator/loading-indicator.tsx';
+@source './loading-indicator/loading-indicator-icon.tsx';
+@source './select/select.tsx';
+@source './nested-scroll-view/nested-scroll-view.tsx';
+@source './overlay/overlay.tsx';
+@source './section-heading/section-heading.tsx';
+@source './sidebar/index.tsx';
+@source './sidebar/sidebar-button/index.tsx';
+@source './sidebar/sidebar-button/sidebar-trigger-icon.tsx';
+@source './sidebar/sidebar-item/index.tsx';
+@source './sidebar/sidebar-items/index.tsx';
+@source './slider-checkbox/slider-checkbox.tsx';
+@source './skeleton/skeleton.tsx';
+@source './spinner/spinner.tsx';
+@source './spinner/spinner-icon.tsx';
+@source './table/table.tsx';
+@source './table/table-body.tsx';
+@source './table/table-caption.tsx';
+@source './table/table-cell.tsx';
+@source './table/table-container.tsx';
+@source './table/table-control.tsx';
+@source './table/table-footer.tsx';
+@source './table/table-head.tsx';
+@source './table/table-header.tsx';
+@source './table/table-row.tsx';
+@source './tabs/tabs.tsx';
+@source './textarea/textarea.tsx';
+@source './toggle-button/toggle-button.tsx';
+
+@theme inline {
+	--color-surface: var(--sui-theme-surface);
+	--color-surface-elevated: var(--sui-theme-surface-elevated);
+	--color-foreground: var(--sui-theme-foreground);
+	--color-muted: var(--sui-theme-muted);
+	--color-accent: var(--sui-theme-accent);
+	--color-line: var(--sui-theme-line);
+	--color-line-strong: var(--sui-theme-line-strong);
+	--color-control-line: var(--sui-theme-control-line);
+	--color-hover: var(--sui-theme-hover);
+	--color-focus: var(--sui-theme-focus);
+	--color-danger: var(--sui-theme-danger);
+	--color-danger-soft: var(--sui-theme-danger-soft);
+	--color-danger-line: var(--sui-theme-danger-line);
+	--color-warning: var(--sui-theme-warning);
+	--color-warning-soft: var(--sui-theme-warning-soft);
+	--color-warning-line: var(--sui-theme-warning-line);
+	--color-success: var(--sui-theme-success);
+	--color-success-soft: var(--sui-theme-success-soft);
+	--color-success-line: var(--sui-theme-success-line);
+	--radius-control: 6px;
+	--radius-panel: 12px;
+	--animate-skeleton-shimmer: sui-skeleton-shimmer 1.4s linear infinite;
+}
+
+@keyframes sui-skeleton-shimmer {
+	to {
+		background-position: -200% 0;
+	}
+}
+
+@layer theme {
+	:root,
+	:host {
+		--sui-theme-surface: #f3f4ef;
+		--sui-theme-surface-elevated: #fbfcf8;
+		--sui-theme-foreground: #141814;
+		--sui-theme-muted: #667068;
+		--sui-theme-accent: #007a3b;
+		--sui-theme-line: rgb(20 24 20 / 18%);
+		--sui-theme-line-strong: rgb(20 24 20 / 28%);
+		--sui-theme-control-line: rgb(20 24 20 / 18%);
+		--sui-theme-hover: rgb(0 122 59 / 3.5%);
+		--sui-theme-icon: #101310;
+		--sui-theme-focus: #007a3b;
+		--sui-theme-backdrop: rgb(20 24 20 / 38%);
+		--sui-theme-accent-halo: rgb(0 122 59 / 18%);
+		--sui-theme-skeleton-highlight: rgb(255 255 255 / 72%);
+		--sui-theme-danger: #b42318;
+		--sui-theme-danger-soft: rgb(180 35 24 / 8%);
+		--sui-theme-danger-line: rgb(180 35 24 / 28%);
+		--sui-theme-warning: #8a5a00;
+		--sui-theme-warning-soft: rgb(138 90 0 / 10%);
+		--sui-theme-warning-line: rgb(138 90 0 / 30%);
+		--sui-theme-success: #007a3b;
+		--sui-theme-success-soft: rgb(0 122 59 / 8%);
+		--sui-theme-success-line: rgb(0 122 59 / 26%);
+		--sui-theme-font-sans: Geist, Inter, ui-sans-serif, system-ui, sans-serif;
+		--sui-theme-font-mono: 'Geist Mono', 'SFMono-Regular', Consolas, monospace;
+		--sui-theme-color-scheme: light;
+	}
+
+	.light,
+	[data-theme='light'] {
+		--sui-theme-surface: #f3f4ef;
+		--sui-theme-surface-elevated: #fbfcf8;
+		--sui-theme-foreground: #141814;
+		--sui-theme-muted: #667068;
+		--sui-theme-accent: #007a3b;
+		--sui-theme-line: rgb(20 24 20 / 18%);
+		--sui-theme-line-strong: rgb(20 24 20 / 28%);
+		--sui-theme-control-line: rgb(20 24 20 / 18%);
+		--sui-theme-hover: rgb(0 122 59 / 3.5%);
+		--sui-theme-icon: #101310;
+		--sui-theme-focus: #007a3b;
+		--sui-theme-backdrop: rgb(20 24 20 / 38%);
+		--sui-theme-accent-halo: rgb(0 122 59 / 18%);
+		--sui-theme-skeleton-highlight: rgb(255 255 255 / 72%);
+		--sui-theme-danger: #b42318;
+		--sui-theme-danger-soft: rgb(180 35 24 / 8%);
+		--sui-theme-danger-line: rgb(180 35 24 / 28%);
+		--sui-theme-warning: #8a5a00;
+		--sui-theme-warning-soft: rgb(138 90 0 / 10%);
+		--sui-theme-warning-line: rgb(138 90 0 / 30%);
+		--sui-theme-success: #007a3b;
+		--sui-theme-success-soft: rgb(0 122 59 / 8%);
+		--sui-theme-success-line: rgb(0 122 59 / 26%);
+		--sui-theme-color-scheme: light;
+	}
+
+	.dark,
+	[data-theme='dark'] {
+		--sui-theme-surface: #090c0a;
+		--sui-theme-surface-elevated: #111612;
+		--sui-theme-foreground: #f2f4f0;
+		--sui-theme-muted: #858d86;
+		--sui-theme-accent: #18a957;
+		--sui-theme-line: rgb(242 244 240 / 20%);
+		--sui-theme-line-strong: rgb(242 244 240 / 30%);
+		--sui-theme-control-line: rgb(242 244 240 / 20%);
+		--sui-theme-hover: rgb(24 169 87 / 5.5%);
+		--sui-theme-icon: #f2f4f0;
+		--sui-theme-focus: #18a957;
+		--sui-theme-backdrop: rgb(0 0 0 / 52%);
+		--sui-theme-accent-halo: rgb(24 169 87 / 24%);
+		--sui-theme-skeleton-highlight: rgb(255 255 255 / 24%);
+		--sui-theme-danger: #ff7b72;
+		--sui-theme-danger-soft: rgb(255 123 114 / 12%);
+		--sui-theme-danger-line: rgb(255 123 114 / 34%);
+		--sui-theme-warning: #f0b429;
+		--sui-theme-warning-soft: rgb(240 180 41 / 12%);
+		--sui-theme-warning-line: rgb(240 180 41 / 34%);
+		--sui-theme-success: #39c773;
+		--sui-theme-success-soft: rgb(57 199 115 / 12%);
+		--sui-theme-success-line: rgb(57 199 115 / 32%);
+		--sui-theme-color-scheme: dark;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		:root:not(.light, .dark, [data-theme]),
+		:host:not(.light, .dark, [data-theme]) {
+			--sui-theme-surface: #090c0a;
+			--sui-theme-surface-elevated: #111612;
+			--sui-theme-foreground: #f2f4f0;
+			--sui-theme-muted: #858d86;
+			--sui-theme-accent: #18a957;
+			--sui-theme-line: rgb(242 244 240 / 20%);
+			--sui-theme-line-strong: rgb(242 244 240 / 30%);
+			--sui-theme-control-line: rgb(242 244 240 / 20%);
+			--sui-theme-hover: rgb(24 169 87 / 5.5%);
+			--sui-theme-icon: #f2f4f0;
+			--sui-theme-focus: #18a957;
+			--sui-theme-backdrop: rgb(0 0 0 / 52%);
+			--sui-theme-accent-halo: rgb(24 169 87 / 24%);
+			--sui-theme-skeleton-highlight: rgb(255 255 255 / 24%);
+			--sui-theme-danger: #ff7b72;
+			--sui-theme-danger-soft: rgb(255 123 114 / 12%);
+			--sui-theme-danger-line: rgb(255 123 114 / 34%);
+			--sui-theme-warning: #f0b429;
+			--sui-theme-warning-soft: rgb(240 180 41 / 12%);
+			--sui-theme-warning-line: rgb(240 180 41 / 34%);
+			--sui-theme-success: #39c773;
+			--sui-theme-success-soft: rgb(57 199 115 / 12%);
+			--sui-theme-success-line: rgb(57 199 115 / 32%);
+			--sui-theme-color-scheme: dark;
+		}
+	}
+}

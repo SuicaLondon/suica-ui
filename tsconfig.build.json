@@ -1,10 +1,20 @@
 {
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "lib",
-    "noEmit": false,
-    "declaration": true,
-    "emitDeclarationOnly": true
-  },
-  "exclude": ["node_modules", "src/**/*.stories.tsx", "src/**/*.test.tsx"]
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"declaration": true,
+		"declarationMap": false,
+		"emitDeclarationOnly": true,
+		"noEmit": false,
+		"outDir": "dist",
+		"rootDir": "src",
+		"stripInternal": true
+	},
+	"include": ["src"],
+	"exclude": [
+		"src/vite-entry.ts",
+		"src/**/*.stories.tsx",
+		"src/**/*.test.ts",
+		"src/**/*.test.tsx",
+		"src/test"
+	]
 }

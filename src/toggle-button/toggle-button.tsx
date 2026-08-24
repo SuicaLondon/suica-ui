@@ -1,44 +1,44 @@
-import clsx from 'clsx'
-import { HTMLAttributes, memo } from 'react'
-import { CheckboxFakeLabel } from '..'
+import {
+	forwardRef,
+	type ComponentPropsWithoutRef,
+	type ReactNode,
+} from 'react'
+import { cn } from '../cn.js'
 
-export interface IToggleButtonProps extends HTMLAttributes<HTMLInputElement> {
-	label?: string
-	checked: boolean
-	onChecked: (checked: boolean) => void
+export interface SwitchProps
+	extends Omit<ComponentPropsWithoutRef<'input'>, 'className' | 'type'> {
+	label?: ReactNode
+	className?: string
 }
 
-export const ToggleButton = memo(function ToggleButton({
-	label,
-	checked,
-	onChecked,
-}: IToggleButtonProps) {
+export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
+	{ label, className, disabled, ...inputProps },
+	ref,
+) {
 	return (
-		<label className="peer flex cursor-pointer items-center">
-			<CheckboxFakeLabel label={label} />
+		<label
+			className={cn(
+				'sui:inline-flex sui:items-center sui:gap-2 sui:text-sm sui:text-foreground',
+				{
+					'sui:cursor-not-allowed sui:opacity-50': disabled,
+					'sui:cursor-pointer': !disabled,
+				},
+				className,
+			)}
+		>
+			{label}
 			<input
+				ref={ref}
 				type="checkbox"
-				checked={checked}
-				onChange={() => onChecked(!checked)}
-				className={clsx('peer sr-only')}
+				role="switch"
+				className="sui:peer sui:sr-only"
+				disabled={disabled}
+				{...inputProps}
 			/>
-			<div
-				className={clsx(
-					'relative flex h-6 w-14 items-center rounded-full bg-gray-200',
-					'after:h-5 after:w-5 after:rounded-full after:border',
-					'after:absolute after:start-[2px] after:top-[2px] after:content-[""]',
-					'after:border-gray-300 after:bg-primary-gray after:transition-all',
-					'peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300',
-					'peer-checked:after:translate-x-8', // Should be width - height
-					'peer-checked:bg-primary-gray peer-checked:after:border-white peer-checked:after:bg-white',
-					{
-						'justify-start text-white': checked,
-						'justify-end text-primary-gray': !checked,
-					},
-				)}
-			>
-				<p className="px-2 text-sm">{checked ? 'On' : 'Off'}</p>
-			</div>
+			<span
+				className="sui:relative sui:h-6 sui:w-11 sui:shrink-0 sui:rounded-full sui:bg-line-strong sui:transition-colors sui:peer-checked:bg-accent sui:peer-focus-visible:outline-2 sui:peer-focus-visible:outline-focus sui:peer-focus-visible:outline-offset-2 sui:after:absolute sui:after:start-0.5 sui:after:top-0.5 sui:after:size-5 sui:after:rounded-full sui:after:bg-surface-elevated sui:after:shadow-sm sui:after:transition-transform sui:after:content-[''] sui:peer-checked:after:translate-x-5"
+				aria-hidden="true"
+			/>
 		</label>
 	)
 })
