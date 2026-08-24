@@ -1,61 +1,58 @@
-import clsx from 'clsx'
-import { memo } from 'react'
-import { twMerge } from 'tailwind-merge'
+import { forwardRef, type ComponentPropsWithoutRef } from 'react'
+import { cn } from '../../cn.js'
+import { getSidebarState } from '../sidebar-state.js'
+import { SidebarTriggerIcon } from './sidebar-trigger-icon.js'
 
-export type SidebarButtonProps = {
-	isHovered?: boolean
-	isOpened: boolean
-	setIsOpened: (toOpened: boolean) => void
-	className?: string
+export interface SidebarTriggerProps
+	extends Omit<
+		ComponentPropsWithoutRef<'button'>,
+		'aria-controls' | 'aria-expanded' | 'aria-label' | 'onClick' | 'type'
+	> {
+	open: boolean
+	onOpenChange: (open: boolean) => void
+	label: string
+	controls?: string
+	fixed?: boolean
 }
 
-export const SidebarButton = memo(function SidebarButton({
-	isHovered = true,
-	isOpened,
-	setIsOpened,
-	className,
-}: SidebarButtonProps) {
+export const SidebarTrigger = forwardRef<
+	HTMLButtonElement,
+	SidebarTriggerProps
+>(function SidebarTrigger(
+	{
+		open,
+		onOpenChange,
+		label,
+		controls = 'suica-sidebar',
+		fixed = false,
+		className,
+		...props
+	},
+	ref,
+) {
+	const state = getSidebarState(open)
+
 	return (
 		<button
-			aria-controls="default-sidebar"
+			{...props}
+			ref={ref}
 			type="button"
-			className={twMerge(
-				clsx(
-					'h-6 w-6 translate-x-0 cursor-pointer',
-					'flex flex-col items-center justify-center',
-					{ 'phone:left-2 phone:top-2 fixed left-4 top-4 z-999': isHovered },
-				),
+			aria-label={label}
+			aria-controls={controls}
+			aria-expanded={open}
+			data-slot="sidebar-trigger"
+			data-state={state}
+			className={cn(
+				'sui:z-50 sui:m-0 sui:inline-grid sui:size-11 sui:box-border sui:cursor-pointer sui:touch-manipulation sui:appearance-none sui:place-items-center sui:rounded-control sui:border sui:border-line-strong sui:bg-surface sui:p-0 sui:text-[var(--sui-theme-icon)] sui:transition-[border-color,background-color,color] sui:duration-150 sui:ease-[ease] sui:hover:border-accent sui:hover:bg-hover sui:hover:text-accent sui:focus-visible:outline-2 sui:focus-visible:outline-focus sui:focus-visible:outline-offset-2 sui:motion-reduce:transition-none sui:[font:inherit]',
+				{
+					'sui:fixed sui:start-4 sui:top-4': fixed,
+					'sui:relative': !fixed,
+				},
 				className,
 			)}
-			onClick={() => setIsOpened && setIsOpened(!isOpened)}
+			onClick={() => onOpenChange(!open)}
 		>
-			<span className="sr-only">Open sidebar</span>
-			<span
-				className={twMerge(
-					'block h-[2px] w-6 origin-center rounded bg-primary-gray transition-all',
-					clsx({
-						'-mb-[1px] w-[calc(16px_/_sin(45deg))] rotate-45 bg-primary-gray':
-							isOpened,
-					}),
-				)}
-			></span>
-			<span
-				className={twMerge(
-					'my-2 block h-[2px] w-6 origin-center rounded bg-primary-gray transition-all',
-					clsx({
-						'my-0 hidden w-[calc(16px_/_sin(45deg))] bg-primary-gray': isOpened,
-					}),
-				)}
-			></span>
-			<span
-				className={twMerge(
-					'block h-[2px] w-6 origin-center rounded bg-primary-gray transition-all',
-					clsx({
-						'-mt-[1px] w-[calc(16px_/_sin(45deg))] -rotate-45 bg-primary-gray':
-							isOpened,
-					}),
-				)}
-			></span>
+			<SidebarTriggerIcon state={state} />
 		</button>
 	)
 })

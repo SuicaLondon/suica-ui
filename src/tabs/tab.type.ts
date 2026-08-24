@@ -1,14 +1,14 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
-export interface TabProps {
+export type TabsOrientation = 'horizontal' | 'vertical'
+export type TabsActivationMode = 'automatic' | 'manual'
+export type TabsVariant = 'underline' | 'segmented'
+
+export interface TabItem {
 	id: string
 	label: ReactNode
+	panel?: ReactNode
+	disabled?: boolean
 	className?: string
+	panelClassName?: string
 }
-
-export const AlignDirection = {
-	vertical: 'vertical',
-	horizontal: 'horizontal',
-} as const
-export type AlignDirectionKey =
-	(typeof AlignDirection)[keyof typeof AlignDirection]

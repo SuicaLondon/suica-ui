@@ -1,1 +1,1 @@
-export * from './nested-scroll-view'
+export * from './nested-scroll-view.js'

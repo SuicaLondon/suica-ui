@@ -1,47 +1,34 @@
-import { useArgs } from '@storybook/preview-api'
-import type { Meta, StoryObj } from '@storybook/react'
-import { ToggleButton } from './toggle-button'
+import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect, fn, userEvent, within } from 'storybook/test'
+import { Switch } from './toggle-button'
 
 const meta = {
-	title: 'Example/ToggleButton',
-	component: ToggleButton,
+	title: 'Components/Switch',
+	component: Switch,
 	tags: ['autodocs'],
-	parameters: {
-		layout: 'fullscreen',
+	parameters: { layout: 'centered' },
+	args: {
+		label: 'Dark mode',
+		onChange: fn(),
 	},
-	argTypes: {
-		label: {
-			control: 'text',
-			description: 'The label of the toggle button.',
-		},
-		checked: {
-			control: 'boolean',
-			description: 'Determines if the toggle button is checked or not',
-			argTypesRegex: '.*ed$',
-		},
-		onChecked: {
-			action: 'clicked',
-			description: 'The callback function when the user click the toggle button',
-			argTypesRegex: '^on.*',
-		},
-	},
-} satisfies Meta<typeof ToggleButton>
+} satisfies Meta<typeof Switch>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Check: Story = {
-	args: {
-		checked: false,
-	},
-	render: function Render(args) {
-		const [{ checked }, updateArgs] = useArgs()
+export const Default: Story = {
+	args: { defaultChecked: false },
+	play: async ({ args, canvasElement }) => {
+		const control = within(canvasElement).getByRole('switch', {
+			name: 'Dark mode',
+		})
 
-		const onChecked = (newChecked: boolean) => {
-			updateArgs({ checked: newChecked })
-			args.onChecked(newChecked)
-		}
-
-		return <ToggleButton {...args} checked={checked} onChecked={onChecked} />
+		await userEvent.click(control)
+		await expect(control).toBeChecked()
+		await expect(args.onChange).toHaveBeenCalledOnce()
 	},
+}
+
+export const Disabled: Story = {
+	args: { checked: true, disabled: true },
 }

@@ -1,46 +1,140 @@
-# Getting Started with Create React App
+# Suica UI
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Suica's framework-neutral React component library. The package ships React components and precompiled Tailwind CSS, so consumers do not need to scan package source files.
 
-## Available Scripts
+## Requirements
 
-In the project directory, you can run:
+- React 18 or 19
+- React DOM 18 or 19
+- Tailwind CSS 4
 
-### `npm start`
+Suica UI is ESM-only. React, React DOM, and Tailwind CSS 4 are peer
+dependencies; its only runtime utilities are `clsx` and `tailwind-merge`. It does
+not depend on Next.js, Radix, CVA, or an icon package.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Install
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```sh
+pnpm add suica-ui
+```
 
-### `npm test`
+Import the package CSS once near the root of the application:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```tsx
+import 'suica-ui/styles.css'
+```
 
-### `npm run build`
+The precompiled entry is enough when the application uses component variants,
+sizes, inline styles, or its own CSS class names. To override component utilities
+with Tailwind classes through `className`, import the Tailwind-aware entry instead:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```css
+@import 'suica-ui/tailwind.css';
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Use one CSS entry, not both. The Tailwind-aware entry includes the precompiled
+component stylesheet and generates any `sui:` utilities found in the consuming
+application, so `cn` / `twMerge` overrides such as `sui:size-13` remain present in
+the final CSS.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Then import components from the package root:
 
-### `npm run eject`
+```tsx
+import { Button, Field, Input, Switch, Tabs } from 'suica-ui'
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+const tabs = [
+	{ id: 'profile', label: 'Profile', panel: <p>Profile settings</p> },
+	{ id: 'security', label: 'Security', panel: <p>Security settings</p> },
+]
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+export function Preferences() {
+	return (
+		<>
+			<Field label="Display name" description="Shown on your public profile.">
+				<Input name="displayName" />
+			</Field>
+			<Switch label="Dark mode" />
+			<Tabs aria-label="Settings" tabs={tabs} />
+			<Button>Save changes</Button>
+		</>
+	)
+}
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Components
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- Forms: `Input`, `Textarea`, `Select`, `Label`, `Checkbox`, `Field`,
+  `InputGroup`, and `InputGroupAddon`
+- Actions and status: `Button`, `Switch`, `Badge`, `Alert`, `LoadingIndicator`,
+  `Spinner`, and `Overlay`
+- Structure and data: `Card`, `Table` primitives, `SectionHeading`, `Skeleton`,
+  and `NestedScrollView`
+- Navigation: `Tabs`, `Sidebar`, `SidebarTrigger`, `SidebarItems`, and
+  `SidebarItem`
+- Specialized controls: `DiscreteSlider`, `Icon`, `IconCheckbox`,
+  `HeartCheckbox`, and `StarCheckbox`
 
-## Learn More
+Every interactive component builds on native DOM controls, forwards its ref, and accepts the corresponding native props unless its public API replaces them explicitly.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+`Field` accepts one native-style control as its child. It generates stable ids and
+wires the label, optional description, optional error, `aria-describedby`, and
+`aria-invalid` without depending on a form library. Bespoke editor layouts can
+compose `Label` with the primitive controls directly, so React Hook Form or another
+validator stays in the consuming application.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+`Overlay` is only the visual layer; `LoadingIndicator` owns the progress status,
+animated indicator, and visible label. Compose them when an existing surface must
+remain visible while it refreshes.
+
+`Spinner` is a compact circular progressbar. Omit `percentage` for indeterminate
+progress, or provide a value from 0 to 100 for a determinate ring; out-of-range
+values are clamped. Its required `label` supplies the accessible name. The ring
+keeps the Blog dashboard's compact loading-indicator proportions and inherits
+the surrounding theme color.
+
+`Skeleton` uses a moving shimmer with `white` as its default tone. The `accent`,
+`success`, `warning`, and `danger` tones reuse the corresponding theme tokens.
+
+`Table` follows the Blog dashboard's native table density and row interactions.
+Wrap it in the explicitly named `TableContainer` when horizontal scrolling is
+possible. `TableControl` provides the dashboard footer pagination UI: it owns
+page boundaries, busy states, the optional page-size selector, and its live
+summary while the consuming application keeps routing, data fetching, and
+trailing business actions.
+
+`Sidebar` is a modal off-canvas navigation dialog. It moves focus inside, traps
+keyboard focus while open, closes on Escape, locks document scrolling, and restores
+the previously focused control when it closes.
+
+Suica UI's generated utility classes and theme variables use the `sui:` / `--sui-*` namespace so its stylesheet can coexist with a consumer Tailwind build. Component styling is colocated in React as standard Tailwind utilities composed with `cn`; `src/styles.css` contains only the Tailwind compiler entry and shared theme tokens, not component selectors.
+
+## Theme
+
+The default theme uses Suica's warm off-white surface, near-black foreground, and green accent. Dark mode is enabled by placing either `class="dark"` or `data-theme="dark"` on an ancestor; explicit `light` and `dark` values take precedence over the operating-system preference.
+
+Applications can override the semantic `--sui-theme-*` custom properties on a theme scope. The public palette includes surface, elevated surface, foreground, muted, accent, line, focus, backdrop, and danger/warning/success status families.
+
+## Development
+
+The Vite 7 development toolchain requires Node.js 20.19 or newer. This requirement
+does not apply to consumers of the precompiled browser package.
+
+```sh
+pnpm typecheck
+pnpm test
+pnpm lint
+pnpm build
+pnpm test:package
+pnpm verify
+pnpm storybook
+pnpm build-storybook
+```
+
+The generated package files are written to `dist/`. `src/styles.css` is the source Tailwind 4 entry; `dist/styles.css` is the precompiled consumer stylesheet.
+`pnpm storybook` uses the Vite builder and compiles `src/styles.css` directly, so component and CSS changes update through the same development pipeline.
+
+`pnpm verify` runs formatting, linting, type checking, unit tests, a production build, and a strict package-consumer type check. The consumer check enables TypeScript's `noUncheckedSideEffectImports` so the public declarations cannot accidentally depend on the internal CSS build entry.
+
+Pull requests and pushes to `master` run the same verification plus a complete
+Storybook build in GitHub Actions. Dependabot tracks both npm and GitHub Actions
+updates.
