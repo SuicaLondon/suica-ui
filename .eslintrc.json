@@ -6,7 +6,6 @@
 	"extends": [
 		"eslint:recommended",
 		"plugin:storybook/recommended",
-		"plugin:storybook/recommended",
 		"plugin:react/recommended",
 		"plugin:@typescript-eslint/eslint-recommended",
 		"prettier"
@@ -35,11 +34,27 @@
 		"linebreak-style": ["error", "unix"],
 		"semi": ["error", "never"],
 		"react/react-in-jsx-scope": "off",
+		"react/no-multi-comp": "error",
 		"no-unused-vars": "off",
 		"@typescript-eslint/no-unused-vars": "error",
 		"react/jsx-filename-extension": [
 			1,
 			{ "extensions": [".js", ".jsx", ".ts", ".tsx"] }
 		]
-	}
+	},
+	"overrides": [
+		{
+			"files": ["src/**/*.tsx"],
+			"excludedFiles": ["src/**/*-icon.tsx", "src/icons/index.tsx"],
+			"rules": {
+				"no-restricted-syntax": [
+					"error",
+					{
+						"selector": "JSXOpeningElement[name.name='svg']",
+						"message": "Extract SVG markup into a dedicated *-icon.tsx component."
+					}
+				]
+			}
+		}
+	]
 }

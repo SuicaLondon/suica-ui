@@ -1,1 +1,1 @@
-export * from './slider-checkbox'
+export * from './slider-checkbox.js'

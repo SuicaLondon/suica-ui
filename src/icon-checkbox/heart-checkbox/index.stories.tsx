@@ -1,70 +1,35 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect, fn, userEvent, within } from 'storybook/test'
 import { HeartCheckbox } from '.'
-import { useArgs } from '@storybook/preview-api'
 
-const meta: Meta<typeof HeartCheckbox> = {
-	title: 'Example/HeartCheckbox',
+const meta = {
+	title: 'Components/Icon Checkbox/Heart',
 	component: HeartCheckbox,
 	tags: ['autodocs'],
-	parameters: {
-		layout: 'centered',
-		action: {
-			actions: {
-				argTypesRegex: '^on.*',
-			},
-		},
+	parameters: { layout: 'centered' },
+	args: {
+		endLabel: 'Favourite',
+		iconClassName: 'sui:text-primary-gray',
+		onChange: fn(),
 	},
-	argTypes: {
-		leftLabel: {
-			control: 'text',
-			description: 'The label that display on the left',
-		},
-		rightLabel: {
-			control: 'text',
-			description: 'The label that display on the right',
-		},
-		disabled: {
-			control: 'boolean',
-			description: 'Determines if the checkbox is checked or not',
-		},
-		checked: {
-			control: 'boolean',
-			description: 'Determines if the checkbox is checked or not',
-			argTypesRegex: '.*ed$',
-		},
-		onChecked: {
-			action: 'clicked',
-			description: 'The callback function when the user check the checkbox',
-			argTypesRegex: '^on.*',
-		},
-	},
-}
+} satisfies Meta<typeof HeartCheckbox>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const HeartCheck: Story = {
-	args: {
-		disabled: false,
-		checked: false,
-	},
-	render: function Render(args) {
-		const [{ checked }, updateArgs] = useArgs()
+export const Default: Story = {
+	args: { defaultChecked: false },
+	play: async ({ args, canvasElement }) => {
+		const checkbox = within(canvasElement).getByRole('checkbox', {
+			name: 'Favourite',
+		})
 
-		const onChecked = (newChecked: boolean) => {
-			updateArgs({ checked: newChecked })
-			args.onChecked(newChecked)
-		}
-
-		return (
-			<HeartCheckbox
-				{...args}
-				checked={checked}
-				onChecked={onChecked}
-				classNames={{
-					icon: 'fill-red-700 dark:fill-red-300',
-				}}
-			/>
-		)
+		await userEvent.click(checkbox)
+		await expect(checkbox).toBeChecked()
+		await expect(args.onChange).toHaveBeenCalledOnce()
 	},
+}
+
+export const Disabled: Story = {
+	args: { checked: true, disabled: true },
 }

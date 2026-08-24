@@ -1,147 +1,106 @@
 import {
-	HTMLProps,
-	ReactNode,
-	useCallback,
+	forwardRef,
 	useEffect,
 	useRef,
 	useState,
+	type ComponentPropsWithoutRef,
+	type ReactNode,
+	type Ref,
+	type UIEvent,
 } from 'react'
-import { twMerge } from 'tailwind-merge'
+import { cn } from '../cn.js'
 
-const ScrollBy = {
-	Touch: 'Touch',
-	Scroll: 'Scroll',
-} as const
-type ScrollByKey = (typeof ScrollBy)[keyof typeof ScrollBy]
-export interface INestedScrollViewProps {
+export interface NestedScrollViewProps
+	extends Omit<ComponentPropsWithoutRef<'div'>, 'children'> {
 	scrollableDistance: number
 	minDistanceToTop: number
 	extraHeight?: number
 	header: ReactNode
 	children: ReactNode
-	classNames?: {
-		container?: HTMLProps<HTMLElement>['className']
-		content?: HTMLProps<HTMLElement>['className']
-	}
+	scrollerClassName?: string
+	contentClassName?: string
+	scrollerProps?: Omit<
+		ComponentPropsWithoutRef<'div'>,
+		'className' | 'children' | 'onScroll' | 'style'
+	>
+	scrollerRef?: Ref<HTMLDivElement>
 }
 
-export function NestedScrollView({
-	scrollableDistance,
-	minDistanceToTop,
-	header,
-	children,
-	classNames,
-	extraHeight = 0,
-}: INestedScrollViewProps) {
-	const containerRef = useRef<HTMLDivElement>(null)
-	const scrollByRef = useRef<ScrollByKey | null>(null)
-	const distanceToTopRef = useRef(scrollableDistance)
-	const [isScrolling, setIsScrolling] = useState(false)
-	const distanceToTop = distanceToTopRef.current
+export const NestedScrollView = forwardRef<
+	HTMLDivElement,
+	NestedScrollViewProps
+>(function NestedScrollView(
+	{
+		scrollableDistance,
+		minDistanceToTop,
+		extraHeight = 0,
+		header,
+		children,
+		className,
+		scrollerClassName,
+		contentClassName,
+		scrollerProps,
+		scrollerRef,
+		...props
+	},
+	ref,
+) {
+	const minimumTop = Math.max(0, minDistanceToTop)
+	const expandedTop = Math.max(minimumTop, scrollableDistance)
+	const [scrollTop, setScrollTop] = useState(0)
+	const distanceToTop = Math.max(minimumTop, expandedTop - scrollTop)
+	const animationFrameRef = useRef<number | null>(null)
 
 	useEffect(() => {
-		const container = containerRef.current
-		if (!container) {
-			return
-		}
-		let timer: NodeJS.Timeout | null = null
-
-		function onScroll() {
-			if (!container) {
-				return
-			}
-			// Desktop does not have touch event to trigger setIsScrolling(true)
-			if (!isScrolling && scrollByRef.current !== ScrollBy.Touch) {
-				if (!containerRef.current) {
-					return
-				}
-				distanceToTopRef.current =
-					scrollableDistance - containerRef.current.scrollTop
-				setIsScrolling(true)
-				scrollByRef.current = ScrollBy.Scroll
-			}
-			if (timer !== null) {
-				clearTimeout(timer)
-			}
-			timer = setTimeout(function () {
-				if (scrollByRef.current === ScrollBy.Touch) {
-					return
-				} else if (scrollByRef.current === ScrollBy.Scroll) {
-					scrollByRef.current = null
-				}
-
-				if (!container) {
-					return
-				}
-				const scrollTop = container.scrollTop
-				if (scrollTop > scrollableDistance) {
-					distanceToTopRef.current = 0
-				} else {
-					distanceToTopRef.current = scrollableDistance - container.scrollTop
-				}
-				setIsScrolling(false)
-			}, 50)
-		}
-		container.addEventListener('scroll', onScroll)
 		return () => {
-			if (container) {
-				container.removeEventListener('scroll', onScroll)
-			}
-			if (timer) {
-				clearTimeout(timer)
-				timer = null
+			if (animationFrameRef.current !== null) {
+				cancelAnimationFrame(animationFrameRef.current)
 			}
 		}
-	}, [scrollableDistance, isScrolling])
-
-	const handleTouchStart = useCallback(() => {
-		if (!containerRef.current) {
-			return
-		}
-		distanceToTopRef.current = scrollableDistance - containerRef.current.scrollTop
-		setIsScrolling(true)
-		scrollByRef.current = ScrollBy.Touch
-	}, [scrollableDistance])
-
-	const handleTouchEnd = useCallback(() => {
-		scrollByRef.current = null
 	}, [])
+
+	function handleScroll(event: UIEvent<HTMLDivElement>) {
+		const scrollTop = event.currentTarget.scrollTop
+		if (animationFrameRef.current !== null) {
+			cancelAnimationFrame(animationFrameRef.current)
+		}
+
+		animationFrameRef.current = requestAnimationFrame(() => {
+			setScrollTop(Math.max(0, scrollTop))
+			animationFrameRef.current = null
+		})
+	}
 
 	return (
 		<div
-			className={twMerge(
-				'no-scrollbar relative inset-0 h-screen w-screen',
-				'overflow-y-hidden overflow-x-scroll overscroll-none',
-				classNames?.container,
+			ref={ref}
+			className={cn(
+				'sui:relative sui:h-dvh sui:w-full sui:overflow-hidden sui:overscroll-none sui:[scrollbar-width:none] sui:[&::-webkit-scrollbar]:hidden',
+				className,
 			)}
+			{...props}
 		>
 			{header}
 			<div
-				ref={containerRef}
-				className="no-scrollbar absolute bottom-0 z-20 h-full w-full overflow-auto"
+				{...scrollerProps}
+				ref={scrollerRef}
+				className={cn(
+					'sui:absolute sui:inset-x-0 sui:bottom-0 sui:z-20 sui:overflow-auto sui:transition-[top,height] sui:duration-150 sui:motion-reduce:transition-none sui:[scrollbar-width:none] sui:[&::-webkit-scrollbar]:hidden',
+					scrollerClassName,
+				)}
 				style={{
-					marginTop: isScrolling ? 0 : distanceToTop,
-					height: `calc(100vh - ${minDistanceToTop}px)`,
-					top: scrollableDistance,
+					top: distanceToTop,
+					height: `calc(100dvh - ${distanceToTop}px)`,
 				}}
-				onTouchStart={handleTouchStart}
-				onTouchEnd={handleTouchEnd}
+				onScroll={handleScroll}
 			>
 				<div
-					className="pointer-events-none"
-					style={{
-						height: isScrolling
-							? scrollableDistance
-							: scrollableDistance - distanceToTop,
-					}}
-				/>
-				<div
-					className={twMerge('w-full', classNames?.content)}
-					style={{ paddingBottom: extraHeight }}
+					className={cn('sui:w-full', contentClassName)}
+					style={{ paddingBottom: Math.max(0, extraHeight) }}
 				>
 					{children}
 				</div>
 			</div>
 		</div>
 	)
-}
+})

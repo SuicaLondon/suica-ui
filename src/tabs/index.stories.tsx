@@ -1,81 +1,88 @@
-import { useArgs } from '@storybook/preview-api'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect, userEvent, within } from 'storybook/test'
+import type { TabItem } from './tab.type'
 import { Tabs } from './tabs'
-import { AlignDirection } from './tab.type'
+
+const transitTabs: readonly TabItem[] = [
+	{
+		id: 'suica',
+		label: 'Suica',
+		panel: <p>JR East transit card.</p>,
+	},
+	{
+		id: 'kitaca',
+		label: 'Kitaca',
+		panel: <p>JR Hokkaido transit card.</p>,
+	},
+	{
+		id: 'pasmo',
+		label: 'Pasmo',
+		panel: <p>Tokyo rail and bus transit card.</p>,
+	},
+	{
+		id: 'disabled',
+		label: 'Unavailable',
+		panel: <p>This panel cannot be selected.</p>,
+		disabled: true,
+	},
+]
 
 const meta = {
-	title: 'Example/Tabs',
+	title: 'Components/Tabs',
 	component: Tabs,
-	// This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
 	tags: ['autodocs'],
-	parameters: {
-		// More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
-		layout: 'fullscreen',
-	},
-	argTypes: {
-		tabs: {
-			control: 'array',
-			description: "The tabs' configuration",
-		},
-		activeTabId: {
-			control: 'string',
-			description: "The selected tab's id",
-		},
-		direction: {
-			control: 'string',
-			description: 'The render direction of the tabs',
-		},
-		onChange: {
-			action: 'clicked',
-			description: 'The callback function when the user selected the tab',
-			argTypesRegex: '^on.*',
-		},
+	parameters: { layout: 'centered' },
+	args: {
+		'aria-label': 'Transit cards',
+		tabs: transitTabs,
 	},
 } satisfies Meta<typeof Tabs>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const HorizontalTabs: Story = {
-	args: {
-		tabs: [
-			{ id: 'suica', label: 'Suica' },
-			{ id: 'kitaca', label: 'Kitaca' },
-			{ id: 'pasmo', label: 'Pasmo' },
-			{ id: 'icoca', label: 'Icoca' },
-		],
-		activeTabId: 'suica',
-	},
-	render: function Render(args) {
-		const [{ activeTabId }, updateArgs] = useArgs()
-
-		const onChanged = ({ id }: { id: string }) => {
-			updateArgs({ activeTabId: id })
-			args.onChange?.({ id: id })
-		}
-
-		return <Tabs {...args} activeTabId={activeTabId} onChange={onChanged} />
+export const Horizontal: Story = {
+	args: { defaultValue: 'suica' },
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement)
+		await userEvent.click(canvas.getByRole('tab', { name: 'Kitaca' }))
+		await expect(canvas.getByRole('tab', { name: 'Kitaca' })).toHaveAttribute(
+			'aria-selected',
+			'true',
+		)
+		await expect(canvas.getByText('JR Hokkaido transit card.')).toBeVisible()
 	},
 }
-export const VerticalTabs: Story = {
+
+export const Vertical: Story = {
 	args: {
-		tabs: [
-			{ id: 'suica', label: 'Suica' },
-			{ id: 'kitaca', label: 'Kitaca' },
-			{ id: 'pasmo', label: 'Pasmo' },
-			{ id: 'icoca', label: 'Icoca' },
-		],
-		activeTabId: 'suica',
-		direction: AlignDirection.vertical,
+		defaultValue: 'kitaca',
+		orientation: 'vertical',
 	},
-	render: function Render(args) {
-		const [{ activeTabId }, updateArgs] = useArgs()
+}
 
-		const onChanged = ({ id }: { id: string }) => {
-			updateArgs({ activeTabId: id })
-			args.onChange?.({ id: id })
-		}
+export const Segmented: Story = {
+	args: {
+		defaultValue: 'suica',
+		variant: 'segmented',
+	},
+}
 
-		return <Tabs {...args} activeTabId={activeTabId} onChange={onChanged} />
+export const ManualActivation: Story = {
+	args: {
+		activationMode: 'manual',
+		defaultValue: 'suica',
+	},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement)
+		const suicaTab = canvas.getByRole('tab', { name: 'Suica' })
+		const kitacaTab = canvas.getByRole('tab', { name: 'Kitaca' })
+
+		suicaTab.focus()
+		await userEvent.keyboard('{ArrowRight}')
+		await expect(kitacaTab).toHaveFocus()
+		await expect(kitacaTab).toHaveAttribute('aria-selected', 'false')
+		await userEvent.keyboard('{Enter}')
+		await expect(kitacaTab).toHaveAttribute('aria-selected', 'true')
 	},
 }

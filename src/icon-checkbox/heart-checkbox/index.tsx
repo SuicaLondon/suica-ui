@@ -1,72 +1,21 @@
-import { HTMLAttributes, memo, useMemo } from 'react'
-import { CheckboxFakeLabel } from '../..'
-import { FillHeartIcon } from './fill-heart-icon'
-import { HeartIcon } from './heart-icon'
-import { twMerge } from 'tailwind-merge'
+import { forwardRef } from 'react'
+import { Icon } from '../../icons/index.js'
+import { IconCheckbox, type IconCheckboxProps } from '../icon-checkbox.js'
 
-export interface IHeartCheckboxProps extends HTMLAttributes<HTMLInputElement> {
-	leftLabel?: string
-	rightLabel?: string
-	checked: boolean
-	disabled?: boolean
-	classNames?: {
-		container?: string
-		icon?: string
-	}
-	onChecked: (checked: boolean) => void
-}
+export type HeartCheckboxProps = Omit<
+	IconCheckboxProps,
+	'checkedIcon' | 'uncheckedIcon'
+>
 
-export const HeartCheckbox = memo(function HeartCheckbox({
-	leftLabel,
-	rightLabel,
-	classNames,
-	disabled = false,
-	checked,
-	onChecked,
-}: IHeartCheckboxProps) {
-	const icon = useMemo(() => {
-		if (disabled) {
-			return (
-				<FillHeartIcon
-					classNames={{ icon: '!fill-gray-500 !dart:fill-gray-300' }}
-				/>
-			)
-		}
-		if (checked) {
-			return (
-				<div className="relative">
-					<FillHeartIcon classNames={{ icon: classNames?.icon }} />
-					<FillHeartIcon
-						classNames={{
-							container: 'absolute left-0 top-0 origin-center animate-scaleFadeOut',
-							icon: classNames?.icon,
-						}}
-					/>
-				</div>
-			)
-		}
+export const HeartCheckbox = forwardRef<HTMLInputElement, HeartCheckboxProps>(
+	function HeartCheckbox(props, ref) {
 		return (
-			<HeartIcon classNames={{ container: 'relative', icon: classNames?.icon }} />
-		)
-	}, [disabled, checked])
-	return (
-		<label
-			className={twMerge(
-				'h-iconSize flex items-center cursor-pointer peer relative border flex-center',
-				classNames?.container,
-			)}
-		>
-			<CheckboxFakeLabel label={leftLabel} />
-
-			{icon}
-			<input
-				type="checkbox"
-				disabled={disabled}
-				checked={checked}
-				onChange={() => onChecked(!checked)}
-				className={'sr-only peer'}
+			<IconCheckbox
+				ref={ref}
+				uncheckedIcon={<Icon icon="heart" className="sui:size-full" />}
+				checkedIcon={<Icon icon="heart-fill" className="sui:size-full" />}
+				{...props}
 			/>
-			<CheckboxFakeLabel label={rightLabel} />
-		</label>
-	)
-})
+		)
+	},
+)

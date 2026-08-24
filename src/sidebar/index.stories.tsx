@@ -1,110 +1,96 @@
-import { useArgs } from '@storybook/preview-api'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect, userEvent, within } from 'storybook/test'
+import { useState } from 'react'
 import { Icon } from '../icons'
-import { Sidebar } from './index'
+import { Sidebar, SidebarItem, SidebarItems, SidebarTrigger } from './index'
+import { getSidebarState, type SidebarState } from './sidebar-state.js'
 
-const meta: Meta<typeof Sidebar> = {
-	title: 'Example/Sidebar',
+const meta = {
+	title: 'Components/Sidebar',
 	component: Sidebar,
 	tags: ['autodocs'],
-	parameters: {
-		layout: 'fullscreen',
-		viewport: {
-			viewport: {
-				defaultViewport: 'normalDesktop',
-			},
-		},
-	},
-	argTypes: {
-		children: {
-			control: 'text',
-			description:
-				'The content of the sidebar, it normally is <Sidebar.Items /> which can provide the background style for the sidebar.',
-		},
-		isOpened: {
-			control: 'boolean',
-			description: 'Determines if the sidebar is opened or not',
-			argTypesRegex: '.*ed$',
-		},
-		setIsOpened: {
-			action: 'clicked',
-			description:
-				'The callback function when the user click the sidebar backdrop',
-			argTypesRegex: '^on.*',
-		},
-		className: {
-			control: 'text',
-			description: 'The Tailwind className for the sidebar container',
-		},
-	},
+	parameters: { layout: 'fullscreen' },
 } satisfies Meta<typeof Sidebar>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-function SidebarRender() {
-	const [{ isOpened }, updateArgs] = useArgs()
+const triggerLabelByState: Record<SidebarState, string> = {
+	closed: 'Open navigation',
+	open: 'Close navigation',
+}
 
-	const handleOpened = (newIsOpened: boolean) => {
-		updateArgs({ isOpened: newIsOpened })
-	}
+function SidebarExample({
+	initiallyOpen = false,
+}: {
+	initiallyOpen?: boolean
+}) {
+	const [open, setOpen] = useState(initiallyOpen)
+	const state = getSidebarState(open)
 
 	return (
-		<>
-			<Sidebar.Button isOpened={isOpened} setIsOpened={handleOpened} isHovered />
-			<Sidebar isOpened={isOpened} setIsOpened={handleOpened}>
-				<Sidebar.Items className="pt-16">
-					<Sidebar.Item
-						href="/item1"
-						icon={
-							<Icon
-								icon="heart-fill"
-								className={'flex-center h-iconSize w-iconSize'}
-							/>
-						}
-						label="Nothing"
+		<div style={{ minHeight: 384, padding: 16 }}>
+			<SidebarTrigger
+				open={open}
+				onOpenChange={setOpen}
+				label={triggerLabelByState[state]}
+			/>
+			<Sidebar
+				open={open}
+				onOpenChange={setOpen}
+				label="Main navigation"
+				closeLabel="Close navigation backdrop"
+			>
+				<SidebarItems label="Main navigation links">
+					<SidebarItem href="#favourites" icon={<Icon icon="heart-fill" />}>
+						Favourites
+					</SidebarItem>
+					<SidebarItem
+						href="#featured"
+						icon={<Icon icon="star-fill" />}
+						badge={<span style={{ fontSize: 12 }}>2</span>}
 					>
-						Item 1
-					</Sidebar.Item>
-					<Sidebar.Item
-						href="/item2"
-						icon={
-							<Icon icon="heart" className={'flex-center h-iconSize w-iconSize'} />
-						}
-						label="Nothing"
-					>
-						Item 2
-					</Sidebar.Item>
-				</Sidebar.Items>
+						Featured
+					</SidebarItem>
+				</SidebarItems>
 			</Sidebar>
-		</>
+		</div>
 	)
 }
 
-export const MobileSidebar: Story = {
+export const Default: Story = {
 	args: {
+		open: false,
+		onOpenChange: () => {},
+		label: 'Main navigation',
+		closeLabel: 'Close navigation backdrop',
 		children: null,
 	},
-	parameters: {
-		viewport: {
-			defaultViewport: 'iphone14promax',
-		},
-	},
-	render() {
-		return SidebarRender()
+	render: () => <SidebarExample />,
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement)
+		await userEvent.click(canvas.getByRole('button', { name: 'Open navigation' }))
+		await expect(canvas.getByRole('dialog')).toHaveAttribute(
+			'aria-hidden',
+			'false',
+		)
+		await userEvent.click(
+			canvas.getByRole('button', { name: 'Close navigation backdrop' }),
+		)
+		await expect(canvas.getByRole('dialog', { hidden: true })).toHaveAttribute(
+			'aria-hidden',
+			'true',
+		)
 	},
 }
 
-export const DesktopSidebarWithButton: Story = {
+export const Open: Story = {
 	args: {
+		open: true,
+		onOpenChange: () => {},
+		label: 'Main navigation',
+		closeLabel: 'Close navigation backdrop',
 		children: null,
 	},
-	parameters: {
-		viewport: {
-			defaultViewport: 'normalDesktop',
-		},
-	},
-	render() {
-		return SidebarRender()
-	},
+	render: () => <SidebarExample initiallyOpen />,
 }
