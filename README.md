@@ -1,6 +1,11 @@
 # Suica UI
 
+[![npm version](https://img.shields.io/npm/v/suica-ui.svg)](https://www.npmjs.com/package/suica-ui)
+[![Storybook](https://img.shields.io/badge/Storybook-live-ff4785?logo=storybook&logoColor=white)](https://suica-ui.vercel.app/)
+
 Suica's framework-neutral React component library. The package ships React components and precompiled Tailwind CSS, so consumers do not need to scan package source files.
+
+[Explore the components in Storybook.](https://suica-ui.vercel.app/)
 
 ## Requirements
 
@@ -13,6 +18,14 @@ utilities are `clsx` and `tailwind-merge`. It does
 not depend on Next.js, Radix, CVA, or an icon package.
 
 ## Install
+
+Using npm:
+
+```sh
+npm install suica-ui
+```
+
+Using pnpm:
 
 ```sh
 pnpm add suica-ui
@@ -119,8 +132,23 @@ Applications can override the semantic `--sui-theme-*` custom properties on a th
 
 ## Development
 
-The Vite 7 development toolchain requires Node.js 20.19 or newer. This requirement
-does not apply to consumers of the precompiled browser package.
+The Vite 8 and Vitest 5 development toolchain requires Node.js 22.12 or newer.
+This requirement does not apply to consumers of the precompiled browser package.
+
+Clone the repository, install its dependencies, and start Storybook:
+
+```sh
+git clone https://github.com/SuicaLondon/suica-ui.git
+cd suica-ui
+corepack enable
+pnpm install
+pnpm storybook
+```
+
+The local Storybook runs at `http://localhost:6006`. The latest deployed Storybook
+is available at [suica-ui.vercel.app](https://suica-ui.vercel.app/).
+
+Use the following commands for individual checks and builds:
 
 ```sh
 pnpm typecheck
@@ -141,3 +169,7 @@ The generated package files are written to `dist/`. `src/styles.css` is the sour
 Pull requests and pushes to `master` run the same verification plus a complete
 Storybook build in GitHub Actions. Dependabot tracks both npm and GitHub Actions
 updates.
+
+## License
+
+[MIT](LICENSE)
