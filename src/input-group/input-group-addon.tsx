@@ -12,7 +12,8 @@ export const InputGroupAddon = forwardRef<
 			ref={ref}
 			data-slot="input-group-addon"
 			className={cn(
-				'sui:text-muted sui:inline-flex sui:box-border sui:shrink-0 sui:items-center sui:justify-center sui:pl-3 sui:text-sm',
+				'box-border inline-flex shrink-0 items-center text-muted',
+				'justify-center pl-3 text-sm',
 				className,
 			)}
 			{...addonProps}

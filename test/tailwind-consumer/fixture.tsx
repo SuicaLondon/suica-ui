@@ -1,2 +1,2 @@
 export const consumerTailwindClassName =
-	'sui:size-13 sui:px-7 sui:dark:bg-red-500'
+	'size-13 px-7 bg-accent md:menu-viewport dark:bg-red-500'

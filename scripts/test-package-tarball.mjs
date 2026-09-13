@@ -1,7 +1,7 @@
 import { execFileSync } from 'node:child_process'
 import { mkdtemp, readFile, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { join, posix } from 'node:path'
 
 const npmCache = await mkdtemp(join(tmpdir(), 'suica-ui-npm-cache-'))
 const environment = {
@@ -34,5 +34,18 @@ for (const [subpath, target] of Object.entries(packageJson.exports)) {
 				`Package export ${subpath} is missing from the tarball: ${packedPath}`,
 			)
 		}
+	}
+}
+
+// CSS entry imports must also be available in the published package.
+for (const file of packedFiles) {
+	if (!file.endsWith('.css')) continue
+	const css = await readFile(file, 'utf8')
+	for (const [, target] of css.matchAll(/@import\s+['"](\.[^'"]+)['"]/gu)) {
+		const importedPath = posix.normalize(posix.join(posix.dirname(file), target))
+		if (!packedFiles.has(importedPath))
+			throw new Error(
+				`CSS import ${importedPath} from ${file} is missing from the tarball`,
+			)
 	}
 }

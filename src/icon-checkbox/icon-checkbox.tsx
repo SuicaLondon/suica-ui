@@ -34,26 +34,31 @@ export const IconCheckbox = forwardRef<HTMLInputElement, IconCheckboxProps>(
 		return (
 			<label
 				className={cn(
-					'sui:inline-flex sui:items-center sui:gap-2 sui:text-sm sui:text-foreground',
+					'inline-flex items-center gap-2 text-sm text-foreground',
 					{
-						'sui:cursor-not-allowed sui:opacity-50': disabled,
-						'sui:cursor-pointer': !disabled,
+						'cursor-not-allowed opacity-50': disabled,
+						'cursor-pointer': !disabled,
 					},
 					className,
 				)}
 			>
 				{startLabel}
-				<span className="sui:relative sui:inline-flex sui:size-[1.375rem] sui:items-center sui:justify-center">
+				<span
+					className={'relative inline-flex size-5.5 items-center justify-center'}
+				>
 					<input
 						ref={ref}
 						type="checkbox"
-						className="sui:peer sui:sr-only"
+						className="peer sr-only"
 						disabled={disabled}
 						{...inputProps}
 					/>
 					<span
 						className={cn(
-							'sui:inline-flex sui:size-full sui:items-center sui:justify-center sui:rounded-sm sui:transition-transform sui:peer-checked:hidden sui:peer-focus-visible:outline-2 sui:peer-focus-visible:outline-focus sui:peer-focus-visible:outline-offset-2',
+							'inline-flex size-full items-center justify-center rounded-sm',
+							'transition-transform peer-checked:hidden',
+							'peer-focus-visible:outline-2 peer-focus-visible:outline-focus',
+							'peer-focus-visible:outline-offset-2',
 							iconClassName,
 						)}
 						aria-hidden="true"
@@ -62,7 +67,10 @@ export const IconCheckbox = forwardRef<HTMLInputElement, IconCheckboxProps>(
 					</span>
 					<span
 						className={cn(
-							'sui:hidden sui:size-full sui:items-center sui:justify-center sui:rounded-sm sui:transition-transform sui:peer-checked:inline-flex sui:peer-focus-visible:outline-2 sui:peer-focus-visible:outline-focus sui:peer-focus-visible:outline-offset-2',
+							'hidden size-full items-center justify-center rounded-sm',
+							'transition-transform peer-checked:inline-flex',
+							'peer-focus-visible:outline-2 peer-focus-visible:outline-focus',
+							'peer-focus-visible:outline-offset-2',
 							iconClassName,
 						)}
 						aria-hidden="true"

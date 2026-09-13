@@ -92,6 +92,20 @@ export default [
 		rules: {
 			'suica/consistent-classnames': ['error', { maxLength: 80 }],
 			'suica/no-arbitrary-variants': 'error',
+			'suica/no-arbitrary-leading': 'error',
+			'suica/no-arbitrary-css-math': 'error',
+			'suica/no-arbitrary-blur': 'error',
+			'suica/no-css-variable-classes': 'error',
+			'suica/prefer-numeric-utilities': 'error',
+			'suica/prefer-and-rendering': 'error',
+		},
+	},
+	{
+		files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
+		plugins: { suica: classnames },
+		rules: {
+			'suica/no-arbitrary-values': 'error',
+			'suica/no-static-inline-styles': 'error',
 		},
 	},
 	...storybook.configs['flat/recommended'],

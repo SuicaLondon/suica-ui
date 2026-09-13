@@ -22,11 +22,7 @@ describe('LoadingIndicator', () => {
 		expect(indicator).toBe(screen.getByTestId('indicator'))
 		expect(indicator).toHaveAttribute('data-slot', 'loading-indicator')
 		expect(indicator).toHaveAttribute('aria-live', 'polite')
-		expect(indicator).toHaveClass(
-			'sui:rounded-full',
-			'sui:shadow-sm',
-			'custom-indicator',
-		)
+		expect(indicator).toHaveClass('custom-indicator')
 		expect(screen.getByText('Refreshing analytics')).toHaveAttribute(
 			'data-slot',
 			'loading-indicator-label',

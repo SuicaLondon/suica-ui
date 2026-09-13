@@ -10,7 +10,9 @@ export const TableRow = forwardRef<
 			ref={ref}
 			data-slot="table-row"
 			className={cn(
-				'sui:border-b sui:border-line sui:transition-colors sui:duration-150 sui:hover:bg-hover sui:data-[state=selected]:bg-hover sui:motion-reduce:transition-none',
+				'border-b border-line last:border-b-0',
+				'hover:bg-hover data-[state=selected]:bg-hover',
+				'transition-colors duration-150 motion-reduce:transition-none',
 				className,
 			)}
 			{...rowProps}

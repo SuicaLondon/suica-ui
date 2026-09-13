@@ -1,10 +1,46 @@
+import { RouterLink } from '../test/router-link'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createRef, useState } from 'react'
 import { Sidebar, SidebarItem, SidebarItems, SidebarTrigger } from './index'
 
-function SidebarHarness() {
+function SidebarHarness({
+	responsive = false,
+	desktop = false,
+}: {
+	responsive?: boolean
+	desktop?: boolean
+} = {}) {
 	const [open, setOpen] = useState(false)
+
+	if (responsive) {
+		const navigation = (
+			<SidebarItems label="Responsive links" triggerInset={!desktop}>
+				<SidebarItem href="/posts">Posts</SidebarItem>
+			</SidebarItems>
+		)
+
+		return (
+			<>
+				{desktop ? null : (
+					<SidebarTrigger
+						open={open}
+						onOpenChange={setOpen}
+						label="Toggle responsive navigation"
+					/>
+				)}
+				<Sidebar
+					open={desktop || open}
+					mode={desktop ? 'persistent' : 'modal'}
+					onOpenChange={setOpen}
+					label="Responsive navigation"
+					closeLabel="Close responsive navigation"
+				>
+					{navigation}
+				</Sidebar>
+			</>
+		)
+	}
 
 	return (
 		<>
@@ -42,9 +78,9 @@ describe('Sidebar', () => {
 		expect(trigger).toHaveAttribute('aria-expanded', 'false')
 		expect(trigger).toHaveAttribute('aria-controls', 'suica-sidebar')
 		expect(trigger).toHaveAttribute('data-slot', 'sidebar-trigger')
-		expect(trigger).toHaveClass('sui:appearance-none', 'sui:size-11')
+		expect(trigger).toHaveClass('appearance-none', 'size-11')
 		expect(sidebar).toHaveAttribute('data-slot', 'sidebar')
-		expect(sidebar).toHaveClass('sui:data-[state=open]:translate-x-0')
+		expect(sidebar).toHaveClass('data-[state=open]:translate-x-0')
 		expect(sidebar).toHaveAttribute('aria-hidden', 'true')
 		expect(sidebar).toHaveAttribute('inert')
 		expect(screen.queryByRole('button', { name: 'Close navigation' })).toBeNull()
@@ -132,10 +168,10 @@ describe('Sidebar', () => {
 		expect(item).toHaveAttribute('href', '/profile')
 		expect(item).toHaveAttribute('target', '_blank')
 		expect(nav).toHaveAttribute('data-slot', 'sidebar-nav')
-		expect(nav).toHaveClass('sui:pt-[4.5rem]')
+		expect(nav).toHaveClass('pt-18')
 		expect(nav.querySelector('ul')).toHaveAttribute('data-slot', 'sidebar-list')
 		expect(item).toHaveAttribute('data-slot', 'sidebar-item')
-		expect(item).toHaveClass('sui:no-underline', 'sui:min-h-11')
+		expect(item).toHaveClass('no-underline', 'min-h-11')
 		expect(screen.getByText('avatar').parentElement).toHaveAttribute(
 			'aria-hidden',
 			'true',
@@ -194,6 +230,85 @@ describe('Sidebar', () => {
 		expect(screen.getByRole('link', { name: 'Dashboard' })).not.toHaveFocus()
 		expect(
 			screen.getByRole('navigation', { name: 'Dashboard links' }),
-		).toHaveClass('sui:pt-4')
+		).toHaveClass('pt-4')
 	})
+
+	it('supports one navigation composition across responsive modes', async () => {
+		const user = userEvent.setup()
+		const { rerender } = render(<SidebarHarness responsive desktop={false} />)
+		const mobileSidebar = screen.getByRole('dialog', { hidden: true })
+		expect(mobileSidebar).toHaveAttribute('aria-label', 'Responsive navigation')
+		expect(mobileSidebar).toHaveAttribute('aria-hidden', 'true')
+		const trigger = screen.getByRole('button', {
+			name: 'Toggle responsive navigation',
+		})
+
+		await user.click(trigger)
+		expect(screen.getByRole('link', { name: 'Posts' })).toHaveFocus()
+		expect(document.body.style.overflow).toBe('hidden')
+		await user.keyboard('{Escape}')
+		expect(trigger).toHaveFocus()
+		expect(mobileSidebar).toHaveAttribute('aria-hidden', 'true')
+		await user.click(trigger)
+		await user.click(
+			screen.getByRole('button', { name: 'Close responsive navigation' }),
+		)
+		expect(trigger).toHaveFocus()
+		expect(mobileSidebar).toHaveAttribute('aria-hidden', 'true')
+
+		rerender(<SidebarHarness responsive desktop />)
+
+		expect(
+			screen.getByRole('complementary', { name: 'Responsive navigation' }),
+		).toHaveAttribute('data-mode', 'persistent')
+		expect(
+			screen.queryByRole('button', { name: 'Toggle responsive navigation' }),
+		).toBeNull()
+		expect(screen.getAllByRole('link', { name: 'Posts' })).toHaveLength(1)
+		expect(document.body.style.overflow).toBe('')
+	})
+})
+
+it('composes a router link with sidebar content, active styling and refs', async () => {
+	const user = userEvent.setup()
+	const ref = createRef<HTMLAnchorElement>()
+	const navigate = vi.fn()
+	const onClick = vi.fn()
+	render(
+		<SidebarItems label="Routes">
+			<SidebarItem
+				ref={ref}
+				aria-current="page"
+				icon={<span>Icon</span>}
+				badge="3"
+				className="px-5"
+				onClick={onClick}
+				render={(props) => (
+					<RouterLink {...props} href="/en/posts?q=react" navigate={navigate} />
+				)}
+			>
+				Posts
+			</SidebarItem>
+		</SidebarItems>,
+	)
+	const link = screen.getByRole('link', { name: 'Posts 3' })
+	expect(ref.current).toBe(link)
+	expect(link.parentElement?.tagName).toBe('LI')
+	expect(link.querySelector('a')).toBeNull()
+	expect(link).toHaveAttribute('aria-current', 'page')
+	expect(link).toHaveAttribute('data-slot', 'sidebar-item')
+	expect(link).toHaveClass(
+		'px-5',
+		'aria-[current=page]:bg-hover',
+		'focus-visible:outline-2',
+	)
+	expect(screen.getByText('Icon').parentElement).toHaveAttribute(
+		'aria-hidden',
+		'true',
+	)
+	await user.tab()
+	expect(link).toHaveFocus()
+	await user.keyboard('{Enter}')
+	expect(onClick).toHaveBeenCalledOnce()
+	expect(navigate).toHaveBeenCalledExactlyOnceWith('/en/posts?q=react')
 })

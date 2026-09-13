@@ -19,32 +19,42 @@ export interface ButtonClassNameOptions {
 }
 
 const buttonVariantClassName: Record<ButtonVariant, string> = {
-	default:
-		'sui:border-accent sui:bg-accent sui:text-surface sui:hover:bg-accent/90',
-	destructive:
-		'sui:border-danger sui:bg-danger sui:text-surface sui:hover:bg-danger/90',
-	outline:
-		'sui:border-line-strong sui:bg-surface sui:text-foreground sui:hover:border-accent sui:hover:bg-hover sui:hover:text-accent',
+	default: 'border-accent bg-accent text-surface hover:bg-accent/90',
+	destructive: 'border-danger bg-danger text-surface hover:bg-danger/90',
+	outline: cn(
+		'border-line-strong bg-surface text-foreground',
+		'hover:border-accent hover:bg-hover hover:text-accent',
+	),
 	secondary:
-		'sui:border-foreground sui:bg-foreground sui:text-surface sui:hover:bg-foreground/85',
-	subtle:
-		'sui:border-current sui:bg-transparent sui:text-current sui:hover:bg-current/5',
-	ghost:
-		'sui:border-transparent sui:bg-transparent sui:text-foreground sui:hover:bg-hover sui:hover:text-accent',
+		'border-foreground bg-foreground text-surface hover:bg-foreground/85',
+	subtle: 'border-current bg-transparent text-current hover:bg-current/5',
+	ghost: cn(
+		'border-transparent bg-transparent text-foreground hover:bg-hover',
+		'hover:text-accent',
+	),
 	link:
-		'sui:border-transparent sui:bg-transparent sui:text-accent sui:underline-offset-4 sui:hover:underline',
+		'border-transparent bg-transparent text-accent underline-offset-4 hover:underline',
 }
 
 const buttonSizeClassName: Record<ButtonSize, string> = {
-	default: 'sui:min-h-11 sui:px-4 sui:py-2',
-	xs: 'sui:min-h-8 sui:px-2 sui:py-1 sui:text-xs',
-	sm: 'sui:min-h-9 sui:px-3 sui:py-1.5 sui:text-xs',
-	lg: 'sui:min-h-12 sui:px-6 sui:py-3',
-	icon: 'sui:size-11 sui:p-0',
+	default: 'min-h-11 px-4 py-2',
+	xs: 'min-h-8 px-2 py-1 text-xs',
+	sm: 'min-h-9 px-3 py-1.5 text-xs',
+	lg: 'min-h-12 px-6 py-3',
+	icon: 'size-11 p-0',
 }
 
-const buttonBaseClassName =
-	'sui:inline-flex sui:box-border sui:touch-manipulation sui:cursor-pointer sui:appearance-none sui:items-center sui:justify-center sui:gap-2 sui:whitespace-nowrap sui:rounded-control sui:border sui:text-sm sui:font-medium sui:[font-family:var(--sui-theme-font-sans)] sui:transition-[border-color,background-color,color,opacity] sui:duration-150 sui:focus-visible:outline-2 sui:focus-visible:outline-focus sui:focus-visible:outline-offset-2 sui:disabled:cursor-not-allowed sui:disabled:opacity-50 sui:motion-reduce:transition-none sui:[&_svg]:pointer-events-none sui:[&_svg]:size-4 sui:[&_svg]:shrink-0'
+const buttonBaseClassName = cn(
+	'box-border inline-flex cursor-pointer touch-manipulation',
+	'appearance-none items-center justify-center gap-2',
+	'rounded-control border text-sm font-medium whitespace-nowrap',
+	'font-sans',
+	'transition-button-colors duration-150',
+	'focus-visible:outline-2 focus-visible:outline-focus',
+	'focus-visible:outline-offset-2 disabled:cursor-not-allowed',
+	'disabled:opacity-50 motion-reduce:transition-none',
+	'button-icons',
+)
 
 export function buttonClassName({
 	variant = 'default',
@@ -82,7 +92,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 				data-variant={variant}
 				data-size={size}
 				type={type}
-				className={buttonClassName({ variant, size, className })}
+				className={buttonClassName({ variant, size, className: className })}
 				{...buttonProps}
 			/>
 		)

@@ -32,7 +32,9 @@ export const TableContainer = forwardRef<HTMLDivElement, TableContainerProps>(
 				aria-label={ariaLabel}
 				aria-labelledby={ariaLabelledBy}
 				className={cn(
-					'sui:relative sui:w-full sui:box-border sui:overflow-auto sui:rounded-panel sui:focus-visible:outline-2 sui:focus-visible:outline-focus sui:focus-visible:outline-offset-2',
+					'relative box-border w-full overflow-auto rounded-panel',
+					'focus-visible:outline-2 focus-visible:outline-focus',
+					'focus-visible:outline-offset-2',
 					className,
 				)}
 				{...divProps}

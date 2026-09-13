@@ -31,7 +31,10 @@ export const LoadingIndicator = forwardRef<
 			aria-label={ariaLabel ?? label}
 			aria-live={ariaLive}
 			className={cn(
-				'sui:border-line sui:bg-surface-elevated/95 sui:text-muted sui:inline-flex sui:box-border sui:items-center sui:gap-2 sui:whitespace-nowrap sui:rounded-full sui:border sui:px-3 sui:py-2 sui:text-xs sui:font-medium sui:shadow-sm sui:font-[family-name:var(--sui-theme-font-sans)]',
+				'inline-flex border-line bg-surface-elevated/95 text-muted',
+				'box-border items-center gap-2 rounded-full whitespace-nowrap',
+				'border px-3 py-2 text-xs font-medium',
+				'font-sans',
 				className,
 			)}
 			{...indicatorProps}

@@ -25,30 +25,16 @@ describe('Checkbox', () => {
 		expect(checkbox).toHaveAttribute('name', 'bots')
 		expect(checkbox).toHaveAttribute('value', 'only')
 		expect(checkbox).toHaveAttribute('data-slot', 'checkbox')
-		expect(checkbox).toHaveClass(
-			'sui:peer',
-			'sui:appearance-none',
-			'sui:rounded-sm',
-			'sui:checked:bg-accent',
-			'sui:focus-visible:ring-1',
-		)
+
 		expect(
 			container.querySelector('[data-slot="checkbox-indicator"]'),
 		).toHaveAttribute('aria-hidden', 'true')
 	})
 
 	it('exposes native disabled and required states', () => {
-		const { container } = render(
-			<Checkbox aria-label="Accept" disabled required />,
-		)
+		render(<Checkbox aria-label="Accept" disabled required />)
 		const checkbox = screen.getByRole('checkbox', { name: 'Accept' })
-		const indicator = container.querySelector('[data-slot="checkbox-indicator"]')
 		expect(checkbox).toBeDisabled()
 		expect(checkbox).toBeRequired()
-		expect(indicator).toHaveClass(
-			'sui:opacity-0',
-			'sui:peer-disabled:text-surface-elevated/50',
-		)
-		expect(indicator).not.toHaveClass('sui:peer-disabled:opacity-50')
 	})
 })

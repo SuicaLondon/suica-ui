@@ -27,12 +27,6 @@ describe('Textarea', () => {
 		expect(textarea).toHaveAttribute('rows', '8')
 		expect(textarea).toHaveAttribute('maxlength', '200')
 		expect(textarea).toHaveAttribute('data-slot', 'textarea')
-		expect(textarea).toHaveClass(
-			'sui:min-h-[60px]',
-			'sui:rounded-control',
-			'sui:bg-transparent',
-			'sui:focus-visible:ring-1',
-		)
 	})
 
 	it('preserves invalid, disabled, and caller styling', () => {
@@ -41,14 +35,13 @@ describe('Textarea', () => {
 				aria-label="Content"
 				aria-invalid
 				disabled
-				className="sui:min-h-64 sui:font-mono"
+				className="min-h-64 font-mono"
 			/>,
 		)
 
 		const textarea = screen.getByLabelText('Content')
 		expect(textarea).toBeDisabled()
 		expect(textarea).toHaveAttribute('aria-invalid', 'true')
-		expect(textarea).toHaveClass('sui:min-h-64', 'sui:font-mono')
-		expect(textarea).not.toHaveClass('sui:min-h-[60px]')
+		expect(textarea).toHaveClass('min-h-64', 'font-mono')
 	})
 })

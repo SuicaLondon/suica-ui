@@ -9,10 +9,7 @@ export const CardHeader = forwardRef<
 		<div
 			ref={ref}
 			data-slot="card-header"
-			className={cn(
-				'sui:flex sui:box-border sui:flex-col sui:gap-1.5 sui:p-6',
-				className,
-			)}
+			className={cn('box-border flex flex-col gap-1.5 p-6', className)}
 			{...divProps}
 		/>
 	)

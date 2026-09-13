@@ -20,10 +20,10 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
 	return (
 		<label
 			className={cn(
-				'sui:inline-flex sui:items-center sui:gap-2 sui:text-sm sui:text-foreground',
+				'inline-flex items-center gap-2 text-sm text-foreground',
 				{
-					'sui:cursor-not-allowed sui:opacity-50': disabled,
-					'sui:cursor-pointer': !disabled,
+					'cursor-not-allowed opacity-50': disabled,
+					'cursor-pointer': !disabled,
 				},
 				className,
 			)}
@@ -33,12 +33,20 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
 				ref={ref}
 				type="checkbox"
 				role="switch"
-				className="sui:peer sui:sr-only"
+				className="peer sr-only"
 				disabled={disabled}
 				{...inputProps}
 			/>
 			<span
-				className="sui:relative sui:h-6 sui:w-11 sui:shrink-0 sui:rounded-full sui:bg-line-strong sui:transition-colors sui:peer-checked:bg-accent sui:peer-focus-visible:outline-2 sui:peer-focus-visible:outline-focus sui:peer-focus-visible:outline-offset-2 sui:after:absolute sui:after:start-0.5 sui:after:top-0.5 sui:after:size-5 sui:after:rounded-full sui:after:bg-surface-elevated sui:after:shadow-sm sui:after:transition-transform sui:after:content-[''] sui:peer-checked:after:translate-x-5"
+				className={cn(
+					'relative h-6 w-11 shrink-0 rounded-full bg-line-strong',
+					'transition-colors peer-checked:bg-accent',
+					'peer-focus-visible:outline-2 peer-focus-visible:outline-focus',
+					'peer-focus-visible:outline-offset-2 after:absolute after:start-0.5',
+					'after:top-0.5 after:size-5 after:rounded-full',
+					'after:bg-surface-elevated after:transition-transform',
+					'after:content-empty peer-checked:after:translate-x-5',
+				)}
 				aria-hidden="true"
 			/>
 		</label>

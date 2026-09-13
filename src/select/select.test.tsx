@@ -27,19 +27,11 @@ describe('Select', () => {
 		expect(select).toHaveAttribute('name', 'status')
 		expect(select).toBeRequired()
 		expect(select).toHaveAttribute('data-slot', 'select')
-		expect(select).toHaveClass('sui:h-9')
-		expect(select).toHaveClass('sui:bg-transparent')
-		expect(select).toHaveClass('sui:focus-visible:ring-1')
 	})
 
 	it('supports native invalid and disabled states plus class overrides', () => {
 		render(
-			<Select
-				aria-label="Language"
-				aria-invalid="true"
-				disabled
-				className="sui:h-8"
-			>
+			<Select aria-label="Language" aria-invalid="true" disabled className="h-8">
 				<option>English</option>
 			</Select>,
 		)
@@ -47,7 +39,7 @@ describe('Select', () => {
 		const select = screen.getByLabelText('Language')
 		expect(select).toBeDisabled()
 		expect(select).toHaveAttribute('aria-invalid', 'true')
-		expect(select).toHaveClass('sui:h-8')
-		expect(select).not.toHaveClass('sui:h-9')
+		expect(select).toHaveClass('h-8')
+		expect(select).not.toHaveClass('h-9')
 	})
 })

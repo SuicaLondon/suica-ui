@@ -15,7 +15,7 @@ type Story = StoryObj<typeof meta>
 
 export const Prefix: Story = {
 	render: () => (
-		<InputGroup className="sui:w-[28rem] sui:max-w-full">
+		<InputGroup className="w-112 max-w-full">
 			<InputGroupAddon>/blogs/</InputGroupAddon>
 			<Input aria-label="Post slug" placeholder="my-post" />
 		</InputGroup>
@@ -24,8 +24,8 @@ export const Prefix: Story = {
 
 export const Search: Story = {
 	render: () => (
-		<InputGroup className="sui:w-[28rem] sui:max-w-full">
-			<InputGroupAddon aria-hidden="true" className="sui:pr-2">
+		<InputGroup className="w-112 max-w-full">
+			<InputGroupAddon aria-hidden="true" className="pr-2">
 				<SearchIcon />
 			</InputGroupAddon>
 			<Input type="search" aria-label="Search posts" placeholder="Search posts" />
@@ -35,7 +35,7 @@ export const Search: Story = {
 
 export const Invalid: Story = {
 	render: () => (
-		<InputGroup className="sui:w-[28rem] sui:max-w-full">
+		<InputGroup className="w-112 max-w-full">
 			<InputGroupAddon>/blogs/</InputGroupAddon>
 			<Input aria-label="Post slug" aria-invalid="true" defaultValue="taken" />
 		</InputGroup>

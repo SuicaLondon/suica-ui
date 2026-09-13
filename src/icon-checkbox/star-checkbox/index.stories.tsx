@@ -8,7 +8,7 @@ const meta = {
 	parameters: { layout: 'centered' },
 	args: {
 		endLabel: 'Featured',
-		iconClassName: 'sui:text-primary-gray',
+		iconClassName: 'text-primary-gray',
 	},
 } satisfies Meta<typeof StarCheckbox>
 

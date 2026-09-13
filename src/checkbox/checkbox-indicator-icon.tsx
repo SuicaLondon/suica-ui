@@ -1,3 +1,4 @@
+import { cn } from '../cn.js'
 export function CheckboxIndicatorIcon() {
 	return (
 		<svg
@@ -10,7 +11,11 @@ export function CheckboxIndicatorIcon() {
 			strokeWidth="3"
 			strokeLinecap="round"
 			strokeLinejoin="round"
-			className="sui:text-surface-elevated sui:pointer-events-none sui:col-start-1 sui:row-start-1 sui:m-auto sui:size-3.5 sui:opacity-0 sui:transition-opacity sui:peer-checked:opacity-100 sui:peer-disabled:text-surface-elevated/50"
+			className={cn(
+				'pointer-events-none col-start-1 text-surface-elevated',
+				'row-start-1 m-auto size-3.5 opacity-0 transition-opacity',
+				'peer-checked:opacity-100 peer-disabled:text-surface-elevated/50',
+			)}
 		>
 			<path d="m5 12 4 4L19 6" />
 		</svg>

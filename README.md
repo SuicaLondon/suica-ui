@@ -37,8 +37,9 @@ use the Tailwind-aware entry instead:
 @import 'suica-ui/tailwind.css';
 ```
 
-Use one CSS entry, not both. The Tailwind-aware entry includes the precompiled
-styles and generates consumer `sui:` utilities.
+Use one CSS entry, not both. The Tailwind-aware entry compiles the shared theme and utilities together with
+consumer classes. The precompiled entry requires no Tailwind build step. Both
+entries use `styles/shared.css` as their source of theme and utility definitions.
 
 ## Server and Client Components
 
@@ -123,7 +124,7 @@ import { ScalableTag, TagCloud } from 'suica-ui/scalable-tag'
 			href="/tags/design"
 			count={3}
 			prefix="@"
-			prefixClassName="sui:text-blue-500"
+			prefixClassName="text-blue-500"
 		>
 			Design
 		</ScalableTag>
@@ -140,7 +141,7 @@ supplied props, including `ref` and `children`. Routing stays in the application
 
 ## Theme
 
-Utilities and theme variables use the `sui:` and `--sui-*` namespaces. Enable
+Utilities use standard, unprefixed Tailwind class names. Semantic theme variables retain the `--sui-theme-*` namespace. Enable
 dark mode with `class="dark"` or `data-theme="dark"` on an ancestor, and override
 semantic `--sui-theme-*` properties within an application theme scope.
 
@@ -258,7 +259,7 @@ import { Separator } from 'suica-ui/separator'
 
 <Separator />
 <Separator decorative={false} />
-<div style={{ display: 'flex', height: 24, gap: 16 }}>
+<div className="flex h-6 gap-4">
   <span>Profile</span>
   <Separator orientation="vertical" />
   <span>Settings</span>
@@ -279,3 +280,28 @@ Use plain strings for short static class names and forward `className` directly 
 <div className="flex items-center gap-2" />
 <div className={cn('flex items-center gap-2', className)} />
 ```
+
+For conditional JSX children with a `null` fallback, use `&&` instead of a ternary expression. Coerce conditions that are not known booleans with `!!` to avoid rendering numeric zero. ESLint enforces this for JSX children; nullable data expressions and props retain their original semantics.
+
+```tsx
+<div>{items.length > 0 && <List items={items} />}</div>
+<div>{!!title && <Heading>{title}</Heading>}</div>
+```
+
+Use named line-height utilities such as `leading-tight` instead of `leading-[1.25]`. ESLint rejects arbitrary `leading-[...]` and `leading-(...)` values. Define additional values through `--leading-*` theme tokens; this package provides `leading-compact` (1.05) and `leading-comfortable` (1.6).
+
+VS Code and Cursor workspace settings enable Prettier formatting on save and ESLint fixes on explicit saves. Install the recommended Prettier and ESLint extensions. The existing `prettier-plugin-tailwindcss` configuration sorts classes in JSX and `cn(...)` using `src/styles.css` as the theme entry.
+
+Keep `calc()`, `min()`, `max()`, and `clamp()` out of arbitrary class values. Define reusable sizing rules with Tailwind `@utility` in the stylesheet, such as `menu-viewport`, `dialog-viewport`, and `sidebar-width`. ESLint enforces this for class strings; JavaScript calculations and dynamic style values remain supported.
+
+Do not reference CSS variables directly in class strings, including `text-[var(--icon)]` and `text-(--icon)`. Map variables through Tailwind theme tokens or named `@utility` definitions in the stylesheet. ESLint enforces this for class strings; dynamic inline styles remain supported.
+
+Prefer numeric Tailwind utilities over equivalent arbitrary values: use `pt-18` for `pt-[4.5rem]` and `gap-y-5.5` for `gap-y-[22px]`. ESLint auto-fixes supported spacing, sizing, outline offset, opacity, and duration values. Spacing conversions use Tailwind's default `0.25rem` unit (4px at a 16px root font size).
+
+Table primitives own their styles directly: `TableHeader` provides the header separator, `TableRow` provides row separators except on the last row of a section, and `TableFooter` provides its top separator. Cells use consistent padding without inspecting their children. Apply checkbox-specific spacing or alignment explicitly to the cell or checkbox through `className` when needed.
+
+Use named blur theme tokens instead of arbitrary `blur-[…]` or `backdrop-blur-[…]` values. For example, `--blur-overlay: 1px` provides `backdrop-blur-overlay`. ESLint enforces this with `suica/no-arbitrary-blur`, including CSS-variable shorthand.
+
+All project JavaScript and TypeScript files, including stories and tests, enforce `suica/no-arbitrary-values` and `suica/no-static-inline-styles`. Use standard utilities or named theme tokens instead of arbitrary values and properties. Attribute state variants such as `data-[state=open]:block` remain supported. The rule checks class attributes, class props, `cn` calls, and class/variant declarations. `pnpm test:eslint` also checks stylesheet `@apply` values.
+
+Inline style properties must depend on runtime values (for example, `top: offset` or `height: height + "px"`) or reference CSS variables. Fixed values such as `padding: 16` belong in classes. Each property is checked independently; adding one dynamic property does not permit fixed siblings. Local style objects, aliases, spreads, and Storybook `args.style` are checked too. Consumer-provided styles and runtime function results remain supported.

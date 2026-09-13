@@ -20,7 +20,15 @@ const meta = {
 	title: 'Components/Spinner',
 	component: Spinner,
 	tags: ['autodocs'],
-	parameters: { layout: 'centered' },
+	parameters: {
+		layout: 'centered',
+		docs: {
+			description: {
+				component:
+					'Spinner is indeterminate when percentage is omitted and determinate from 0 to 100 when provided. Values are clamped, and the required label supplies its accessible name.',
+			},
+		},
+	},
 	args: {
 		label: 'Loading',
 	},
@@ -38,27 +46,17 @@ export const Default: Story = {}
 
 export const States: Story = {
 	render: () => (
-		<div
-			style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'start', gap: 24 }}
-		>
+		<div className="flex flex-wrap items-start gap-6">
 			{spinnerExamples.map(({ label, displayLabel, percentage }) => (
-				<div
-					key={label}
-					style={{
-						display: 'grid',
-						justifyItems: 'center',
-						gap: 8,
-						minWidth: 40,
-					}}
-				>
+				<div key={label} className="grid min-w-10 justify-items-center gap-2">
 					<Spinner
 						label={label}
 						percentage={percentage}
-						className="sui:animate-spin sui:will-change-transform sui:motion-reduce:animate-none"
+						className={
+							'animate-spin will-change-transform motion-reduce:animate-none'
+						}
 					/>
-					<span className="sui:text-xs sui:font-medium sui:text-muted">
-						{displayLabel}
-					</span>
+					<span className="text-xs font-medium text-muted">{displayLabel}</span>
 				</div>
 			))}
 		</div>

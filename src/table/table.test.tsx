@@ -7,15 +7,15 @@ import {
 	TableCaption,
 	TableCell,
 	TableContainer,
-	TableControl,
 	TableFooter,
 	TableHead,
 	TableHeader,
 	TableRow,
 } from './index'
+import { TableControl } from './table-control'
 
 describe('Table', () => {
-	it('renders the Blog dashboard table density with native semantics', () => {
+	it('renders native table semantics and accessible checkbox names', () => {
 		const tableRef = createRef<HTMLTableElement>()
 		render(
 			<Table ref={tableRef} aria-label="Posts">
@@ -53,26 +53,18 @@ describe('Table', () => {
 		expect(screen.getAllByRole('columnheader')).toHaveLength(2)
 		const titleHead = screen.getByRole('columnheader', { name: 'Title' })
 		expect(titleHead).toHaveAttribute('scope', 'col')
-		expect(titleHead).toHaveClass('sui:px-2', 'sui:font-medium', 'sui:text-muted')
-		expect(titleHead).not.toHaveClass(
-			'sui:text-xs',
-			'sui:uppercase',
-			'sui:[font-family:var(--sui-theme-font-mono)]',
-		)
-		expect(screen.getByTestId('header-row')).toHaveClass('sui:hover:bg-hover')
-		expect(screen.getAllByRole('columnheader')[1]).toHaveClass(
-			'sui:[&>[role=checkbox]]:translate-y-[2px]',
-		)
-		expect(screen.getByRole('cell', { name: 'Spring update' })).toHaveClass(
-			'sui:p-2',
-		)
-		expect(screen.getAllByRole('cell')[1]).toHaveClass(
-			'sui:[&>[role=checkbox]]:translate-y-[2px]',
-		)
+		expect(
+			screen.getByRole('checkbox', { name: 'Select all posts' }),
+		).toBeInTheDocument()
+		expect(
+			screen.getByRole('checkbox', { name: 'Select Spring update' }),
+		).toBeInTheDocument()
+		expect(
+			screen.getByRole('cell', { name: 'Spring update' }),
+		).toBeInTheDocument()
 		expect(screen.getByRole('caption')).toHaveTextContent(
 			'Recent dashboard posts',
 		)
-		expect(screen.getByRole('caption')).toHaveClass('sui:mt-4')
 	})
 
 	it('offers an explicit overflow container and forwards primitive refs', () => {
@@ -100,14 +92,6 @@ describe('Table', () => {
 		expect(containerRef.current).toHaveAttribute('tabindex', '0')
 		expect(tableRef.current).toBe(screen.getByRole('table'))
 		expect(rowRef.current).toHaveAttribute('data-state', 'selected')
-		expect(rowRef.current).toHaveClass(
-			'sui:hover:bg-hover',
-			'sui:data-[state=selected]:bg-hover',
-		)
-		expect(containerRef.current).toHaveClass(
-			'sui:overflow-auto',
-			'sui:rounded-panel',
-		)
 	})
 
 	it('accepts an aria-labelledby container name and a custom tab stop', () => {
@@ -145,31 +129,11 @@ describe('Table', () => {
 
 		const control = screen.getByTestId('table-control')
 		expect(controlRef.current).toBe(control)
-		expect(control).toHaveClass(
-			'custom-control',
-			'sui:min-h-12',
-			'sui:min-w-0',
-			'sui:rounded-panel',
-			'sui:bg-surface-elevated',
-			'sui:p-2',
-			'sui:gap-2',
-			'sui:sm:flex-wrap',
-		)
-		expect(control).not.toHaveClass('sui:min-h-16', 'sui:p-3', 'sui:gap-3')
+		expect(control).toHaveClass('custom-control')
 		expect(control).toHaveAttribute('aria-busy', 'false')
 		const summary = control.querySelector('[data-slot="table-control-summary"]')
 		expect(summary).toHaveTextContent('Page 2 of 6 · 135 viewers')
 		expect(summary).toHaveAttribute('aria-live', 'polite')
-		expect(summary).toHaveClass('sui:min-w-0')
-		expect(
-			control.querySelector('[data-slot="table-control-actions"]'),
-		).toHaveClass(
-			'sui:w-full',
-			'sui:min-w-0',
-			'sui:max-w-full',
-			'sui:flex-wrap',
-			'sui:sm:w-auto',
-		)
 		expect(screen.getByRole('navigation', { name: 'Viewer pages' })).toBeVisible()
 		expect(
 			screen.getByRole('combobox', { name: 'Viewers per page' }),

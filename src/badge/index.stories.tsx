@@ -53,13 +53,13 @@ type Story = StoryObj<typeof meta>
 
 export const Variants: Story = {
 	render: () => (
-		<div className="sui:flex sui:flex-col sui:gap-3">
+		<div className="flex flex-col gap-3">
 			{badgeSizes.map((size) => (
-				<div key={size} className="sui:flex sui:items-center sui:gap-3">
-					<span className="sui:w-11 sui:shrink-0 sui:text-xs sui:text-muted">
+				<div key={size} className="flex items-center gap-3">
+					<span className="w-11 shrink-0 text-xs text-muted">
 						{badgeSizeLabel[size]}
 					</span>
-					<div className="sui:flex sui:flex-wrap sui:gap-2">
+					<div className="flex flex-wrap gap-2">
 						{badgeVariants.map((variant) => (
 							<Badge key={variant} size={size} variant={variant}>
 								{badgeLabelByVariant[variant]}

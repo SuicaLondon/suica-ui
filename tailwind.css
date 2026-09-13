@@ -1,5 +1,8 @@
-@import './dist/styles.css';
-@import 'tailwindcss/theme.css' layer(theme) prefix(sui) theme(reference);
-@import 'tailwindcss/utilities.css' layer(utilities) prefix(sui);
+@layer theme, utilities;
 
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+@import './styles/shared.css';
+
+@source './dist';
 @custom-variant dark (&:where(.dark, .dark *, [data-theme='dark'], [data-theme='dark'] *));

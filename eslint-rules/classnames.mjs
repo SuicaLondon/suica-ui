@@ -1,4 +1,8 @@
 import path from 'node:path'
+import noStaticInlineStyles from './no-static-inline-styles.mjs'
+import { hasArbitraryValue } from './arbitrary-values.mjs'
+import { normalizeNumericUtilities } from './numeric-utilities.mjs'
+import preferAndRendering from './prefer-and-rendering.mjs'
 
 const isCnCall = (node) =>
 	node?.type === 'CallExpression' &&
@@ -36,6 +40,32 @@ function isClassContext(node) {
 export default {
 	meta: { name: 'suica-classnames' },
 	rules: {
+		'no-static-inline-styles': noStaticInlineStyles,
+		'no-arbitrary-values': {
+			meta: {
+				type: 'suggestion',
+				schema: [],
+				messages: {
+					arbitrary:
+						'Use a standard utility or a named theme token instead of an arbitrary value or property.',
+				},
+			},
+			create(context) {
+				function check(node, value) {
+					if (isClassContext(node) && hasArbitraryValue(value))
+						context.report({ node, messageId: 'arbitrary' })
+				}
+				return {
+					Literal(node) {
+						if (typeof node.value === 'string') check(node, node.value)
+					},
+					TemplateElement(node) {
+						check(node, node.value.cooked ?? node.value.raw)
+					},
+				}
+			},
+		},
+		'prefer-and-rendering': preferAndRendering,
 		'consistent-classnames': {
 			meta: {
 				type: 'suggestion',
@@ -127,6 +157,169 @@ export default {
 									? fixer.insertTextAfter(directive, declaration)
 									: fixer.insertTextBefore(node, declaration),
 						})
+					},
+				}
+			},
+		},
+
+		'prefer-numeric-utilities': {
+			meta: {
+				type: 'suggestion',
+				fixable: 'code',
+				schema: [],
+				messages: {
+					numeric:
+						'Use standard numeric Tailwind utilities instead of equivalent arbitrary values.',
+				},
+			},
+			create(context) {
+				function check(node, value) {
+					if (!isClassContext(node) || normalizeNumericUtilities(value) === value)
+						return
+					context.report({
+						node,
+						messageId: 'numeric',
+						fix: (fixer) =>
+							fixer.replaceText(
+								node,
+								normalizeNumericUtilities(context.sourceCode.getText(node)),
+							),
+					})
+				}
+				return {
+					Literal(node) {
+						if (typeof node.value === 'string') check(node, node.value)
+					},
+					TemplateElement(node) {
+						check(node, node.value.cooked ?? node.value.raw)
+					},
+				}
+			},
+		},
+		'no-css-variable-classes': {
+			meta: {
+				type: 'suggestion',
+				schema: [],
+				messages: {
+					themeVariable:
+						'Reference CSS variables through a named Tailwind theme token or @utility, not directly in class strings.',
+				},
+			},
+			create(context) {
+				function check(node, value) {
+					if (
+						isClassContext(node) &&
+						/(?:var\(\s*--|\([^)]*--[\w-]+\))/u.test(value)
+					)
+						context.report({ node, messageId: 'themeVariable' })
+				}
+				return {
+					Literal(node) {
+						if (typeof node.value === 'string') check(node, node.value)
+					},
+					TemplateElement(node) {
+						check(node, node.value.cooked ?? node.value.raw)
+					},
+				}
+			},
+		},
+		'no-arbitrary-blur': {
+			meta: {
+				type: 'suggestion',
+				schema: [],
+				messages: {
+					namedBlur:
+						'Use a named blur theme token instead of an arbitrary blur value.',
+				},
+			},
+			create(context) {
+				function check(node, value) {
+					if (
+						isClassContext(node) &&
+						/(?:^|[\s:!])(?:backdrop-)?blur-[[(]/u.test(value)
+					)
+						context.report({ node, messageId: 'namedBlur' })
+				}
+				return {
+					Literal(node) {
+						if (typeof node.value === 'string') check(node, node.value)
+					},
+					TemplateElement(node) {
+						check(node, node.value.cooked ?? node.value.raw)
+					},
+				}
+			},
+		},
+		'no-arbitrary-css-math': {
+			meta: {
+				type: 'suggestion',
+				schema: [],
+				messages: {
+					namedMath:
+						'Move CSS math out of arbitrary class values into a named Tailwind @utility or theme token.',
+				},
+			},
+			create(context) {
+				function check(node, value) {
+					if (
+						isClassContext(node) &&
+						/\[[^\]]*\b(?:calc|min|max|clamp)\(/u.test(value)
+					)
+						context.report({ node, messageId: 'namedMath' })
+				}
+				return {
+					Literal(node) {
+						if (typeof node.value === 'string') check(node, node.value)
+					},
+					TemplateElement(node) {
+						check(node, node.value.cooked ?? node.value.raw)
+					},
+				}
+			},
+		},
+		'no-arbitrary-leading': {
+			meta: {
+				type: 'suggestion',
+				fixable: 'code',
+				schema: [],
+				messages: {
+					named:
+						'Use a named line-height utility (for example leading-tight), or define a --leading-* theme token.',
+				},
+			},
+			create(context) {
+				const replacements = {
+					1: 'none',
+					1.25: 'tight',
+					1.375: 'snug',
+					1.5: 'normal',
+					1.625: 'relaxed',
+					2: 'loose',
+				}
+				function check(node, value) {
+					if (!isClassContext(node)) return
+					const pattern = /(?<![\w-])leading-(?:\[[^\]]+\]|\([^)]*\))/gu
+					if (!pattern.test(value)) return
+					context.report({
+						node,
+						messageId: 'named',
+						fix(fixer) {
+							const original = context.sourceCode.getText(node)
+							const fixed = original.replace(
+								/leading-\[([\d.]+)\]/gu,
+								(token, number) =>
+									replacements[number] ? `leading-${replacements[number]}` : token,
+							)
+							return fixed === original ? null : fixer.replaceText(node, fixed)
+						},
+					})
+				}
+				return {
+					Literal(node) {
+						if (typeof node.value === 'string') check(node, node.value)
+					},
+					TemplateElement(node) {
+						check(node, node.value.cooked ?? node.value.raw)
 					},
 				}
 			},

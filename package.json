@@ -26,7 +26,8 @@
 	"files": [
 		"dist",
 		"README.md",
-		"tailwind.css"
+		"tailwind.css",
+		"styles"
 	],
 	"main": "./dist/index.js",
 	"module": "./dist/index.js",
@@ -177,8 +178,8 @@
 		"build": "pnpm clean && vite build && tsc -p tsconfig.build.json",
 		"build-storybook": "storybook build",
 		"clean": "rm -rf dist storybook-static",
-		"format": "prettier --write src eslint-rules eslint.config.mjs .storybook .github scripts test README.md package.json tailwind.css tsconfig*.json *.ts",
-		"format:check": "prettier --check src eslint-rules eslint.config.mjs .storybook .github scripts test README.md package.json tailwind.css tsconfig*.json *.ts",
+		"format": "prettier --write src styles eslint-rules eslint.config.mjs .storybook .github .vscode scripts test README.md package.json tailwind.css tsconfig*.json *.ts",
+		"format:check": "prettier --check src styles eslint-rules eslint.config.mjs .storybook .github .vscode scripts test README.md package.json tailwind.css tsconfig*.json *.ts",
 		"lint": "eslint . --max-warnings=0",
 		"lint:fix": "pnpm lint --fix",
 		"prepare": "node scripts/prepare.mjs",

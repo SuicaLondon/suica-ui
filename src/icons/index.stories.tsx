@@ -9,7 +9,7 @@ const meta = {
 	args: {
 		icon: 'heart',
 		title: 'Favourite',
-		style: { color: '#b91c1c', height: 32, width: 32 },
+		className: 'text-danger h-8 w-8',
 	},
 	argTypes: {
 		icon: {
@@ -28,6 +28,6 @@ export const Star: Story = {
 	args: {
 		icon: 'star-fill',
 		title: 'Featured',
-		style: { color: '#a16207', height: 32, width: 32 },
+		className: 'text-warning h-8 w-8',
 	},
 }

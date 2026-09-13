@@ -1,3 +1,5 @@
+'use client'
+
 import {
 	forwardRef,
 	type ComponentPropsWithoutRef,
@@ -61,7 +63,10 @@ export const TableControl = forwardRef<HTMLDivElement, TableControlProps>(
 				data-slot="table-control"
 				aria-busy={busy}
 				className={cn(
-					'sui:border-line sui:bg-surface-elevated sui:text-foreground sui:flex sui:min-h-12 sui:min-w-0 sui:w-full sui:shrink-0 sui:box-border sui:flex-col sui:gap-2 sui:rounded-panel sui:border sui:p-2 sui:shadow-sm sui:sm:flex-row sui:sm:flex-wrap sui:sm:items-center sui:sm:justify-between sui:font-[family-name:var(--sui-theme-font-sans)]',
+					'box-border flex min-h-12 w-full min-w-0 flex-col gap-2',
+					'rounded-panel border border-line bg-surface-elevated p-2',
+					'font-sans text-foreground sm:flex-row sm:flex-wrap',
+					'sm:items-center sm:justify-between',
 					className,
 				)}
 				{...divProps}
@@ -70,25 +75,25 @@ export const TableControl = forwardRef<HTMLDivElement, TableControlProps>(
 					data-slot="table-control-summary"
 					aria-live="polite"
 					aria-atomic="true"
-					className="sui:m-0 sui:min-w-0 sui:text-sm sui:text-muted"
+					className="m-0 min-w-0 text-sm text-muted"
 				>
-					Page{' '}
-					<span className="sui:font-medium sui:text-foreground">
-						{pagination.page}
-					</span>{' '}
+					Page <span className="font-medium text-foreground">{pagination.page}</span>{' '}
 					of {pagination.totalPages} · {pagination.total.toLocaleString()}{' '}
 					{itemLabel}
 				</p>
 				<div
 					data-slot="table-control-actions"
-					className="sui:flex sui:w-full sui:min-w-0 sui:max-w-full sui:flex-wrap sui:items-center sui:gap-2 sui:sm:w-auto sui:sm:shrink-0"
+					className={cn(
+						'flex w-full min-w-0 flex-wrap items-center',
+						'gap-2 sm:w-auto sm:shrink-0',
+					)}
 				>
 					{hasPageSizeOptions && (
 						<Select
 							aria-label={`${sentenceCase(itemLabel)} per page`}
 							value={pagination.pageSize}
 							disabled={busy}
-							className="sui:h-8 sui:w-[104px] sui:max-w-full sui:shrink-0"
+							className="h-8 w-26 max-w-full shrink-0"
 							onChange={(event) => {
 								onPaginationChange({
 									page: 1,
@@ -103,10 +108,7 @@ export const TableControl = forwardRef<HTMLDivElement, TableControlProps>(
 							))}
 						</Select>
 					)}
-					<nav
-						aria-label={ariaLabel}
-						className="sui:flex sui:shrink-0 sui:items-center sui:gap-2"
-					>
+					<nav aria-label={ariaLabel} className="flex shrink-0 items-center gap-2">
 						<Button
 							variant="outline"
 							size="xs"
@@ -120,7 +122,7 @@ export const TableControl = forwardRef<HTMLDivElement, TableControlProps>(
 							}}
 						>
 							<ChevronLeftIcon />
-							<span className="sui:hidden sui:sm:inline">Previous</span>
+							<span className="hidden sm:inline">Previous</span>
 						</Button>
 						<Button
 							variant="outline"
@@ -134,7 +136,7 @@ export const TableControl = forwardRef<HTMLDivElement, TableControlProps>(
 								})
 							}}
 						>
-							<span className="sui:hidden sui:sm:inline">Next</span>
+							<span className="hidden sm:inline">Next</span>
 							<ChevronRightIcon />
 						</Button>
 					</nav>

@@ -25,27 +25,32 @@ export const SectionHeading = forwardRef<HTMLDivElement, SectionHeadingProps>(
 				ref={ref}
 				data-slot="section-heading"
 				className={cn(
-					'sui:flex sui:min-w-0 sui:box-border sui:items-center sui:gap-3 sui:px-1 sui:text-foreground sui:font-[family-name:var(--sui-theme-font-sans)]',
+					'box-border flex min-w-0 items-center gap-3 px-1',
+					'font-sans text-foreground',
 					className,
 				)}
 				{...props}
 			>
 				<p
 					data-slot="section-heading-eyebrow"
-					className="sui:m-0 sui:shrink-0 sui:text-[11px] sui:font-semibold sui:tracking-[0.14em] sui:text-muted sui:uppercase"
+					className={
+						'm-0 shrink-0 text-eyebrow font-semibold tracking-eyebrow text-muted uppercase'
+					}
 				>
 					{eyebrow}
 				</p>
 				<h2
 					id={titleId}
 					data-slot="section-heading-title"
-					className="sui:m-0 sui:shrink-0 sui:text-lg sui:font-semibold sui:tracking-tight"
+					className="m-0 shrink-0 text-lg font-semibold tracking-tight"
 				>
 					{title}
 				</h2>
 				<p
 					data-slot="section-heading-description"
-					className="sui:m-0 sui:ml-auto sui:hidden sui:min-w-0 sui:truncate sui:text-sm sui:text-muted sui:sm:block"
+					className={
+						'm-0 ml-auto hidden min-w-0 truncate text-sm text-muted sm:block'
+					}
 				>
 					{description}
 				</p>

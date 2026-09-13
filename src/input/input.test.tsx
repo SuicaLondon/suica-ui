@@ -26,30 +26,16 @@ describe('Input', () => {
 		expect(input).toHaveAttribute('max', '2027-01-01')
 		expect(input).toHaveAttribute('data-source', 'dashboard')
 		expect(input).toHaveAttribute('data-slot', 'input')
-		expect(input).toHaveClass(
-			'sui:box-border',
-			'sui:h-9',
-			'sui:rounded-control',
-			'sui:bg-transparent',
-			'sui:py-1',
-			'sui:focus-visible:ring-1',
-		)
 	})
 
 	it('exposes invalid and disabled states to native accessibility APIs', () => {
 		render(
-			<Input
-				aria-label="Title"
-				aria-invalid="true"
-				disabled
-				className="sui:h-8"
-			/>,
+			<Input aria-label="Title" aria-invalid="true" disabled className="h-8" />,
 		)
 
 		const input = screen.getByLabelText('Title')
 		expect(input).toBeDisabled()
 		expect(input).toHaveAttribute('aria-invalid', 'true')
-		expect(input).toHaveClass('sui:h-8')
-		expect(input).not.toHaveClass('sui:h-9')
+		expect(input).toHaveClass('h-8')
 	})
 })

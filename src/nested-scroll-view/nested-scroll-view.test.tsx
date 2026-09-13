@@ -49,10 +49,7 @@ describe('NestedScrollView', () => {
 
 		expect(ref.current).toBe(root)
 		expect(root).toHaveClass('root-class')
-		expect(root).toHaveClass(
-			'sui:[scrollbar-width:none]',
-			'sui:[&::-webkit-scrollbar]:hidden',
-		)
+		expect(scroller).toHaveClass('scrollbar-none')
 		expect(screen.getByText('Profile header')).toBeInTheDocument()
 		expect(screen.getByText('Scrollable content')).toBeInTheDocument()
 		expect(scroller).toHaveStyle({

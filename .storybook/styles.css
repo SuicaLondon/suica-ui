@@ -1,0 +1,16 @@
+@import '../src/styles.css';
+
+@source '../src/**/*.stories.tsx';
+@source './preview.ts';
+
+@utility story-viewport {
+	max-width: calc(100vw - 32px);
+}
+
+@utility story-surface-width {
+	width: calc(100vw - 32px);
+}
+
+@utility grid-cols-story-tones {
+	grid-template-columns: 4rem minmax(0, 1fr);
+}

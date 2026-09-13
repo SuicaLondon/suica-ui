@@ -10,7 +10,7 @@ const meta = {
 	parameters: { layout: 'padded' },
 	decorators: [
 		(Story) => (
-			<div className="sui:w-full sui:max-w-2xl">
+			<div className="w-full max-w-2xl">
 				<Story />
 			</div>
 		),

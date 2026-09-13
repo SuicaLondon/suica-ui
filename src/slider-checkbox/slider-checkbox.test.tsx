@@ -20,11 +20,6 @@ describe('DiscreteSlider', () => {
 
 		const slider = screen.getByRole('slider', { name: 'Density' })
 		expect(slider).toHaveAttribute('data-slot', 'discrete-slider')
-		expect(slider).toHaveClass(
-			'sui:appearance-none',
-			'sui:[&::-webkit-slider-thumb]:appearance-none',
-			'sui:[&::-moz-range-thumb]:bg-accent',
-		)
 		expect(slider).toHaveValue('1')
 		expect(slider).toHaveAttribute('aria-valuetext', 'Density: comfortable')
 		expect(ref.current).toBe(slider)

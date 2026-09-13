@@ -1,6 +1,9 @@
+'use client'
+
 import {
 	forwardRef,
 	useId,
+	useEffect,
 	useRef,
 	useState,
 	type ComponentPropsWithoutRef,
@@ -10,6 +13,7 @@ import { cn } from '../cn.js'
 import type {
 	TabItem,
 	TabsActivationMode,
+	TabsMountStrategy,
 	TabsOrientation,
 	TabsVariant,
 } from './tab.type.js'
@@ -27,14 +31,19 @@ export interface TabsProps extends Omit<
 	orientation?: TabsOrientation
 	activationMode?: TabsActivationMode
 	variant?: TabsVariant
+	mountStrategy?: TabsMountStrategy
 	listClassName?: string
 }
 
 const tabsListVariantClassName: Record<TabsVariant, string> = {
-	segmented:
-		'sui:w-fit sui:max-w-full sui:rounded-control sui:border sui:border-line sui:bg-hover sui:p-1 sui:aria-[orientation=vertical]:w-full',
-	underline:
-		'sui:border-b sui:border-line sui:aria-[orientation=vertical]:border-b-0 sui:aria-[orientation=vertical]:border-s',
+	segmented: cn(
+		'w-fit max-w-full rounded-control border border-line',
+		'bg-hover p-1 aria-[orientation=vertical]:w-full',
+	),
+	underline: cn(
+		'border-b border-line aria-[orientation=vertical]:border-b-0',
+		'aria-[orientation=vertical]:border-s',
+	),
 }
 
 const tabsTriggerVariantClassName: Record<
@@ -42,22 +51,42 @@ const tabsTriggerVariantClassName: Record<
 	Record<TabsOrientation, string>
 > = {
 	segmented: {
-		horizontal:
-			'sui:justify-center sui:rounded-control sui:border sui:border-transparent sui:data-[state=active]:border-line sui:data-[state=active]:bg-surface sui:data-[state=active]:shadow-sm',
-		vertical:
-			'sui:w-full sui:justify-start sui:rounded-control sui:border sui:border-transparent sui:data-[state=active]:border-line sui:data-[state=active]:bg-surface sui:data-[state=active]:shadow-sm',
+		horizontal: cn(
+			'justify-center rounded-control border border-transparent',
+			'data-[state=active]:border-line data-[state=active]:bg-surface',
+		),
+		vertical: cn(
+			'w-full justify-start rounded-control border',
+			'border-transparent data-[state=active]:border-line',
+			'data-[state=active]:bg-surface',
+		),
 	},
 	underline: {
-		horizontal:
-			'sui:mb-[-1px] sui:justify-center sui:rounded-t-control sui:border-b-2 sui:border-b-transparent sui:data-[state=active]:border-b-accent',
-		vertical:
-			'sui:ms-[-1px] sui:justify-start sui:rounded-e-control sui:border-s-2 sui:border-s-transparent sui:data-[state=active]:border-s-accent',
+		horizontal: cn(
+			'-mb-0.25 justify-center rounded-t-control border-b-2',
+			'border-b-transparent data-[state=active]:border-b-accent',
+		),
+		vertical: cn(
+			'-ms-0.25 justify-start rounded-e-control border-s-2',
+			'border-s-transparent data-[state=active]:border-s-accent',
+		),
 	},
 }
 
 const tabStateBySelection: Record<0 | 1, TabState> = {
 	0: 'inactive',
 	1: 'active',
+}
+
+function shouldMountPanel(
+	tab: TabItem,
+	selectedValue: string | undefined,
+	strategy: TabsMountStrategy,
+	visited: ReadonlySet<string>,
+) {
+	if (tab.panel === undefined) return false
+	if (strategy === 'always' || tab.id === selectedValue) return true
+	return strategy === 'lazy' && visited.has(tab.id)
 }
 
 function findFirstEnabledIndex(tabs: readonly TabItem[]) {
@@ -88,6 +117,7 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
 		orientation = 'horizontal',
 		activationMode = 'automatic',
 		variant = 'underline',
+		mountStrategy = 'always',
 		listClassName,
 		className,
 		'aria-label': ariaLabel,
@@ -110,6 +140,15 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
 	const effectiveValue = tabs[effectiveIndex]?.id
 	const [focusedIndex, setFocusedIndex] = useState(effectiveIndex)
 	const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
+	const [visitedPanels, setVisitedPanels] = useState(() => new Set<string>())
+	useEffect(() => {
+		if (effectiveValue === undefined) return
+		setVisitedPanels((visited) =>
+			visited.has(effectiveValue)
+				? visited
+				: new Set([...visited, effectiveValue]),
+		)
+	}, [effectiveValue])
 	const rovingIndex =
 		activationMode === 'manual' &&
 		tabs[focusedIndex] &&
@@ -168,7 +207,8 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
 			ref={ref}
 			data-slot="tabs"
 			className={cn(
-				'sui:w-full sui:box-border sui:text-foreground sui:[&_*]:box-border sui:font-[family-name:var(--sui-theme-font-sans)]',
+				'border-box-children box-border w-full text-foreground',
+				'font-sans',
 				className,
 			)}
 			{...props}
@@ -180,13 +220,22 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
 				aria-labelledby={ariaLabelledBy}
 				aria-orientation={orientation}
 				className={cn(
-					'sui:m-0 sui:flex sui:gap-1 sui:overflow-x-auto sui:[scrollbar-width:none] sui:[&::-webkit-scrollbar]:hidden sui:aria-[orientation=vertical]:flex-col sui:aria-[orientation=vertical]:items-stretch sui:aria-[orientation=vertical]:overflow-visible',
+					'm-0 flex gap-1 overflow-x-auto',
+					'scrollbar-none aria-[orientation=vertical]:flex-col',
+					'aria-[orientation=vertical]:items-stretch',
+					'aria-[orientation=vertical]:overflow-visible',
 					tabsListVariantClassName[variant],
 					listClassName,
 				)}
 			>
 				{tabs.map((tab, index) => {
 					const isSelected = tab.id === effectiveValue
+					const hasMountedPanel = shouldMountPanel(
+						tab,
+						effectiveValue,
+						mountStrategy,
+						visitedPanels,
+					)
 					const tabState = tabStateBySelection[Number(isSelected) as 0 | 1]
 					const tabId = `${baseId}-tab-${index}`
 					const panelId = `${baseId}-panel-${index}`
@@ -201,13 +250,23 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
 							type="button"
 							role="tab"
 							aria-selected={isSelected}
-							aria-controls={tab.panel === undefined ? undefined : panelId}
+							aria-controls={hasMountedPanel ? panelId : undefined}
 							disabled={tab.disabled}
 							tabIndex={index === rovingIndex ? 0 : -1}
 							data-state={tabState}
 							data-slot="tabs-trigger"
 							className={cn(
-								'sui:m-0 sui:inline-flex sui:min-h-11 sui:cursor-pointer sui:touch-manipulation sui:appearance-none sui:items-center sui:border-0 sui:bg-transparent sui:px-4 sui:py-3 sui:text-start sui:text-xs sui:leading-[1.25] sui:font-medium sui:tracking-[0.08em] sui:whitespace-nowrap sui:text-muted sui:uppercase sui:transition-[border-color,background-color,color] sui:duration-150 sui:ease-[ease] sui:hover:bg-hover sui:hover:text-accent sui:focus-visible:outline-2 sui:focus-visible:outline-focus sui:focus-visible:outline-offset-[-2px] sui:disabled:cursor-not-allowed sui:disabled:opacity-[0.45] sui:data-[state=active]:text-accent sui:motion-reduce:transition-none sui:font-[family-name:var(--sui-theme-font-mono)]',
+								'm-0 inline-flex min-h-11 cursor-pointer touch-manipulation',
+								'appearance-none items-center border-0 bg-transparent px-4',
+								'py-3 text-start text-xs leading-tight font-medium',
+								'tracking-tab whitespace-nowrap text-muted uppercase',
+								'transition-tab-colors duration-150',
+								'ease-natural hover:bg-hover hover:text-accent',
+								'focus-visible:outline-2 focus-visible:outline-focus',
+								'focus-visible:-outline-offset-2 disabled:cursor-not-allowed',
+								'disabled:opacity-45 data-[state=active]:text-accent',
+								'motion-reduce:transition-none',
+								'font-mono',
 								tabsTriggerVariantClassName[variant][orientation],
 								tab.className,
 							)}
@@ -224,6 +283,13 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
 			{tabs.map((tab, index) => {
 				if (tab.panel === undefined) return null
 				const isSelected = tab.id === effectiveValue
+				const shouldMount = shouldMountPanel(
+					tab,
+					effectiveValue,
+					mountStrategy,
+					visitedPanels,
+				)
+				if (!shouldMount) return null
 
 				return (
 					<div
@@ -235,7 +301,9 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
 						tabIndex={0}
 						hidden={!isSelected}
 						className={cn(
-							'sui:mt-3 sui:rounded-control sui:border sui:border-line sui:bg-surface sui:p-4 sui:text-foreground sui:leading-[1.6] sui:focus-visible:outline-2 sui:focus-visible:outline-focus sui:focus-visible:outline-offset-2',
+							'mt-3 rounded-control border border-line bg-surface p-4',
+							'leading-comfortable text-foreground focus-visible:outline-2',
+							'focus-visible:outline-offset-2 focus-visible:outline-focus',
 							tab.panelClassName,
 						)}
 					>

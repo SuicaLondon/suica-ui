@@ -9,7 +9,7 @@ export const CardDescription = forwardRef<
 		<p
 			ref={ref}
 			data-slot="card-description"
-			className={cn('sui:m-0 sui:text-sm sui:leading-5 sui:text-muted', className)}
+			className={cn('m-0 text-sm leading-5 text-muted', className)}
 			{...paragraphProps}
 		/>
 	)

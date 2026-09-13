@@ -24,7 +24,7 @@ describe('Card', () => {
 
 		const card = screen.getByLabelText('Analytics')
 		expect(card).toHaveAttribute('data-slot', 'card')
-		expect(card).toHaveClass('sui:rounded-panel', 'sui:shadow-sm')
+		expect(card).toHaveClass('rounded-panel')
 		expect(
 			screen.getByRole('heading', { name: 'Visitors', level: 3 }),
 		).toBeVisible()
@@ -32,19 +32,14 @@ describe('Card', () => {
 		const description = screen.getByText('Last 30 days')
 		const content = screen.getByText('12,480')
 		const footer = screen.getByText('Updated today')
-		expect(title).toHaveClass('sui:m-0', 'sui:leading-none')
+		expect(title).toHaveClass('m-0', 'leading-none')
 		expect(description.tagName).toBe('P')
-		expect(description).toHaveClass('sui:m-0', 'sui:leading-5')
-		expect(title.parentElement).toHaveClass('sui:gap-1.5', 'sui:p-6')
+		expect(description).toHaveClass('m-0', 'leading-5')
+		expect(title.parentElement).toHaveClass('gap-1.5', 'p-6')
 		expect(content).toHaveAttribute('data-slot', 'card-content')
-		expect(content).toHaveClass('sui:px-6', 'sui:pb-6', 'sui:first:pt-6')
+		expect(content).toHaveClass('px-6', 'pb-6', 'first:pt-6')
 		expect(footer).toHaveAttribute('data-slot', 'card-footer')
-		expect(footer).toHaveClass(
-			'sui:gap-2',
-			'sui:px-6',
-			'sui:pb-6',
-			'sui:first:pt-6',
-		)
+		expect(footer).toHaveClass('gap-2', 'px-6', 'pb-6', 'first:pt-6')
 	})
 
 	it('forwards refs and native props from every named primitive', () => {
@@ -67,7 +62,7 @@ describe('Card', () => {
 		expect(titleRef.current).toBe(
 			screen.getByRole('heading', { name: 'Settings' }),
 		)
-		expect(cardRef.current).toHaveClass('custom-card', 'sui:border-line')
+		expect(cardRef.current).toHaveClass('custom-card', 'border-line')
 		expect(titleRef.current).toHaveAttribute('data-level', '2')
 		expect(titleRef.current).toHaveProperty('tagName', 'H2')
 	})

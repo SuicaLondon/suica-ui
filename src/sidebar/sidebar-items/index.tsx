@@ -21,18 +21,16 @@ export const SidebarItems = forwardRef<HTMLElement, SidebarItemsProps>(
 				data-slot="sidebar-nav"
 				aria-label={label}
 				className={cn(
-					'sui:h-full sui:box-border sui:overflow-y-auto sui:overscroll-contain sui:bg-transparent sui:px-3 sui:pb-4',
-					triggerInset ? 'sui:pt-[4.5rem]' : 'sui:pt-4',
+					'box-border h-full overflow-y-auto overscroll-contain',
+					'bg-transparent px-3 pb-4',
+					triggerInset ? 'pt-18' : 'pt-4',
 					className,
 				)}
 				{...props}
 			>
 				<ul
 					data-slot="sidebar-list"
-					className={cn(
-						'sui:m-0 sui:grid sui:box-border sui:list-none sui:gap-1 sui:p-0',
-						listClassName,
-					)}
+					className={cn('m-0 box-border grid list-none gap-1 p-0', listClassName)}
 				>
 					{children}
 				</ul>

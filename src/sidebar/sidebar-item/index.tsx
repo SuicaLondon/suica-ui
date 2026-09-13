@@ -1,58 +1,75 @@
 import {
 	forwardRef,
 	type ComponentPropsWithoutRef,
+	type ComponentPropsWithRef,
+	type ReactElement,
 	type ReactNode,
 } from 'react'
 import { cn } from '../../cn.js'
 
+export type SidebarItemRenderProps = ComponentPropsWithRef<'a'> & {
+	'data-slot'?: string
+}
+
 export interface SidebarItemProps extends ComponentPropsWithoutRef<'a'> {
+	render?: (props: SidebarItemRenderProps) => ReactElement
 	icon?: ReactNode
 	badge?: ReactNode
 }
 
 export const SidebarItem = forwardRef<HTMLAnchorElement, SidebarItemProps>(
 	function SidebarItem(
-		{ icon, badge, children, className, ...anchorProps },
+		{ icon, badge, children, className, render, ...anchorProps },
 		ref,
 	) {
-		return (
-			<li
-				data-slot="sidebar-item-root"
-				className="sui:m-0 sui:box-border sui:list-none sui:p-0"
-			>
-				<a
-					ref={ref}
-					data-slot="sidebar-item"
-					className={cn(
-						'sui:flex sui:min-h-11 sui:items-center sui:gap-3 sui:box-border sui:touch-manipulation sui:rounded-control sui:border sui:border-transparent sui:bg-transparent sui:px-3 sui:py-2.5 sui:text-foreground sui:no-underline sui:transition-[border-color,background-color,color] sui:duration-150 sui:ease-[ease] sui:font-medium sui:leading-[1.25] sui:hover:border-line-strong sui:hover:bg-hover sui:hover:text-accent sui:focus-visible:outline-2 sui:focus-visible:outline-focus sui:focus-visible:outline-offset-2 sui:aria-[current=page]:border-line-strong sui:aria-[current=page]:bg-hover sui:aria-[current=page]:text-accent sui:motion-reduce:transition-none sui:[font:inherit]',
-						className,
-					)}
-					{...anchorProps}
-				>
-					{icon ? (
+		const renderedProps: SidebarItemRenderProps = {
+			ref,
+			'data-slot': 'sidebar-item',
+			className: cn(
+				'box-border flex min-h-11 items-center gap-3',
+				'touch-manipulation rounded-control border border-transparent',
+				'bg-transparent px-3 py-2.5 text-foreground no-underline',
+				'transition-tab-colors duration-150',
+				'leading-tight font-medium ease-natural hover:border-line-strong',
+				'hover:bg-hover hover:text-accent focus-visible:outline-2',
+				'focus-visible:outline-offset-2 focus-visible:outline-focus',
+				'aria-[current=page]:border-line-strong aria-[current=page]:bg-hover',
+				'aria-[current=page]:text-accent motion-reduce:transition-none',
+				'font-inherit',
+				className,
+			),
+			...anchorProps,
+			children: (
+				<>
+					{!!icon && (
 						<span
 							aria-hidden="true"
 							data-slot="sidebar-item-icon"
-							className="sui:grid sui:size-5 sui:flex-none sui:place-items-center sui:text-[var(--sui-theme-icon)]"
+							className={'grid size-5 flex-none place-items-center text-icon'}
 						>
 							{icon}
 						</span>
-					) : null}
-					<span data-slot="sidebar-item-label" className="sui:min-w-0 sui:flex-1">
+					)}
+					<span data-slot="sidebar-item-label" className="min-w-0 flex-1">
 						{children}
 					</span>
-					{badge ? (
+					{!!badge && (
 						<>
 							{' '}
 							<span
 								data-slot="sidebar-item-badge"
-								className="sui:text-xs sui:text-muted sui:font-[family-name:var(--sui-theme-font-mono)]"
+								className={'font-mono text-xs text-muted'}
 							>
 								{badge}
 							</span>
 						</>
-					) : null}
-				</a>
+					)}
+				</>
+			),
+		}
+		return (
+			<li data-slot="sidebar-item-root" className="m-0 box-border list-none p-0">
+				{render ? render(renderedProps) : <a {...renderedProps} />}
 			</li>
 		)
 	},

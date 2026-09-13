@@ -15,17 +15,17 @@ describe('Overlay', () => {
 		const overlay = screen.getByTestId('overlay')
 		expect(ref.current).toBe(overlay)
 		expect(overlay).toHaveAttribute('data-slot', 'overlay')
-		expect(overlay).toHaveClass('sui:absolute', 'sui:inset-0', 'custom-overlay')
-		expect(overlay).not.toHaveClass('sui:pointer-events-none')
+		expect(overlay).toHaveClass('absolute', 'inset-0', 'custom-overlay')
+		expect(overlay).not.toHaveClass('pointer-events-none')
 		expect(overlay).not.toHaveAttribute('role')
 		expect(screen.getByText('Independent content')).toBeInTheDocument()
 	})
 
 	it('supports a viewport-level fixed layer', () => {
-		render(<Overlay className="sui:fixed" data-testid="fixed-overlay" />)
+		render(<Overlay className="fixed" data-testid="fixed-overlay" />)
 
 		const overlay = screen.getByTestId('fixed-overlay')
-		expect(overlay).toHaveClass('sui:fixed')
-		expect(overlay).not.toHaveClass('sui:absolute')
+		expect(overlay).toHaveClass('fixed')
+		expect(overlay).not.toHaveClass('absolute')
 	})
 })

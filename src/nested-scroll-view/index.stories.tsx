@@ -17,22 +17,15 @@ const meta = {
 			tabIndex: 0,
 		},
 		header: (
-			<header
-				style={{
-					background: '#1e2123',
-					color: 'white',
-					height: 288,
-					padding: 32,
-				}}
-			>
-				<h2 style={{ fontSize: 24, fontWeight: 600 }}>Collapsing header</h2>
-				<p style={{ marginTop: 8 }}>Scroll the content to reveal more room.</p>
+			<header className="h-72 bg-surface-elevated p-8 text-foreground">
+				<h2 className="text-2xl font-semibold">Collapsing header</h2>
+				<p className="mt-2">Scroll the content to reveal more room.</p>
 			</header>
 		),
 		children: (
-			<div style={{ background: 'white' }}>
+			<div className="bg-surface text-foreground">
 				{items.map((item) => (
-					<div key={item} style={{ borderBottom: '1px solid #e5e7eb', padding: 16 }}>
+					<div key={item} className="border-b border-line p-4">
 						{item}
 					</div>
 				))}

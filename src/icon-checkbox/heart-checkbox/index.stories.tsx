@@ -9,7 +9,7 @@ const meta = {
 	parameters: { layout: 'centered' },
 	args: {
 		endLabel: 'Favourite',
-		iconClassName: 'sui:text-primary-gray',
+		iconClassName: 'text-primary-gray',
 		onChange: fn(),
 	},
 } satisfies Meta<typeof HeartCheckbox>
