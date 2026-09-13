@@ -1,4 +1,5 @@
 import eslint from '@eslint/js'
+import classnames from './eslint-rules/classnames.mjs'
 import typescriptEslint from '@typescript-eslint/eslint-plugin'
 import typescriptParser from '@typescript-eslint/parser'
 import globals from 'globals'
@@ -83,6 +84,12 @@ export default [
 		rules: {
 			'react/no-children-prop': 'off',
 		},
+	},
+	{
+		files: ['src/**/*.{ts,tsx}', '.storybook/**/*.{ts,tsx}'],
+		ignores: ['src/**/*.test.{ts,tsx}'],
+		plugins: { suica: classnames },
+		rules: { 'suica/consistent-classnames': ['error', { maxLength: 80 }] },
 	},
 	...storybook.configs['flat/recommended'],
 	prettierRecommended,

@@ -3,5 +3,7 @@
 	"semi": false,
 	"useTabs": true,
 	"tabWidth": 1,
-	"plugins": ["prettier-plugin-tailwindcss"]
+	"plugins": ["prettier-plugin-tailwindcss"],
+	"tailwindFunctions": ["cn"],
+	"tailwindStylesheet": "./src/styles.css"
 }

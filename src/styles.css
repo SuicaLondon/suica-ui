@@ -3,6 +3,11 @@
 @import 'tailwindcss/theme.css' layer(theme) prefix(sui);
 @import 'tailwindcss/utilities.css' layer(utilities) prefix(sui) source(none);
 
+@source './date-picker/date-picker.tsx';
+@source './date-picker/year-dropdown.tsx';
+@source './separator/separator.tsx';
+@source './scalable-tag/scalable-tag.tsx';
+@source './scalable-tag/tag-cloud.tsx';
 @source './alert/alert.tsx';
 @source './badge/badge.tsx';
 @source './button/button.tsx';
@@ -14,6 +19,18 @@
 @source './card/card-title.tsx';
 @source './checkbox/checkbox.tsx';
 @source './checkbox/checkbox-indicator-icon.tsx';
+@source './dialog/dialog-content.tsx';
+@source './dialog/dialog-description.tsx';
+@source './dialog/dialog-footer.tsx';
+@source './dialog/dialog-title.tsx';
+@source './dropdown-menu/dropdown-menu.tsx';
+@source './dropdown-menu/menu-item-styles.ts';
+@source './dropdown-menu/dropdown-menu-content.tsx';
+@source './dropdown-menu/dropdown-menu-item.tsx';
+@source './dropdown-menu/dropdown-menu-label.tsx';
+@source './dropdown-menu/dropdown-menu-link.tsx';
+@source './dropdown-menu/dropdown-menu-separator.tsx';
+@source './dropdown-menu/dropdown-menu-trigger.tsx';
 @source './field/field.tsx';
 @source './icon-checkbox/heart-checkbox/index.tsx';
 @source './icon-checkbox/icon-checkbox.tsx';
@@ -30,7 +47,7 @@
 @source './nested-scroll-view/nested-scroll-view.tsx';
 @source './overlay/overlay.tsx';
 @source './section-heading/section-heading.tsx';
-@source './sidebar/index.tsx';
+@source './sidebar/sidebar.tsx';
 @source './sidebar/sidebar-button/index.tsx';
 @source './sidebar/sidebar-button/sidebar-trigger-icon.tsx';
 @source './sidebar/sidebar-item/index.tsx';

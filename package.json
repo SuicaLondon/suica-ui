@@ -177,8 +177,8 @@
 		"build": "pnpm clean && vite build && tsc -p tsconfig.build.json",
 		"build-storybook": "storybook build",
 		"clean": "rm -rf dist storybook-static",
-		"format": "prettier --write src .storybook .github scripts test README.md package.json tailwind.css tsconfig*.json *.ts",
-		"format:check": "prettier --check src .storybook .github scripts test README.md package.json tailwind.css tsconfig*.json *.ts",
+		"format": "prettier --write src eslint-rules eslint.config.mjs .storybook .github scripts test README.md package.json tailwind.css tsconfig*.json *.ts",
+		"format:check": "prettier --check src eslint-rules eslint.config.mjs .storybook .github scripts test README.md package.json tailwind.css tsconfig*.json *.ts",
 		"lint": "eslint . --max-warnings=0",
 		"lint:fix": "pnpm lint --fix",
 		"prepare": "node scripts/prepare.mjs",
@@ -190,8 +190,9 @@
 		"test:react-compat": "pnpm build && node scripts/test-react-compat.mjs",
 		"test:watch": "vitest",
 		"typecheck": "tsc --noEmit",
-		"verify": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm test:package",
-		"verify:release": "pnpm verify && pnpm test:react-compat && pnpm build-storybook"
+		"verify": "pnpm format:check && pnpm lint && pnpm test:eslint && pnpm typecheck && pnpm test && pnpm test:package",
+		"verify:release": "pnpm verify && pnpm test:react-compat && pnpm build-storybook",
+		"test:eslint": "node scripts/test-eslint-rules.mjs"
 	},
 	"publishConfig": {
 		"access": "public",
