@@ -10,7 +10,8 @@ export const CardFooter = forwardRef<
 			ref={ref}
 			data-slot="card-footer"
 			className={cn(
-				'sui:flex sui:box-border sui:items-center sui:gap-2 sui:px-6 sui:pb-6 sui:first:pt-6',
+				'box-border flex items-center gap-2 px-6 pb-6',
+				'first:pt-6',
 				className,
 			)}
 			{...divProps}

@@ -9,7 +9,15 @@ const meta = {
 	title: 'Components/Sidebar',
 	component: Sidebar,
 	tags: ['autodocs'],
-	parameters: { layout: 'fullscreen' },
+	parameters: {
+		layout: 'fullscreen',
+		docs: {
+			description: {
+				component:
+					'Modal Sidebar moves focus inside, traps Tab focus, closes with Escape or its backdrop, locks document scrolling, and restores focus. Persistent mode occupies layout width without modal side effects.',
+			},
+		},
+	},
 } satisfies Meta<typeof Sidebar>
 
 export default meta
@@ -29,7 +37,7 @@ function SidebarExample({
 	const state = getSidebarState(open)
 
 	return (
-		<div style={{ minHeight: 384, padding: 16 }}>
+		<div className="min-h-96 p-4">
 			<SidebarTrigger
 				open={open}
 				onOpenChange={setOpen}
@@ -48,7 +56,7 @@ function SidebarExample({
 					<SidebarItem
 						href="#featured"
 						icon={<Icon icon="star-fill" />}
-						badge={<span style={{ fontSize: 12 }}>2</span>}
+						badge={<span className="text-xs">2</span>}
 					>
 						Featured
 					</SidebarItem>
@@ -113,4 +121,25 @@ export const Persistent: Story = {
 			</SidebarItems>
 		),
 	},
+}
+
+export const CustomLink: Story = {
+	args: {
+		open: true,
+		onOpenChange: () => undefined,
+		label: 'Custom navigation',
+		closeLabel: 'Close navigation',
+	},
+	render: () => (
+		<SidebarItems label="Custom navigation" triggerInset={false}>
+			<SidebarItem
+				aria-current="page"
+				icon={<Icon icon="star-fill" />}
+				badge="3"
+				render={(props) => <a {...props} href="#posts" />}
+			>
+				Posts
+			</SidebarItem>
+		</SidebarItems>
+	),
 }

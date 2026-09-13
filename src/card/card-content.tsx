@@ -9,7 +9,7 @@ export const CardContent = forwardRef<
 		<div
 			ref={ref}
 			data-slot="card-content"
-			className={cn('sui:box-border sui:px-6 sui:pb-6 sui:first:pt-6', className)}
+			className={cn('box-border px-6 pb-6 first:pt-6', className)}
 			{...divProps}
 		/>
 	)

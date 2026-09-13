@@ -14,7 +14,7 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
 	render: () => (
-		<Card style={{ width: 360, maxWidth: 'calc(100vw - 32px)' }}>
+		<Card className="story-viewport w-90">
 			<Card.Header>
 				<Card.Title>Dashboard access</Card.Title>
 				<Card.Description>

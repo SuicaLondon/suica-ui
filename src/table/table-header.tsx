@@ -9,7 +9,7 @@ export const TableHeader = forwardRef<
 		<thead
 			ref={ref}
 			data-slot="table-header"
-			className={cn('sui:[&_tr]:border-b', className)}
+			className={cn('border-b border-line', className)}
 			{...sectionProps}
 		/>
 	)

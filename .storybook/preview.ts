@@ -1,42 +1,32 @@
-import { createElement, type CSSProperties } from 'react'
+import { createElement } from 'react'
+import { cn } from '../src/cn'
 import type { Decorator, Preview } from '@storybook/react-vite'
 import { withThemeByClassName } from '@storybook/addon-themes'
-import '../src/styles.css'
+import './styles.css'
 
-const surfaceBaseStyle: CSSProperties = {
-	boxSizing: 'border-box',
-	background: 'var(--sui-theme-surface)',
-	color: 'var(--sui-theme-foreground)',
-	fontFamily: 'var(--sui-theme-font-sans)',
-}
-
-export const surfaceStyleByLayout: Record<string, CSSProperties> = {
-	centered: {
-		display: 'grid',
-		placeItems: 'center',
-		padding: 16,
-		width: 'calc(100vw - 32px)',
-	},
-	padded: {
-		padding: 16,
-		width: 'calc(100vw - 32px)',
-	},
-	fullscreen: { width: '100vw' },
-}
-
-const surfaceStyleByViewMode: Record<string, CSSProperties> = {
-	story: {},
-	docs: { width: '100%' },
+const surfaceClassNameByLayout: Record<string, string> = {
+	centered: 'grid place-items-center p-4',
+	padded: 'p-4',
+	fullscreen: '',
 }
 
 const withThemeSurface: Decorator = (Story, context) => {
-	const layoutStyle =
-		surfaceStyleByLayout[context.parameters.layout] ?? surfaceStyleByLayout.padded
-	const viewModeStyle = surfaceStyleByViewMode[context.viewMode] ?? {}
+	const layoutClassName =
+		surfaceClassNameByLayout[context.parameters.layout] ??
+		surfaceClassNameByLayout.padded
+	let widthClassName = 'story-surface-width'
+	if (context.parameters.layout === 'fullscreen') widthClassName = 'w-screen'
+	if (context.viewMode === 'docs') widthClassName = 'w-full'
 
 	return createElement(
 		'div',
-		{ style: { ...surfaceBaseStyle, ...layoutStyle, ...viewModeStyle } },
+		{
+			className: cn(
+				'box-border bg-surface font-sans text-foreground',
+				layoutClassName,
+				widthClassName,
+			),
+		},
 		createElement(Story),
 	)
 }
@@ -50,6 +40,7 @@ const preview: Preview = {
 		withThemeSurface,
 	],
 	parameters: {
+		a11y: { test: 'error' },
 		actions: { argTypesRegex: '^on[A-Z].*' },
 		controls: {
 			matchers: {

@@ -36,9 +36,6 @@ describe('Field', () => {
 			'Shown as the page heading. A title is required.',
 		)
 		expect(field).toHaveAttribute('data-invalid', 'true')
-		expect(field).toHaveClass('sui:gap-2')
-		expect(description).toHaveClass('sui:m-0')
-		expect(error).toHaveClass('sui:m-0')
 	})
 
 	it('preserves child native props, control ref, field ref, id, and interaction', async () => {

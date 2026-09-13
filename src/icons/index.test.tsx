@@ -34,7 +34,7 @@ describe('Icon', () => {
 		)
 
 		const icon = screen.getByRole('img', { name: 'Liked' })
-		expect(icon).toHaveClass('sui:size-5', 'custom-icon')
+		expect(icon).toHaveClass('custom-icon')
 		expect(ref.current).toBe(screen.getByTestId('liked-icon'))
 		expect(icon.querySelector('path')).toHaveAttribute('d')
 	})

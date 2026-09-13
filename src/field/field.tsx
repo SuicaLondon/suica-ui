@@ -90,16 +90,13 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(function Field(
 			data-slot="field"
 			data-disabled={children.props.disabled || undefined}
 			data-invalid={invalid || undefined}
-			className={cn(
-				'sui:group/field sui:grid sui:box-border sui:gap-2 sui:font-[family-name:var(--sui-theme-font-sans)]',
-				className,
-			)}
+			className={cn('group/field box-border grid gap-2', 'font-sans', className)}
 		>
 			<Label
 				htmlFor={controlId}
 				data-slot="field-label"
 				data-disabled={children.props.disabled || undefined}
-				className="sui:group-data-[invalid=true]/field:text-danger"
+				className="group-data-[invalid=true]/field:text-danger"
 			>
 				{label}
 			</Label>
@@ -107,7 +104,7 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(function Field(
 				<p
 					id={descriptionId}
 					data-slot="field-description"
-					className="sui:m-0 sui:text-muted sui:text-xs sui:leading-relaxed"
+					className="m-0 text-xs leading-relaxed text-muted"
 				>
 					{description}
 				</p>
@@ -118,7 +115,7 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(function Field(
 					id={errorId}
 					role="alert"
 					data-slot="field-error"
-					className="sui:m-0 sui:text-danger sui:text-sm sui:font-medium"
+					className="m-0 text-sm font-medium text-danger"
 				>
 					{error}
 				</p>

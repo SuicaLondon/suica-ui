@@ -10,7 +10,17 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 				ref={ref}
 				data-slot="select"
 				className={cn(
-					'sui:border-control-line sui:bg-transparent sui:text-foreground sui:focus-visible:border-focus sui:focus-visible:ring-focus/20 sui:aria-invalid:border-danger sui:aria-invalid:ring-danger/20 sui:aria-[invalid=grammar]:border-danger sui:aria-[invalid=grammar]:ring-danger/20 sui:aria-[invalid=spelling]:border-danger sui:aria-[invalid=spelling]:ring-danger/20 sui:flex sui:h-9 sui:w-full sui:box-border sui:rounded-control sui:border sui:px-3 sui:py-1 sui:text-sm sui:shadow-sm sui:transition-[border-color,box-shadow] sui:outline-none sui:disabled:cursor-not-allowed sui:disabled:opacity-50 sui:focus-visible:ring-1 sui:font-[family-name:var(--sui-theme-font-sans)] sui:[color-scheme:var(--sui-theme-color-scheme)]',
+					'border-control-line bg-transparent text-foreground',
+					'focus-visible:border-focus focus-visible:ring-focus/20',
+					'aria-invalid:border-danger aria-invalid:ring-danger/20',
+					'aria-[invalid=grammar]:border-danger',
+					'aria-[invalid=grammar]:ring-danger/20',
+					'aria-[invalid=spelling]:border-danger',
+					'flex h-9 w-full aria-[invalid=spelling]:ring-danger/20',
+					'box-border rounded-control border px-3 py-1 text-sm',
+					'transition-control outline-none',
+					'focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50',
+					'font-sans',
 					className,
 				)}
 				{...selectProps}

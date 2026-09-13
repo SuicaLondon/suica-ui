@@ -1,3 +1,5 @@
+'use client'
+
 import {
 	forwardRef,
 	useEffect,
@@ -77,7 +79,7 @@ export const NestedScrollView = forwardRef<
 		<div
 			ref={ref}
 			className={cn(
-				'sui:relative sui:h-dvh sui:w-full sui:overflow-hidden sui:overscroll-none sui:[scrollbar-width:none] sui:[&::-webkit-scrollbar]:hidden',
+				'relative h-dvh w-full overflow-hidden overscroll-none',
 				className,
 			)}
 			{...props}
@@ -87,7 +89,9 @@ export const NestedScrollView = forwardRef<
 				{...scrollerProps}
 				ref={scrollerRef}
 				className={cn(
-					'sui:absolute sui:inset-x-0 sui:bottom-0 sui:z-20 sui:overflow-auto sui:transition-[top,height] sui:duration-150 sui:motion-reduce:transition-none sui:[scrollbar-width:none] sui:[&::-webkit-scrollbar]:hidden',
+					'absolute inset-x-0 bottom-0 z-20 overflow-auto',
+					'transition-scroll-position duration-150 motion-reduce:transition-none',
+					'scrollbar-none',
 					scrollerClassName,
 				)}
 				style={{
@@ -97,7 +101,7 @@ export const NestedScrollView = forwardRef<
 				onScroll={handleScroll}
 			>
 				<div
-					className={cn('sui:w-full', contentClassName)}
+					className={cn('w-full', contentClassName)}
 					style={{ paddingBottom: Math.max(0, extraHeight) }}
 				>
 					{children}

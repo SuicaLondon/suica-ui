@@ -3,15 +3,16 @@
 	"compilerOptions": {
 		"declaration": true,
 		"declarationMap": false,
-		"emitDeclarationOnly": true,
+		"emitDeclarationOnly": false,
 		"noEmit": false,
 		"outDir": "dist",
 		"rootDir": "src",
+		"sourceMap": true,
 		"stripInternal": true
 	},
 	"include": ["src"],
 	"exclude": [
-		"src/vite-entry.ts",
+		"src/styles-entry.ts",
 		"src/**/*.stories.tsx",
 		"src/**/*.test.ts",
 		"src/**/*.test.tsx",

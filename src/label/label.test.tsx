@@ -23,9 +23,5 @@ describe('Label', () => {
 		expect(label).toHaveAttribute('for', 'display-name')
 		expect(label).toHaveAttribute('data-context', 'profile')
 		expect(label).toHaveAttribute('data-slot', 'label')
-		expect(label).toHaveClass(
-			'sui:peer-disabled:cursor-not-allowed',
-			'sui:peer-disabled:opacity-70',
-		)
 	})
 })

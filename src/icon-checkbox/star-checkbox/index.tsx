@@ -12,8 +12,8 @@ export const StarCheckbox = forwardRef<HTMLInputElement, StarCheckboxProps>(
 		return (
 			<IconCheckbox
 				ref={ref}
-				uncheckedIcon={<Icon icon="star" className="sui:size-full" />}
-				checkedIcon={<Icon icon="star-fill" className="sui:size-full" />}
+				uncheckedIcon={<Icon icon="star" className="size-full" />}
+				checkedIcon={<Icon icon="star-fill" className="size-full" />}
 				{...props}
 			/>
 		)

@@ -28,7 +28,7 @@ export const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(
 				data-slot="card-title"
 				data-level={level}
 				className={cn(
-					'sui:m-0 sui:text-base sui:font-semibold sui:leading-none sui:tracking-tight',
+					'm-0 text-base leading-none font-semibold tracking-tight',
 					className,
 				)}
 				{...headingProps}

@@ -9,10 +9,7 @@ export const TableCaption = forwardRef<
 		<caption
 			ref={ref}
 			data-slot="table-caption"
-			className={cn(
-				'sui:mt-4 sui:text-left sui:text-sm sui:text-muted',
-				className,
-			)}
+			className={cn('pt-4 text-start text-sm text-muted', className)}
 			{...captionProps}
 		/>
 	)

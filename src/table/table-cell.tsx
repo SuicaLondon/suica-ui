@@ -9,10 +9,7 @@ export const TableCell = forwardRef<
 		<td
 			ref={ref}
 			data-slot="table-cell"
-			className={cn(
-				'sui:box-border sui:p-2 sui:align-middle sui:[&:has([role=checkbox])]:pr-0 sui:[&>[role=checkbox]]:translate-y-[2px]',
-				className,
-			)}
+			className={cn('box-border p-2 align-middle', className)}
 			{...cellProps}
 		/>
 	)

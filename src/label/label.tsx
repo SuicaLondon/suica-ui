@@ -12,7 +12,10 @@ export const Label = forwardRef<HTMLLabelElement, LabelProps>(function Label(
 			ref={ref}
 			data-slot="label"
 			className={cn(
-				'sui:text-foreground sui:text-sm sui:leading-none sui:font-medium sui:peer-disabled:cursor-not-allowed sui:peer-disabled:opacity-70 sui:data-[disabled=true]:cursor-not-allowed sui:data-[disabled=true]:opacity-50 sui:font-[family-name:var(--sui-theme-font-sans)]',
+				'text-sm leading-none font-medium text-foreground',
+				'peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
+				'data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50',
+				'font-sans',
 				className,
 			)}
 			{...labelProps}

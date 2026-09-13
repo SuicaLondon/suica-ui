@@ -14,7 +14,7 @@ export function SidebarTriggerIcon({ state }: SidebarTriggerIconProps) {
 		<svg
 			aria-hidden="true"
 			data-slot="sidebar-trigger-icon"
-			className="sui:block sui:size-6"
+			className="block size-6"
 			viewBox="0 0 24 24"
 			fill="none"
 			stroke="currentColor"

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createRef } from 'react'
+import { createRef, type SubmitEvent as ReactSubmitEvent } from 'react'
 import { Button, buttonClassName } from './index'
 
 describe('Button', () => {
@@ -37,19 +37,15 @@ describe('Button', () => {
 		expect(button).toHaveAttribute('type', 'button')
 		expect(button).toHaveAttribute('data-variant', 'outline')
 		expect(button).toHaveAttribute('data-size', 'sm')
-		expect(button).toHaveClass(
-			'sui:box-border',
-			'sui:border-line-strong',
-			'sui:min-h-9',
-		)
+		expect(button).toHaveClass('box-border', 'border-line-strong', 'min-h-9')
 
 		const linkClasses = buttonClassName({
 			variant: 'ghost',
 			size: 'icon',
 			className: 'custom-link',
 		})
-		expect(linkClasses).toContain('sui:bg-transparent')
-		expect(linkClasses).toContain('sui:size-11')
+		expect(linkClasses).toContain('bg-transparent')
+		expect(linkClasses).toContain('size-11')
 		expect(linkClasses).toContain('custom-link')
 	})
 
@@ -64,10 +60,47 @@ describe('Button', () => {
 		expect(button).toHaveAttribute('data-variant', 'subtle')
 		expect(button).toHaveAttribute('data-size', 'xs')
 		expect(button).toHaveClass(
-			'sui:border-current',
-			'sui:text-current',
-			'sui:min-h-8',
-			'sui:hover:bg-current/5',
+			'border-current',
+			'text-current',
+			'min-h-8',
+			'hover:bg-current/5',
 		)
+	})
+
+	it('returns stable classes for every public variant and size', () => {
+		const variants = [
+			'default',
+			'destructive',
+			'outline',
+			'secondary',
+			'subtle',
+			'ghost',
+			'link',
+		] as const
+		const sizes = ['default', 'xs', 'sm', 'lg', 'icon'] as const
+		for (const variant of variants) {
+			for (const size of sizes) {
+				const first = buttonClassName({ variant, size })
+				expect(first).toBe(buttonClassName({ variant, size }))
+				expect(first).toContain('inline-flex')
+			}
+		}
+	})
+
+	it('does not submit a form unless type submit is explicit', async () => {
+		const user = userEvent.setup()
+		const onSubmit = vi.fn((event: ReactSubmitEvent<HTMLFormElement>) =>
+			event.preventDefault(),
+		)
+		render(
+			<form onSubmit={onSubmit}>
+				<Button>Safe action</Button>
+				<Button type="submit">Submit form</Button>
+			</form>,
+		)
+		await user.click(screen.getByRole('button', { name: 'Safe action' }))
+		expect(onSubmit).not.toHaveBeenCalled()
+		await user.click(screen.getByRole('button', { name: 'Submit form' }))
+		expect(onSubmit).toHaveBeenCalledOnce()
 	})
 })

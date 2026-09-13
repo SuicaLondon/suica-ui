@@ -61,7 +61,7 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon(
 			xmlns="http://www.w3.org/2000/svg"
 			viewBox={definition.viewBox}
 			fill="currentColor"
-			className={cn('sui:size-5 sui:shrink-0', className)}
+			className={cn('size-5 shrink-0', className)}
 			role={role ?? (isLabelled ? 'img' : undefined)}
 			aria-label={ariaLabel}
 			aria-labelledby={title ? titleId : ariaLabelledBy}
@@ -69,7 +69,7 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon(
 			focusable="false"
 			{...props}
 		>
-			{title ? <title id={titleId}>{title}</title> : null}
+			{!!title && <title id={titleId}>{title}</title>}
 			<path d={definition.path} />
 		</svg>
 	)

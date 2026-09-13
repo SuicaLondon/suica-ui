@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 export type TabsOrientation = 'horizontal' | 'vertical'
 export type TabsActivationMode = 'automatic' | 'manual'
 export type TabsVariant = 'underline' | 'segmented'
+export type TabsMountStrategy = 'active' | 'lazy' | 'always'
 
 export interface TabItem {
 	id: string

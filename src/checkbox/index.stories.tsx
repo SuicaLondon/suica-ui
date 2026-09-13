@@ -13,15 +13,9 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-const checkboxRowStyle = {
-	display: 'flex',
-	alignItems: 'center',
-	gap: 8,
-}
-
 export const Default: Story = {
 	render: (args) => (
-		<div style={checkboxRowStyle}>
+		<div className="flex items-center gap-2">
 			<Checkbox {...args} id="checkbox-default" />
 			<Label htmlFor="checkbox-default">Show published posts only</Label>
 		</div>
@@ -40,28 +34,28 @@ export const Default: Story = {
 
 export const States: Story = {
 	render: () => (
-		<div style={{ display: 'grid', gap: 12 }}>
-			<div style={checkboxRowStyle}>
+		<div className="grid gap-3">
+			<div className="flex items-center gap-2">
 				<Checkbox id="checkbox-unchecked" />
 				<Label htmlFor="checkbox-unchecked">Unchecked</Label>
 			</div>
-			<div style={checkboxRowStyle}>
+			<div className="flex items-center gap-2">
 				<Checkbox id="checkbox-checked" defaultChecked />
 				<Label htmlFor="checkbox-checked">Checked</Label>
 			</div>
-			<div style={checkboxRowStyle}>
+			<div className="flex items-center gap-2">
 				<Checkbox id="checkbox-required" required />
 				<Label htmlFor="checkbox-required">Required</Label>
 			</div>
-			<div style={checkboxRowStyle}>
+			<div className="flex items-center gap-2">
 				<Checkbox id="checkbox-invalid" aria-invalid="true" />
 				<Label htmlFor="checkbox-invalid">Invalid</Label>
 			</div>
-			<div style={checkboxRowStyle}>
+			<div className="flex items-center gap-2">
 				<Checkbox id="checkbox-disabled" disabled />
 				<Label htmlFor="checkbox-disabled">Disabled</Label>
 			</div>
-			<div style={checkboxRowStyle}>
+			<div className="flex items-center gap-2">
 				<Checkbox id="checkbox-disabled-checked" disabled defaultChecked />
 				<Label htmlFor="checkbox-disabled-checked">Disabled checked</Label>
 			</div>

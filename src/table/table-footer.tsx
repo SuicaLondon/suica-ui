@@ -9,10 +9,7 @@ export const TableFooter = forwardRef<
 		<tfoot
 			ref={ref}
 			data-slot="table-footer"
-			className={cn(
-				'sui:border-t sui:border-line sui:bg-hover sui:font-medium sui:[&>tr]:last:border-b-0',
-				className,
-			)}
+			className={cn('border-t border-line bg-hover font-medium', className)}
 			{...sectionProps}
 		/>
 	)

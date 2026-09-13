@@ -7,14 +7,16 @@ const indicatorDashArrayByState: Record<SpinnerState, string> = {
 }
 
 const indicatorClassNameByState: Record<SpinnerState, string> = {
-	determinate:
-		'sui:transition-[stroke-dashoffset] sui:duration-300 sui:ease-out sui:motion-reduce:transition-none',
+	determinate: cn(
+		'transition-stroke-offset duration-300 ease-out',
+		'motion-reduce:transition-none',
+	),
 	indeterminate: '',
 }
 
 const trackClassNameByState: Record<SpinnerState, string> = {
-	determinate: 'sui:opacity-20',
-	indeterminate: 'sui:opacity-0',
+	determinate: 'opacity-20',
+	indeterminate: 'opacity-0',
 }
 
 export interface SpinnerIconProps {
@@ -28,7 +30,7 @@ export function SpinnerIcon({ state, strokeDashoffset }: SpinnerIconProps) {
 			aria-hidden="true"
 			focusable="false"
 			viewBox="0 0 24 24"
-			className="sui:size-full"
+			className="size-full"
 		>
 			<circle
 				data-slot="spinner-track"
@@ -38,7 +40,7 @@ export function SpinnerIcon({ state, strokeDashoffset }: SpinnerIconProps) {
 				pathLength="100"
 				fill="none"
 				strokeWidth="2"
-				className={cn('sui:stroke-current', trackClassNameByState[state])}
+				className={cn('stroke-current', trackClassNameByState[state])}
 			/>
 			<circle
 				data-slot="spinner-indicator"
@@ -52,7 +54,7 @@ export function SpinnerIcon({ state, strokeDashoffset }: SpinnerIconProps) {
 				strokeDasharray={indicatorDashArrayByState[state]}
 				strokeDashoffset={strokeDashoffset}
 				transform="rotate(-90 12 12)"
-				className={cn('sui:stroke-current', indicatorClassNameByState[state])}
+				className={cn('stroke-current', indicatorClassNameByState[state])}
 			/>
 		</svg>
 	)

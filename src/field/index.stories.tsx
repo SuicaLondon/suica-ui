@@ -7,10 +7,18 @@ const meta = {
 	title: 'Forms/Field',
 	component: Field,
 	tags: ['autodocs'],
-	parameters: { layout: 'centered' },
+	parameters: {
+		layout: 'centered',
+		docs: {
+			description: {
+				component:
+					'Field accepts one native-style control and wires stable ids, its label, description, error, aria-describedby, and aria-invalid. Form state and validation remain in the consumer.',
+			},
+		},
+	},
 	decorators: [
 		(Story) => (
-			<div style={{ width: 384, maxWidth: 'calc(100vw - 32px)' }}>
+			<div className="story-viewport w-96">
 				<Story />
 			</div>
 		),

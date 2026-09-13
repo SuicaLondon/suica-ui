@@ -8,7 +8,7 @@ const meta = {
 	parameters: { layout: 'centered' },
 	decorators: [
 		(Story) => (
-			<div style={{ width: 720, maxWidth: 'calc(100vw - 32px)' }}>
+			<div className="story-viewport w-180">
 				<Story />
 			</div>
 		),

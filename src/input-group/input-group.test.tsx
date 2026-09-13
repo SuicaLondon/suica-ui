@@ -41,32 +41,29 @@ describe('InputGroup', () => {
 
 	it('keeps native control states and merges group and control classes', () => {
 		render(
-			<InputGroup data-testid="group" className="sui:max-w-lg">
+			<InputGroup data-testid="group" className="max-w-lg">
 				<Input
 					aria-label="Search"
 					type="search"
 					aria-invalid="true"
 					disabled
-					className="sui:font-mono"
+					className="font-mono"
 				/>
 			</InputGroup>,
 		)
 
 		const group = screen.getByTestId('group')
 		const control = screen.getByLabelText('Search')
-		expect(group).toHaveClass('sui:max-w-lg')
-		expect(group).toHaveClass('sui:has-[:disabled]:opacity-50')
+		expect(group).toHaveClass('max-w-lg')
+		expect(group).toHaveClass('has-[:disabled]:opacity-50')
 		expect(control).toBeDisabled()
 		expect(control).toHaveAttribute('type', 'search')
 		expect(control).toHaveAttribute('aria-invalid', 'true')
-		expect(control).toHaveClass('sui:font-mono', 'sui:w-full')
+		expect(control).toHaveClass('font-mono', 'w-full')
 		expect(group).toHaveClass(
-			'sui:min-h-9',
-			'sui:focus-within:ring-1',
-			'sui:[&_[data-slot=input]]:border-0',
-			'sui:[&_[data-slot=input]]:rounded-none',
-			'sui:[&_[data-slot=input]]:shadow-none',
-			'sui:[&_[data-slot=input]]:focus-visible:ring-0',
+			'min-h-9',
+			'focus-within:ring-1',
+			'input-group-control',
 		)
 	})
 })

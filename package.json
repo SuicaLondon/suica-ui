@@ -1,6 +1,6 @@
 {
 	"name": "suica-ui",
-	"version": "0.1.1",
+	"version": "0.2.0",
 	"description": "Suica's React UI components and theme",
 	"license": "MIT",
 	"keywords": [
@@ -26,7 +26,8 @@
 	"files": [
 		"dist",
 		"README.md",
-		"tailwind.css"
+		"tailwind.css",
+		"styles"
 	],
 	"main": "./dist/index.js",
 	"module": "./dist/index.js",
@@ -38,6 +39,121 @@
 			"import": "./dist/index.js",
 			"default": "./dist/index.js"
 		},
+		"./alert": {
+			"types": "./dist/alert/index.d.ts",
+			"import": "./dist/alert/index.js",
+			"default": "./dist/alert/index.js"
+		},
+		"./badge": {
+			"types": "./dist/badge/index.d.ts",
+			"import": "./dist/badge/index.js",
+			"default": "./dist/badge/index.js"
+		},
+		"./button": {
+			"types": "./dist/button/index.d.ts",
+			"import": "./dist/button/index.js",
+			"default": "./dist/button/index.js"
+		},
+		"./card": {
+			"types": "./dist/card/index.d.ts",
+			"import": "./dist/card/index.js",
+			"default": "./dist/card/index.js"
+		},
+		"./checkbox": {
+			"types": "./dist/checkbox/index.d.ts",
+			"import": "./dist/checkbox/index.js",
+			"default": "./dist/checkbox/index.js"
+		},
+		"./dialog": {
+			"types": "./dist/dialog/index.d.ts",
+			"import": "./dist/dialog/index.js",
+			"default": "./dist/dialog/index.js"
+		},
+		"./dropdown-menu": {
+			"types": "./dist/dropdown-menu/index.d.ts",
+			"import": "./dist/dropdown-menu/index.js",
+			"default": "./dist/dropdown-menu/index.js"
+		},
+		"./field": {
+			"types": "./dist/field/index.d.ts",
+			"import": "./dist/field/index.js",
+			"default": "./dist/field/index.js"
+		},
+		"./input": {
+			"types": "./dist/input/index.d.ts",
+			"import": "./dist/input/index.js",
+			"default": "./dist/input/index.js"
+		},
+		"./label": {
+			"types": "./dist/label/index.d.ts",
+			"import": "./dist/label/index.js",
+			"default": "./dist/label/index.js"
+		},
+		"./loading-indicator": {
+			"types": "./dist/loading-indicator/index.d.ts",
+			"import": "./dist/loading-indicator/index.js",
+			"default": "./dist/loading-indicator/index.js"
+		},
+		"./nested-scroll-view": {
+			"types": "./dist/nested-scroll-view/index.d.ts",
+			"import": "./dist/nested-scroll-view/index.js",
+			"default": "./dist/nested-scroll-view/index.js"
+		},
+		"./overlay": {
+			"types": "./dist/overlay/index.d.ts",
+			"import": "./dist/overlay/index.js",
+			"default": "./dist/overlay/index.js"
+		},
+		"./scalable-tag": {
+			"types": "./dist/scalable-tag/index.d.ts",
+			"import": "./dist/scalable-tag/index.js",
+			"default": "./dist/scalable-tag/index.js"
+		},
+		"./section-heading": {
+			"types": "./dist/section-heading/index.d.ts",
+			"import": "./dist/section-heading/index.js",
+			"default": "./dist/section-heading/index.js"
+		},
+		"./select": {
+			"types": "./dist/select/index.d.ts",
+			"import": "./dist/select/index.js",
+			"default": "./dist/select/index.js"
+		},
+		"./sidebar": {
+			"types": "./dist/sidebar/index.d.ts",
+			"import": "./dist/sidebar/index.js",
+			"default": "./dist/sidebar/index.js"
+		},
+		"./skeleton": {
+			"types": "./dist/skeleton/index.d.ts",
+			"import": "./dist/skeleton/index.js",
+			"default": "./dist/skeleton/index.js"
+		},
+		"./spinner": {
+			"types": "./dist/spinner/index.d.ts",
+			"import": "./dist/spinner/index.js",
+			"default": "./dist/spinner/index.js"
+		},
+		"./table": {
+			"types": "./dist/table/index.d.ts",
+			"import": "./dist/table/index.js",
+			"default": "./dist/table/index.js"
+		},
+		"./table-control": {
+			"types": "./dist/table/table-control.d.ts",
+			"import": "./dist/table/table-control.js",
+			"default": "./dist/table/table-control.js"
+		},
+		"./tabs": {
+			"types": "./dist/tabs/index.d.ts",
+			"import": "./dist/tabs/index.js",
+			"default": "./dist/tabs/index.js"
+		},
+		"./textarea": {
+			"types": "./dist/textarea/index.d.ts",
+			"import": "./dist/textarea/index.js",
+			"default": "./dist/textarea/index.js"
+		},
 		"./styles.css": {
 			"types": "./dist/styles-export.d.ts",
 			"default": "./dist/styles.css"
@@ -46,25 +162,38 @@
 			"types": "./dist/styles-export.d.ts",
 			"default": "./tailwind.css"
 		},
-		"./package.json": "./package.json"
+		"./package.json": "./package.json",
+		"./date-picker": {
+			"types": "./dist/date-picker/index.d.ts",
+			"import": "./dist/date-picker/index.js",
+			"default": "./dist/date-picker/index.js"
+		},
+		"./separator": {
+			"types": "./dist/separator/index.d.ts",
+			"import": "./dist/separator/index.js",
+			"default": "./dist/separator/index.js"
+		}
 	},
 	"scripts": {
 		"build": "pnpm clean && vite build && tsc -p tsconfig.build.json",
 		"build-storybook": "storybook build",
 		"clean": "rm -rf dist storybook-static",
-		"format": "prettier --write src .storybook .github scripts test README.md package.json tailwind.css tsconfig*.json *.ts",
-		"format:check": "prettier --check src .storybook .github scripts test README.md package.json tailwind.css tsconfig*.json *.ts",
-		"lint": "eslint --max-warnings=0 --ext .ts,.tsx src .storybook",
+		"format": "prettier --write src styles eslint-rules eslint.config.mjs .storybook .github .vscode scripts test README.md package.json tailwind.css tsconfig*.json *.ts",
+		"format:check": "prettier --check src styles eslint-rules eslint.config.mjs .storybook .github .vscode scripts test README.md package.json tailwind.css tsconfig*.json *.ts",
+		"lint": "eslint . --max-warnings=0",
 		"lint:fix": "pnpm lint --fix",
 		"prepare": "node scripts/prepare.mjs",
 		"prepack": "pnpm build",
-		"prepublishOnly": "HUSKY=0 pnpm verify",
+		"prepublishOnly": "HUSKY=0 pnpm verify:release",
 		"storybook": "storybook dev -p 6006",
 		"test": "vitest run",
-		"test:package": "pnpm build && node scripts/test-client-boundary.mjs && tsc -p test/package-consumer/tsconfig.json && node scripts/test-tailwind-css.mjs",
+		"test:package": "pnpm build && node scripts/test-client-boundary.mjs && node scripts/test-server-render.mjs && tsc -p test/package-consumer/tsconfig.json && node scripts/test-tailwind-css.mjs && node scripts/test-package-tarball.mjs",
+		"test:react-compat": "pnpm build && node scripts/test-react-compat.mjs",
 		"test:watch": "vitest",
 		"typecheck": "tsc --noEmit",
-		"verify": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm test:package"
+		"verify": "pnpm format:check && pnpm lint && pnpm test:eslint && pnpm typecheck && pnpm test && pnpm test:package",
+		"verify:release": "pnpm verify && pnpm test:react-compat && pnpm build-storybook",
+		"test:eslint": "node scripts/test-eslint-rules.mjs"
 	},
 	"publishConfig": {
 		"access": "public",
@@ -76,6 +205,7 @@
 	},
 	"devDependencies": {
 		"@eslint/js": "9.39.5",
+		"@storybook/addon-a11y": "10.6.0",
 		"@storybook/addon-docs": "10.6.0",
 		"@storybook/addon-themes": "10.6.0",
 		"@storybook/react-vite": "10.6.0",
@@ -85,12 +215,12 @@
 		"@testing-library/jest-dom": "7.0.1",
 		"@testing-library/react": "16.3.3",
 		"@testing-library/user-event": "14.6.7",
-		"@typescript/native": "npm:typescript@7.0.2",
 		"@types/node": "22.20.1",
 		"@types/react": "19.2.18",
 		"@types/react-dom": "19.2.7",
 		"@typescript-eslint/eslint-plugin": "8.69.0",
 		"@typescript-eslint/parser": "8.69.0",
+		"@typescript/native": "npm:typescript@7.0.2",
 		"eslint": "9.39.5",
 		"eslint-config-prettier": "10.1.8",
 		"eslint-plugin-prettier": "5.5.6",
@@ -112,15 +242,16 @@
 		"vitest": "5.0.0"
 	},
 	"lint-staged": {
-		"*.{ts,tsx}": [
+		"*.{js,mjs,cjs,ts,tsx}": [
 			"eslint --fix --max-warnings=0",
 			"prettier --write"
 		],
-		"*.{css,json,md}": "prettier --write"
+		"*.{css,json,jsonc,md,yaml,yml}": "prettier --write"
 	},
 	"packageManager": "pnpm@10.6.4+sha512.da3d715bfd22a9a105e6e8088cfc7826699332ded60c423b14ec613a185f1602206702ff0fe4c438cb15c979081ce4cb02568e364b15174503a63c7a8e2a5f6c",
 	"dependencies": {
 		"clsx": "2.1.1",
+		"react-day-picker": "9.14.0",
 		"tailwind-merge": "3.6.0"
 	}
 }

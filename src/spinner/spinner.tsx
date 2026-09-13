@@ -14,8 +14,7 @@ export interface SpinnerProps extends Omit<
 
 const spinnerClassNameByState: Record<SpinnerState, string> = {
 	determinate: '',
-	indeterminate:
-		'sui:animate-spin sui:will-change-transform sui:motion-reduce:animate-none',
+	indeterminate: 'animate-spin will-change-transform motion-reduce:animate-none',
 }
 
 function normalizePercentage(percentage: number) {
@@ -58,7 +57,7 @@ export const Spinner = forwardRef<HTMLSpanElement, SpinnerProps>(
 				aria-valuemax={ariaValueMax}
 				aria-valuenow={normalizedPercentage}
 				className={cn(
-					'sui:inline-flex sui:size-3.5 sui:shrink-0 sui:items-center sui:justify-center',
+					'inline-flex size-3.5 shrink-0 items-center justify-center',
 					spinnerClassNameByState[state],
 					className,
 				)}

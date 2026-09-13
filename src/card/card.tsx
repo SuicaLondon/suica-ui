@@ -13,7 +13,9 @@ const CardRoot = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'>>(
 				ref={ref}
 				data-slot="card"
 				className={cn(
-					'sui:box-border sui:rounded-panel sui:border sui:border-line sui:bg-surface-elevated sui:text-foreground sui:shadow-sm sui:font-[family-name:var(--sui-theme-font-sans)]',
+					'box-border rounded-panel border border-line',
+					'bg-surface-elevated text-foreground',
+					'font-sans',
 					className,
 				)}
 				{...divProps}

@@ -7,18 +7,25 @@ import {
 	TableBody,
 	TableCell,
 	TableContainer,
-	TableControl,
 	TableHead,
 	TableHeader,
-	type TablePagination,
 	TableRow,
 } from './table'
+import { TableControl, type TablePagination } from './table-control'
 
 const meta = {
 	title: 'Components/Table',
 	component: Table,
 	tags: ['autodocs'],
-	parameters: { layout: 'centered' },
+	parameters: {
+		layout: 'centered',
+		docs: {
+			description: {
+				component:
+					'Use native Table primitives with TableContainer when horizontal scrolling is possible. TableControl is a separate client component for pagination, busy state, page size, and live summaries; routing and data fetching remain in the consumer.',
+			},
+		},
+	},
 } satisfies Meta<typeof Table>
 
 export default meta
@@ -55,39 +62,29 @@ function DashboardTableStory() {
 	const [pagination, setPagination] = useState(initialPagination)
 
 	return (
-		<div
-			style={{
-				display: 'grid',
-				gap: 12,
-				width: 'min(920px, calc(100vw - 32px))',
-			}}
-		>
+		<div className="story-viewport grid w-230 gap-3">
 			<TableContainer
 				aria-label="Scrollable recent posts"
-				className="sui:border-line sui:bg-surface-elevated sui:border"
+				className="border border-line bg-surface-elevated"
 			>
 				<Table aria-label="Recent posts">
 					<TableHeader>
-						<TableRow className="sui:bg-hover sui:hover:bg-hover">
-							<TableHead className="sui:px-4" style={{ minWidth: 288 }}>
-								Post
-							</TableHead>
+						<TableRow className="bg-hover hover:bg-hover">
+							<TableHead className="min-w-72 px-4">Post</TableHead>
 							<TableHead>Status</TableHead>
-							<TableHead style={{ textAlign: 'right' }}>Views</TableHead>
+							<TableHead className="text-right">Views</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
 						{posts.map((post) => (
 							<TableRow key={post.title}>
-								<TableCell className="sui:px-4" style={{ fontWeight: 500 }}>
-									{post.title}
-								</TableCell>
+								<TableCell className="px-4 font-medium">{post.title}</TableCell>
 								<TableCell>
 									<Badge size="sm" variant={badgeVariantByStatus[post.status]}>
 										{post.status}
 									</Badge>
 								</TableCell>
-								<TableCell style={{ textAlign: 'right' }}>{post.views}</TableCell>
+								<TableCell className="text-right">{post.views}</TableCell>
 							</TableRow>
 						))}
 					</TableBody>

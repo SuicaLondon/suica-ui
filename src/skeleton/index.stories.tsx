@@ -21,10 +21,18 @@ const meta = {
 	title: 'Components/Skeleton',
 	component: Skeleton,
 	tags: ['autodocs'],
-	parameters: { layout: 'centered' },
+	parameters: {
+		layout: 'centered',
+		docs: {
+			description: {
+				component:
+					'Skeleton uses a reduced-motion-aware shimmer. White is the default tone; accent and status tones reuse the corresponding theme tokens.',
+			},
+		},
+	},
 	args: {
 		tone: 'white',
-		style: { height: 24, width: 224 },
+		className: 'h-6 w-56',
 	},
 	argTypes: {
 		tone: {
@@ -41,28 +49,13 @@ export const Default: Story = {}
 
 export const Tones: Story = {
 	render: () => (
-		<div
-			style={{
-				display: 'grid',
-				gap: 10,
-				width: 304,
-				maxWidth: 'calc(100vw - 32px)',
-			}}
-		>
+		<div className="story-viewport grid w-76 gap-2.5">
 			{skeletonTones.map((tone) => (
-				<div
-					key={tone}
-					style={{
-						display: 'grid',
-						gridTemplateColumns: '64px minmax(0, 1fr)',
-						alignItems: 'center',
-						gap: 12,
-					}}
-				>
-					<span className="sui:text-xs sui:font-medium sui:text-muted">
+				<div key={tone} className="grid-cols-story-tones grid items-center gap-3">
+					<span className="text-xs font-medium text-muted">
 						{skeletonToneLabel[tone]}
 					</span>
-					<Skeleton tone={tone} style={{ height: 20, width: '100%' }} />
+					<Skeleton tone={tone} className="h-5 w-full" />
 				</div>
 			))}
 		</div>
@@ -71,19 +64,10 @@ export const Tones: Story = {
 
 export const DashboardCard: Story = {
 	render: () => (
-		<div
-			style={{
-				display: 'grid',
-				gap: 12,
-				width: 288,
-				border: '1px solid var(--sui-theme-line)',
-				borderRadius: 12,
-				padding: 16,
-			}}
-		>
-			<Skeleton tone="accent" style={{ height: 16, width: 112 }} />
-			<Skeleton tone="accent" style={{ height: 32, width: 160 }} />
-			<Skeleton tone="accent" style={{ height: 80, width: '100%' }} />
+		<div className="grid w-72 gap-3 rounded-panel border border-line p-4">
+			<Skeleton tone="accent" className="h-4 w-28" />
+			<Skeleton tone="accent" className="h-8 w-40" />
+			<Skeleton tone="accent" className="h-20 w-full" />
 		</div>
 	),
 }

@@ -27,11 +27,11 @@ describe('Spinner', () => {
 		expect(spinner).not.toHaveAttribute('aria-valuenow')
 		expect(spinner).toHaveClass(
 			'custom-spinner',
-			'sui:size-3.5',
-			'sui:animate-spin',
-			'sui:motion-reduce:animate-none',
+			'size-3.5',
+			'animate-spin',
+			'motion-reduce:animate-none',
 		)
-		expect(spinner).not.toHaveClass('sui:size-12', 'sui:text-accent')
+		expect(spinner).not.toHaveClass('size-12', 'text-accent')
 		const svg = spinner.querySelector('svg')
 		const track = spinner.querySelector('[data-slot="spinner-track"]')
 
@@ -39,7 +39,7 @@ describe('Spinner', () => {
 		expect(svg).toHaveAttribute('viewBox', '0 0 24 24')
 		expect(track).toHaveAttribute('r', '9')
 		expect(track).toHaveAttribute('stroke-width', '2')
-		expect(track).toHaveClass('sui:opacity-0')
+		expect(track).toHaveClass('opacity-0')
 		expect(indicator).toHaveAttribute('r', '9')
 		expect(indicator).toHaveAttribute('pathLength', '100')
 		expect(indicator).toHaveAttribute('stroke-width', '2')
@@ -65,16 +65,16 @@ describe('Spinner', () => {
 		expect(spinner).toHaveAttribute('aria-valuemin', '0')
 		expect(spinner).toHaveAttribute('aria-valuemax', '100')
 		expect(spinner).toHaveAttribute('aria-valuenow', '64')
-		expect(spinner).toHaveClass('sui:size-3.5')
-		expect(spinner).not.toHaveClass('sui:animate-spin')
+		expect(spinner).toHaveClass('size-3.5')
+		expect(spinner).not.toHaveClass('animate-spin')
 		expect(spinner.querySelector('[data-slot="spinner-track"]')).toHaveClass(
-			'sui:opacity-20',
+			'opacity-20',
 		)
 		expect(indicator).toHaveAttribute('stroke-dasharray', '100 100')
 		expect(indicator).toHaveAttribute('stroke-dashoffset', '36')
 		expect(indicator).toHaveClass(
-			'sui:transition-[stroke-dashoffset]',
-			'sui:motion-reduce:transition-none',
+			'transition-stroke-offset',
+			'motion-reduce:transition-none',
 		)
 
 		rerender(<Spinner label="Upload progress" percentage={25.5} />)
@@ -121,7 +121,7 @@ describe('Spinner', () => {
 			expect(spinner).not.toHaveAttribute('aria-valuemin')
 			expect(spinner).not.toHaveAttribute('aria-valuemax')
 			expect(spinner).not.toHaveAttribute('aria-valuenow')
-			expect(spinner).toHaveClass('sui:animate-spin')
+			expect(spinner).toHaveClass('animate-spin')
 			expect(indicator).toHaveAttribute('stroke-dasharray', '80 20')
 		},
 	)

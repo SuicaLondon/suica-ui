@@ -11,7 +11,7 @@ export const TableHead = forwardRef<
 			data-slot="table-head"
 			scope={scope}
 			className={cn(
-				'sui:h-10 sui:box-border sui:px-2 sui:text-left sui:align-middle sui:font-medium sui:text-muted sui:[&:has([role=checkbox])]:pr-0 sui:[&>[role=checkbox]]:translate-y-[2px]',
+				'box-border h-10 px-2 text-start align-middle font-medium text-muted',
 				className,
 			)}
 			{...headProps}
