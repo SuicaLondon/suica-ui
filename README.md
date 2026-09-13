@@ -270,3 +270,12 @@ Separators are decorative by default. Use `decorative={false}` for a semantic se
 ### Flat surfaces
 
 Standard controls and cards use borders and theme colors without decorative shadows. Sidebar, Dialog, and DropdownMenu retain only a small shadow to distinguish floating layers. Keyboard focus rings and slider interaction indicators remain visible.
+
+### Class name conventions
+
+Use plain strings for short static class names and forward `className` directly when no defaults need merging. Use `cn` to merge defaults with caller classes, or split long class lists into multiple string arguments of at most 80 characters each (individual utility tokens stay intact). ESLint rejects string concatenation in class names and arbitrary selector variants such as `[&>svg]:size-4`. Put classes directly on the target element, or use a named Tailwind `@utility` for third-party markup and pseudo-elements.
+
+```tsx
+<div className="flex items-center gap-2" />
+<div className={cn('flex items-center gap-2', className)} />
+```

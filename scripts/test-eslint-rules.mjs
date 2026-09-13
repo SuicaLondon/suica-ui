@@ -10,57 +10,61 @@ const config = [
 		files: ['**/*.tsx'],
 		languageOptions: { parser, parserOptions: { ecmaFeatures: { jsx: true } } },
 		plugins: { suica: classnames },
-		rules: { 'suica/consistent-classnames': ['error', { maxLength: 80 }] },
+		rules: {
+			'suica/consistent-classnames': ['error', { maxLength: 80 }],
+			'suica/no-arbitrary-variants': 'error',
+		},
 	},
 ]
 const options = { filename: path.resolve('src/example/example.tsx') }
-const longClasses = Array.from(
-	{ length: 12 },
-	(_, index) => `sui:p-${index}`,
-).join(' ')
+const longClasses = Array.from({ length: 20 }, (_, index) => `p-${index}`).join(
+	' ',
+)
 const valid = [
-	"import { cn } from '../cn.js'; const element = <div className={cn('sui:p-4', 'sui:text-sm')} />",
-	`import { cn } from '../cn.js'; const element = <div className={cn('sui:w-[${'1'.repeat(85)}px]')} />`,
+	"const positionStyle = { '--offset': `${offset}px` }",
+	`const selector = '[role="menuitem"]:not([disabled])'`,
+
+	'const element = <div className="p-4 text-sm" />',
+	'const element = <div className={classes} />',
+	'const props = { className }',
+	"import { cn } from '../cn.js'; const element = <div className={cn('p-4', className)} />",
+	'const element = <div className="w-[20px] aria-[expanded=true]:block [font:inherit]" />',
+	`const description = '${longClasses}'`,
 ]
 for (const code of valid)
 	assert.deepEqual(linter.verify(code, config, options), [])
-
-const invalid = [
-	'\'use client\'; const element = <div className="sui:p-4" />',
-	'const element = <div className={classes} />',
-	'const props = { className }',
-	`const element = <div className="${longClasses}" />`,
-	`const variants = { large: '${longClasses}' }`,
+for (const code of [
+	` 'use client'; const element = <div className="${longClasses}" />`.trim(),
+	`const classes = '${longClasses}'`,
 	`import { cn } from '../cn.js'; const classes = cn('${longClasses}')`,
 	`import { cn } from '../cn.js'; const classes = cn({ '${longClasses}': enabled })`,
-]
-for (const code of invalid) {
-	assert.ok(
-		linter.verify(code, config, options).length > 0,
-		'Expected the rule to reject the input',
-	)
+]) {
 	const result = linter.verifyAndFix(code, config, options)
-	assert.ok(result.fixed)
+	assert.ok(result.fixed, code)
 	assert.deepEqual(result.messages, [], result.output)
-	assert.deepEqual(
-		linter.verify(result.output, config, options),
-		[],
-		result.output,
-	)
-	assert.equal(
-		linter.verifyAndFix(result.output, config, options).fixed,
-		false,
-		'Fixes must be stable',
-	)
+	assert.equal(linter.verifyAndFix(result.output, config, options).fixed, false)
 	if (code.startsWith("'use client'"))
 		assert.ok(result.output.startsWith("'use client';"))
 }
-const template = `import { cn } from '../cn.js'; const classes = cn(\`${longClasses}\`)`
-assert.ok(
-	linter
-		.verify(template, config, options)
-		.some(({ messageId }) => messageId === 'longString'),
-)
+for (const value of [
+	'[&>svg]:size-4',
+	'hover:[&_button]:bg-red-500',
+	'[.parent_&]:block',
+	'[@supports(display:grid)]:grid',
+]) {
+	assert.ok(
+		linter
+			.verify(`const element = <div className="${value}" />`, config, options)
+			.some((m) => m.messageId === 'selector'),
+	)
+}
+for (const code of [
+	`const element = <div className={'p-4 ' + className} />`,
+	'const element = <div className={`p-4 ${className}`} />',
+])
+	assert.ok(
+		linter.verify(code, config, options).some((m) => m.messageId === 'useCn'),
+	)
 console.log(
-	'Classname lint rule: valid cases, rejection, auto-fix, and idempotence checks passed.',
+	'Classname rules: valid cases, selector rejection, composition, and stable auto-fixes passed.',
 )

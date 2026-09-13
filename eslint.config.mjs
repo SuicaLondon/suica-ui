@@ -89,7 +89,10 @@ export default [
 		files: ['src/**/*.{ts,tsx}', '.storybook/**/*.{ts,tsx}'],
 		ignores: ['src/**/*.test.{ts,tsx}'],
 		plugins: { suica: classnames },
-		rules: { 'suica/consistent-classnames': ['error', { maxLength: 80 }] },
+		rules: {
+			'suica/consistent-classnames': ['error', { maxLength: 80 }],
+			'suica/no-arbitrary-variants': 'error',
+		},
 	},
 	...storybook.configs['flat/recommended'],
 	prettierRecommended,

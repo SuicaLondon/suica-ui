@@ -16,6 +16,23 @@ function splitClasses(value, maxLength) {
 	return chunks
 }
 
+function isClassContext(node) {
+	for (let parent = node.parent; parent; parent = parent.parent) {
+		if (isCnCall(parent)) return true
+		if (parent.type === 'JSXAttribute')
+			return /className$/i.test(parent.name.name)
+		if (
+			parent.type === 'Property' &&
+			/className$/i.test(parent.key.name ?? parent.key.value ?? '')
+		)
+			return true
+		if (parent.type === 'VariableDeclarator')
+			return /class|variant/i.test(parent.id.name ?? '')
+		if (parent.type === 'ReturnStatement') return false
+	}
+	return false
+}
+
 export default {
 	meta: { name: 'suica-classnames' },
 	rules: {
@@ -31,59 +48,33 @@ export default {
 					},
 				],
 				messages: {
-					useCn: 'Wrap className values in cn(...).',
+					useCn: 'Use cn(...) to merge class names instead of string concatenation.',
 					longString:
 						'Split class strings into cn(...) arguments of at most {{maxLength}} characters. Keep individual utility tokens intact.',
 					importCn: 'Import the shared cn helper for class composition.',
 				},
 			},
 			create(context) {
-				const source = context.sourceCode
 				const maxLength = context.options[0]?.maxLength ?? 80
 				let needsCn = false
 				let hasCn = false
-
-				function requireCn(node, value, jsx = false) {
-					if (!value || isCnCall(value)) return
-					needsCn = true
-					context.report({
-						node,
-						messageId: 'useCn',
-						fix(fixer) {
-							let expression = source.getText(value)
-							if (jsx && value.type === 'Literal')
-								expression = JSON.stringify(value.value)
-							if (node.type === 'Property' && node.shorthand)
-								return fixer.replaceText(node, `className: cn(${expression})`)
-							if (jsx) return fixer.replaceText(node.value, `{cn(${expression})}`)
-							return fixer.replaceText(value, `cn(${expression})`)
-						},
-					})
-				}
 
 				return {
 					ImportDeclaration(node) {
 						if (node.specifiers.some((specifier) => specifier.local.name === 'cn'))
 							hasCn = true
 					},
-					JSXAttribute(node) {
-						if (node.name.name !== 'className' || !node.value) return
-						const value =
-							node.value.type === 'JSXExpressionContainer'
-								? node.value.expression
-								: node.value
-						requireCn(node, value, true)
-					},
-					Property(node) {
-						if (node.parent.type !== 'ObjectExpression' || node.computed) return
-						if (node.key.name === 'className' || node.key.value === 'className')
-							requireCn(node, node.value)
+					BinaryExpression(node) {
+						if (node.operator === '+' && isClassContext(node))
+							context.report({ node, messageId: 'useCn' })
 					},
 					TemplateLiteral(node) {
+						if (node.expressions.length && isClassContext(node))
+							context.report({ node, messageId: 'useCn' })
 						const oversized = node.quasis.some((part) => {
 							const value = part.value.cooked ?? part.value.raw
 							return (
-								value.includes('sui:') &&
+								isClassContext(node) &&
 								value.length > maxLength &&
 								splitClasses(value, maxLength).length > 1
 							)
@@ -92,7 +83,7 @@ export default {
 							context.report({ node, messageId: 'longString', data: { maxLength } })
 					},
 					Literal(node) {
-						if (typeof node.value !== 'string' || !node.value.includes('sui:')) return
+						if (typeof node.value !== 'string' || !isClassContext(node)) return
 						if (node.value.length <= maxLength || !/\s/u.test(node.value)) return
 						const chunks = splitClasses(node.value, maxLength)
 						if (chunks.length < 2) return
@@ -136,6 +127,44 @@ export default {
 									? fixer.insertTextAfter(directive, declaration)
 									: fixer.insertTextBefore(node, declaration),
 						})
+					},
+				}
+			},
+		},
+		'no-arbitrary-variants': {
+			meta: {
+				type: 'suggestion',
+				schema: [],
+				messages: {
+					selector:
+						'Use explicit element classes or a named Tailwind utility instead of arbitrary selector variants.',
+				},
+			},
+			create(context) {
+				function check(node, value) {
+					if (!isClassContext(node)) return
+					for (const token of value.split(/\s+/u)) {
+						let depth = 0
+						let start = 0
+						for (let index = 0; index < token.length; index++) {
+							if (token[index] === '[') depth++
+							if (token[index] === ']') depth--
+							if (token[index] === ':' && depth === 0) {
+								if (token[start] === '[') {
+									context.report({ node, messageId: 'selector' })
+									return
+								}
+								start = index + 1
+							}
+						}
+					}
+				}
+				return {
+					Literal(node) {
+						if (typeof node.value === 'string') check(node, node.value)
+					},
+					TemplateElement(node) {
+						check(node, node.value.cooked ?? node.value.raw)
 					},
 				}
 			},
