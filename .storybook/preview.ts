@@ -50,6 +50,7 @@ const preview: Preview = {
 		withThemeSurface,
 	],
 	parameters: {
+		a11y: { test: 'error' },
 		actions: { argTypesRegex: '^on[A-Z].*' },
 		controls: {
 			matchers: {

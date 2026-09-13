@@ -14,6 +14,18 @@ export default [
 		ignores: ['dist/**', 'storybook-static/**', 'src/output.css'],
 	},
 	{
+		files: ['**/*.{js,mjs,cjs}'],
+		languageOptions: {
+			ecmaVersion: 'latest',
+			sourceType: 'module',
+			globals: {
+				...globals.node,
+				...globals.es2021,
+			},
+		},
+		rules: eslint.configs.recommended.rules,
+	},
+	{
 		files: ['**/*.{ts,tsx}'],
 		languageOptions: {
 			parser: typescriptParser,
@@ -43,6 +55,7 @@ export default [
 			...typescriptEslintRecommended,
 			...react.configs.flat.recommended.rules,
 			'no-unused-vars': 'off',
+			'no-nested-ternary': 'error',
 			'@typescript-eslint/no-unused-vars': 'error',
 			'react/react-in-jsx-scope': 'off',
 			'react/no-multi-comp': 'error',
@@ -63,6 +76,12 @@ export default [
 					message: 'Extract SVG markup into a dedicated *-icon.tsx component.',
 				},
 			],
+		},
+	},
+	{
+		files: ['test/package-consumer/*.ts'],
+		rules: {
+			'react/no-children-prop': 'off',
 		},
 	},
 	...storybook.configs['flat/recommended'],

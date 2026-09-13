@@ -46,5 +46,8 @@ jobs:
       test "$PACKAGE_TAG" = "$GITHUB_REF_NAME"
       git merge-base --is-ancestor "$GITHUB_SHA" origin/master
 
+   - name: Verify release
+     run: pnpm verify:release
+
    - name: Publish package
-     run: npm publish
+     run: npm publish --ignore-scripts
