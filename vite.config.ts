@@ -7,22 +7,10 @@ export default defineConfig({
 	publicDir: false,
 	build: {
 		lib: {
-			entry: fileURLToPath(new URL('./src/vite-entry.ts', import.meta.url)),
+			entry: fileURLToPath(new URL('./src/styles-entry.ts', import.meta.url)),
 			formats: ['es'],
-			fileName: 'index',
+			fileName: 'styles-export',
 			cssFileName: 'styles',
 		},
-		rollupOptions: {
-			external: [
-				/^react(?:\/.*)?$/,
-				/^react-dom(?:\/.*)?$/,
-				/^clsx$/,
-				/^tailwind-merge$/,
-			],
-			output: {
-				banner: '"use client";',
-			},
-		},
-		sourcemap: true,
 	},
 })
