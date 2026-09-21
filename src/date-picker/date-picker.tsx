@@ -1,18 +1,18 @@
 'use client'
 
-import {
-	TZDate,
-	DayPicker,
-	type ClassNames,
-	type PropsBase,
-} from 'react-day-picker'
+import { TZDate, DayPicker, type ClassNames } from 'react-day-picker'
 import { useHydrated } from '../internal/use-hydrated.js'
 import { YearDropdown } from './year-dropdown.js'
+import {
+	compatibleFormatters,
+	useCompatibleComponents,
+	type CompatibleDatePickerProps,
+} from './compatibility.js'
 import { cn } from '../cn.js'
 import { buttonClassName } from '../button/index.js'
 
 export interface DatePickerProps extends Omit<
-	PropsBase,
+	CompatibleDatePickerProps,
 	'mode' | 'numberOfMonths' | 'captionLayout' | 'navLayout'
 > {
 	selected?: Date
@@ -70,6 +70,7 @@ export function DatePicker({
 	className,
 	classNames,
 	components,
+	formatters,
 	today,
 	timeZone,
 	startMonth,
@@ -78,6 +79,7 @@ export function DatePicker({
 	showOutsideDays = false,
 	...props
 }: DatePickerProps) {
+	const compatibleComponents = useCompatibleComponents(components)
 	const hydrated = useHydrated()
 	if (!hydrated && today === undefined) return null
 
@@ -111,7 +113,8 @@ export function DatePicker({
 				'font-sans',
 				className,
 			)}
-			components={{ Dropdown: YearDropdown, ...components }}
+			components={{ Dropdown: YearDropdown, ...compatibleComponents }}
+			formatters={compatibleFormatters(formatters)}
 			classNames={{ ...calendarClasses, ...classNames }}
 		/>
 	)

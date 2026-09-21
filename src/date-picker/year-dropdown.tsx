@@ -1,15 +1,10 @@
-import type { DropdownProps } from 'react-day-picker'
+import { useDayPicker, type DropdownProps } from 'react-day-picker'
 import { Select } from '../select/index.js'
 import { cn } from '../cn.js'
 
 /** @internal */
-export function YearDropdown({
-	options,
-	className,
-	components,
-	classNames,
-	...props
-}: DropdownProps) {
+export function YearDropdown({ options, className, ...props }: DropdownProps) {
+	const { components, classNames } = useDayPicker()
 	const { Option } = components
 	return (
 		<Select
