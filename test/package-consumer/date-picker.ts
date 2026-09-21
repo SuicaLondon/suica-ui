@@ -1,67 +1,49 @@
-/* eslint-disable react/no-multi-comp -- These components exercise the published consumer contract. */
-import { createElement, type ComponentProps } from 'react'
+import { createElement } from 'react'
+import {
+	DateLib,
+	Dropdown,
+	formatCaption,
+	type DateLibOptions,
+} from 'react-day-picker'
 import { DatePicker, type DatePickerProps } from 'suica-ui/date-picker'
 
-type LegacyDropdownProps = ComponentProps<
-	NonNullable<NonNullable<DatePickerProps['components']>['Dropdown']>
->
+const options: DateLibOptions = {}
+const dateLib = new DateLib(options)
+const date = dateLib.newDate(2026, 8, 13)
 
-// Keep existing consumer code valid, including v9 compatibility properties.
+// Use the supported v10 APIs through the published package.
 const props = {
-	selected: new Date(2026, 8, 13),
-	onSelect: (date: Date | undefined) => void date,
+	selected: date,
+	onSelect: (selected: Date | undefined) => void selected,
 	required: true,
-	today: new Date(2026, 8, 13),
-	month: new Date(2026, 8, 1),
+	today: date,
+	month: date,
 	onMonthChange: (month: Date) => void month,
 	startMonth: new Date(2020, 0),
 	endMonth: new Date(2030, 11),
-	fromDate: new Date(2020, 0),
-	toDate: new Date(2030, 11),
-	fromMonth: new Date(2020, 0),
-	toMonth: new Date(2030, 11),
-	fromYear: 2020,
-	toYear: 2030,
-	initialFocus: false,
-	onWeekNumberClick: () => undefined,
-	onDayKeyUp: (date, modifiers, event) => void [date, modifiers, event.key],
-	onDayKeyPress: (date, modifiers, event) => void [date, modifiers, event.key],
-	onDayPointerEnter: (date, modifiers, event) =>
-		void [date, modifiers, event.pointerType],
-	onDayPointerLeave: (date, modifiers, event) =>
-		void [date, modifiers, event.pointerType],
-	onDayTouchCancel: (date, modifiers, event) =>
-		void [date, modifiers, event.touches],
-	onDayTouchEnd: (date, modifiers, event) =>
-		void [date, modifiers, event.touches],
-	onDayTouchMove: (date, modifiers, event) =>
-		void [date, modifiers, event.touches],
-	onDayTouchStart: (date, modifiers, event) =>
-		void [date, modifiers, event.touches],
-	classNames: { day_selected: 'legacy-selected', selected: 'selected' },
-	styles: { day_selected: { color: 'green' }, selected: { color: 'green' } },
-	dateLib: { Date },
-	labels: { labelDay: () => 'Legacy day label' },
+	hidden: { before: new Date(2020, 0), after: new Date(2030, 11, 31) },
+	autoFocus: false,
+	classNames: { selected: 'selected' },
+	styles: { years_dropdown: { backgroundColor: 'gold' } },
+	labels: { labelDayButton: () => 'Choose this day' },
 	formatters: {
-		formatMonthCaption: (date) => String(date.getMonth()),
-		formatYearCaption: (date) => String(date.getFullYear()),
+		formatCaption,
+		formatYearDropdown: (year: Date) => String(year.getFullYear()),
 	},
-	components: {
-		Button: (buttonProps) => createElement('button', buttonProps),
-		Dropdown: ({
-			components,
-			classNames,
-			options,
-			...dropdownProps
-		}: LegacyDropdownProps) =>
-			createElement(
-				components.Select,
-				{ ...dropdownProps, className: classNames.dropdown },
-				options?.map(({ value, label, disabled }) =>
-					createElement(components.Option, { key: value, value, disabled }, label),
-				),
-			),
-	},
+	components: { Dropdown },
 } satisfies DatePickerProps
 
 createElement(DatePicker, props)
+
+// Removed upstream props should fail loudly rather than being silently ignored.
+// @ts-expect-error Use startMonth instead.
+const oldBounds: DatePickerProps = { fromYear: 2020 }
+const oldButton: DatePickerProps = {
+	// @ts-expect-error Use the individual navigation button slots.
+	components: { Button: () => createElement('button') },
+}
+const oldFormatter: DatePickerProps = {
+	// @ts-expect-error Use formatYearDropdown instead.
+	formatters: { formatYearCaption: () => '2026' },
+}
+void [oldBounds, oldButton, oldFormatter]
