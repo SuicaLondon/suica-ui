@@ -147,7 +147,7 @@ semantic `--sui-theme-*` properties within an application theme scope.
 
 ## Development
 
-The Vite 8 and Vitest 5 development toolchain requires Node.js 22.12 or newer.
+The development toolchain requires Node.js 22.19 or newer. CI and publishing use Node.js 22.23.3.
 This requirement does not apply to consumers of the precompiled browser package.
 
 Clone the repository, install its dependencies, and start Storybook:
